@@ -29,6 +29,10 @@ var homeSubRoutes = [
     path: '/profile',
     pageBuilder: (context) => PageFake(Colors.yellow),
   ),
+  BartMenuRoute.innerRoute(
+    path: '/home/test',
+    pageBuilder: (context) => PageFake(Colors.greenAccent, child: Text("Sub Route page")),
+  ),
 ];
 
 Route<dynamic> routes(RouteSettings settings) {
@@ -59,13 +63,15 @@ class MainPageMenu extends StatelessWidget {
 
 class PageFake extends StatelessWidget {
   final Color bgColor;
+  final Widget? child;
 
-  PageFake(this.bgColor);
+  PageFake(this.bgColor, {this.child});
 
   @override
   Widget build(BuildContext context) {
     return Container(
       color: bgColor,
+      child: Center(child: child),
     );
   }
 }

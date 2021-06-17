@@ -1,21 +1,26 @@
 import 'package:bart/bart/bart_model.dart';
-import 'package:bart/bart/bart_page.dart';
 import 'package:bart/bart/bart_scaffold.dart';
 import 'package:bart/bart/bottom_bar.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:bart/bart.dart';
 import 'package:flutter/material.dart';
 
 import 'page_fake.dart';
 
 void main() {
-  group('Bart testing', () {
+  group('Bart navigation with 3 items + subroutes', () {
     var homeSubRoutes = [
       BartMenuRoute.bottomBar(
         label: "Home",
         icon: Icons.home,
         path: '/home',
-        pageBuilder: (context) => PageFake(Colors.red),
+        pageBuilder: (context) => PageFake(
+          Colors.red,
+          child: TextButton(
+            key: ValueKey("subpageBtn"),
+            child: Text("Route to page"),
+            onPressed: () => Navigator.of(context).pushNamed("/home/subpage"),
+          ),
+        ),
       ),
       BartMenuRoute.bottomBar(
         label: "Library",
@@ -28,6 +33,13 @@ void main() {
         icon: Icons.person,
         path: '/profile',
         pageBuilder: (context) => PageFake(Colors.yellow),
+      ),
+      BartMenuRoute.innerRoute(
+        path: '/home/subpage',
+        pageBuilder: (context) => PageFake(
+          Colors.yellow,
+          child: Text("sub page route"),
+        ),
       ),
     ];
 
@@ -91,6 +103,20 @@ void main() {
       var page = find.byType(PageFake).evaluate().last.widget as PageFake;
       expect(find.byType(PageFake), findsNWidgets(2));
       expect(page.bgColor, Colors.blueGrey);
+    });
+
+    testWidgets('push a page => page is visible on top of tab, bottom navigation is still visible', (WidgetTester tester) async {
+      await tester.pumpWidget(_createApp(initialRoute: "/home"));
+      await tester.pump();
+      var btnFinder = find.byKey(ValueKey("subpageBtn"));
+      expect(btnFinder, findsOneWidget);
+      await tester.tap(btnFinder);
+      // new page is visible
+      await tester.pump(Duration(seconds: 1));
+      expect(find.text("sub page route"), findsOneWidget);
+      expect(find.byType(BartScaffold), findsOneWidget);
+      expect(find.byType(BottomNavigationBar), findsOneWidget);
+      expect(find.byType(InkResponse), findsNWidgets(3));
     });
   });
 }

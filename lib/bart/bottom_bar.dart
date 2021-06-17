@@ -158,6 +158,7 @@ class BartMaterialBottomBar extends StatelessWidget {
   }
 
   List<BottomNavigationBarItem> get routeWidgetList => bartBottomBar.routes
+      .where((element) => element.routingType == BartMenuRouteType.BOTTOM_NAV)
       .map((route) => BottomNavigationBarItem(
             icon: Icon(route.icon),
             label: route.label,
