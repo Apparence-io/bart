@@ -1,6 +1,26 @@
 import 'package:flutter/material.dart';
 
 import 'bart_model.dart';
+import 'bottom_bar.dart';
+
+class MenuRouter extends InheritedWidget {
+  final Widget child;
+  final MenuRouterDelegate routerDelegate;
+
+  MenuRouter({
+    Key? key,
+    String? initialRoute,
+    required BartRouteBuilder routesBuilder,
+    List<NavigatorObserver>? navigatorObservers,
+    required this.child,
+  })  : routerDelegate = MenuRouterDelegate(routesBuilder.call(), initialRoute, navigatorObservers),
+        super(key: key, child: child);
+
+  static MenuRouter of(BuildContext context) => context.dependOnInheritedWidgetOfExactType<MenuRouter>()!;
+
+  @override
+  bool updateShouldNotify(MenuRouter oldWidget) => true;
+}
 
 class MenuRouterDelegate extends RouterDelegate<MenuRoutePath> with ChangeNotifier, PopNavigatorRouterDelegateMixin<MenuRoutePath> {
   final List<BartMenuRoute> routes;

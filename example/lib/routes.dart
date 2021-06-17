@@ -10,52 +10,64 @@ final CustomNavigatorObserver<PageRoute> routeObserver = CustomNavigatorObserver
 
 Future appPushNamed(String route, {Object? arguments}) => navigatorKey.currentState!.pushNamed(route, arguments: arguments);
 
-var homeSubRoutes = [
-  BartMenuRoute.bottomBar(
-    label: "Home",
-    icon: Icons.home,
-    path: '/home',
-    pageBuilder: (context) => PageFake(Colors.red),
-  ),
-  BartMenuRoute.bottomBar(
-    label: "Library",
-    icon: Icons.video_library_rounded,
-    path: '/library',
-    pageBuilder: (context) => PageFake(Colors.blueGrey),
-  ),
-  BartMenuRoute.bottomBar(
-    label: "Profile",
-    icon: Icons.person,
-    path: '/profile',
-    pageBuilder: (context) => PageFake(Colors.yellow),
-  ),
-  BartMenuRoute.innerRoute(
-    path: '/home/test',
-    pageBuilder: (context) => PageFake(Colors.greenAccent, child: Text("Sub Route page")),
-  ),
-];
+List<BartMenuRoute> subRoutes() {
+  return [
+    BartMenuRoute.bottomBar(
+      label: "Home",
+      icon: Icons.home,
+      path: '/home',
+      pageBuilder: (context) => PageFake(
+        Colors.red,
+        child: TextButton(
+          key: ValueKey("subpageBtn"),
+          child: Text(
+            "Route to page 2",
+            style: TextStyle(color: Colors.white),
+          ),
+          onPressed: () => Navigator.of(context).pushNamed("/subpage"),
+        ),
+      ),
+    ),
+    BartMenuRoute.bottomBar(
+      label: "Library",
+      icon: Icons.video_library_rounded,
+      path: '/library',
+      pageBuilder: (context) => PageFake(Colors.blueGrey),
+    ),
+    BartMenuRoute.bottomBar(
+      label: "Profile",
+      icon: Icons.person,
+      path: '/profile',
+      pageBuilder: (context) => PageFake(Colors.yellow),
+    ),
+    BartMenuRoute.innerRoute(
+      path: '/subpage',
+      pageBuilder: (context) => PageFake(Colors.greenAccent, child: Text("Sub Route page")),
+    ),
+  ];
+}
 
 Route<dynamic> routes(RouteSettings settings) {
   switch (settings.name) {
     case '/':
-      return MaterialPageRoute(builder: (_) => MainPageMenu(routes: homeSubRoutes));
+      return MaterialPageRoute(builder: (_) => MainPageMenu(routesBuilder: subRoutes));
     default:
       throw 'unexpected Route';
   }
 }
 
 class MainPageMenu extends StatelessWidget {
-  final List<BartMenuRoute> routes;
+  final BartRouteBuilder routesBuilder;
 
-  const MainPageMenu({Key? key, required this.routes}) : super(key: key);
+  const MainPageMenu({Key? key, required this.routesBuilder}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return BartScaffold(
+      routesBuilder: routesBuilder,
+      navigatorObservers: [routeObserver],
       bottomBar: BartBottomBar.fromFactory(
         bottomBarFactory: BartMaterialBottomBar.bottomBarFactory,
-        navigatorObservers: [routeObserver],
-        routes: homeSubRoutes,
       ),
     );
   }

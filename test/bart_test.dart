@@ -8,40 +8,42 @@ import 'page_fake.dart';
 
 void main() {
   group('Bart navigation with 3 items + subroutes', () {
-    var homeSubRoutes = [
-      BartMenuRoute.bottomBar(
-        label: "Home",
-        icon: Icons.home,
-        path: '/home',
-        pageBuilder: (context) => PageFake(
-          Colors.red,
-          child: TextButton(
-            key: ValueKey("subpageBtn"),
-            child: Text("Route to page"),
-            onPressed: () => Navigator.of(context).pushNamed("/home/subpage"),
+    List<BartMenuRoute> homeSubRoutes() {
+      return [
+        BartMenuRoute.bottomBar(
+          label: "Home",
+          icon: Icons.home,
+          path: '/home',
+          pageBuilder: (context) => PageFake(
+            Colors.red,
+            child: TextButton(
+              key: ValueKey("subpageBtn"),
+              child: Text(
+                "Route to page 2",
+                style: TextStyle(color: Colors.white),
+              ),
+              onPressed: () => Navigator.of(context).pushNamed("/subpage"),
+            ),
           ),
         ),
-      ),
-      BartMenuRoute.bottomBar(
-        label: "Library",
-        icon: Icons.video_library_rounded,
-        path: '/library',
-        pageBuilder: (context) => PageFake(Colors.blueGrey),
-      ),
-      BartMenuRoute.bottomBar(
-        label: "Profile",
-        icon: Icons.person,
-        path: '/profile',
-        pageBuilder: (context) => PageFake(Colors.yellow),
-      ),
-      BartMenuRoute.innerRoute(
-        path: '/home/subpage',
-        pageBuilder: (context) => PageFake(
-          Colors.yellow,
-          child: Text("sub page route"),
+        BartMenuRoute.bottomBar(
+          label: "Library",
+          icon: Icons.video_library_rounded,
+          path: '/library',
+          pageBuilder: (context) => PageFake(Colors.blueGrey),
         ),
-      ),
-    ];
+        BartMenuRoute.bottomBar(
+          label: "Profile",
+          icon: Icons.person,
+          path: '/profile',
+          pageBuilder: (context) => PageFake(Colors.yellow),
+        ),
+        BartMenuRoute.innerRoute(
+          path: '/subpage',
+          pageBuilder: (context) => PageFake(Colors.greenAccent, child: Text("Sub Route page")),
+        ),
+      ];
+    }
 
     _createApp({String? initialRoute}) {
       Route<dynamic> routes(RouteSettings settings) {
@@ -50,11 +52,9 @@ void main() {
             return MaterialPageRoute(
               settings: settings,
               builder: (context) => BartScaffold(
-                bottomBar: BartBottomBar.fromFactory(
-                  initialRoute: initialRoute,
-                  bottomBarFactory: BartMaterialBottomBar.bottomBarFactory,
-                  routes: homeSubRoutes,
-                ),
+                routesBuilder: homeSubRoutes,
+                initialRoute: initialRoute,
+                bottomBar: BartBottomBar.material(),
               ),
               maintainState: true,
             );
@@ -113,7 +113,7 @@ void main() {
       await tester.tap(btnFinder);
       // new page is visible
       await tester.pump(Duration(seconds: 1));
-      expect(find.text("sub page route"), findsOneWidget);
+      expect(find.text("Sub Route page"), findsOneWidget);
       expect(find.byType(BartScaffold), findsOneWidget);
       expect(find.byType(BottomNavigationBar), findsOneWidget);
       expect(find.byType(InkResponse), findsNWidgets(3));

@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 
 import 'bart_model.dart';
-import 'bart_page.dart';
+import 'router_delegate.dart';
 
 typedef BottonBarTapAction = void Function(int index);
 
-class BartBottomBar extends StatelessWidget {
-  final ValueNotifier<int> currentIndex;
-  final MenuRouterDelegate menuRouterDelegate;
+typedef BartRouteBuilder = List<BartMenuRoute> Function();
 
+class BartBottomBar extends StatefulWidget {
+  final ValueNotifier<int> currentIndex;
   final double? elevation;
   final Color? bgColor, selectedItemColor, unselectedItemColor;
   final BottomNavigationBarType? type;
@@ -20,7 +20,6 @@ class BartBottomBar extends StatelessWidget {
   final BartBottomBarFactory bottomBarFactory;
 
   BartBottomBar._({
-    required this.menuRouterDelegate,
     required this.bottomBarFactory,
     this.elevation,
     this.bgColor,
@@ -35,10 +34,7 @@ class BartBottomBar extends StatelessWidget {
   });
 
   factory BartBottomBar.material(
-          {required List<BartMenuRoute> routes,
-          String? initialRoute,
-          List<NavigatorObserver>? navigatorObservers,
-          double? elevation,
+          {double? elevation,
           Color? bgColor,
           Color? selectedItemColor,
           Color? unselectedItemColor,
@@ -50,7 +46,6 @@ class BartBottomBar extends StatelessWidget {
           int index = 0}) =>
       BartBottomBar._(
         bottomBarFactory: BartMaterialBottomBar.bottomBarFactory,
-        menuRouterDelegate: MenuRouterDelegate(routes, initialRoute, navigatorObservers),
         elevation: elevation,
         bgColor: bgColor,
         selectedItemColor: selectedItemColor,
@@ -64,10 +59,7 @@ class BartBottomBar extends StatelessWidget {
       );
 
   factory BartBottomBar.fromFactory(
-          {required List<BartMenuRoute> routes,
-          required BartBottomBarFactory bottomBarFactory,
-          String? initialRoute,
-          List<NavigatorObserver>? navigatorObservers,
+          {required BartBottomBarFactory bottomBarFactory,
           double? elevation,
           Color? bgColor,
           Color? selectedItemColor,
@@ -80,7 +72,6 @@ class BartBottomBar extends StatelessWidget {
           int index = 0}) =>
       BartBottomBar._(
         bottomBarFactory: bottomBarFactory,
-        menuRouterDelegate: MenuRouterDelegate(routes, initialRoute, navigatorObservers),
         elevation: elevation,
         bgColor: bgColor,
         selectedItemColor: selectedItemColor,
@@ -94,20 +85,37 @@ class BartBottomBar extends StatelessWidget {
       );
 
   @override
+  _BartBottomBarState createState() => _BartBottomBarState();
+}
+
+class _BartBottomBarState extends State<BartBottomBar> {
+  List<BartMenuRoute> get routes => MenuRouter.of(context).routerDelegate.routes;
+
+  MenuRouterDelegate get routerDelegate => MenuRouter.of(context).routerDelegate;
+
+  @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder<int>(
-      valueListenable: currentIndex,
-      builder: (ctx, value, child) => bottomBarFactory.create(
-        this,
-        (index) {
-          currentIndex.value = index;
-          menuRouterDelegate.goPage(index);
+      valueListenable: widget.currentIndex,
+      builder: (ctx, value, child) => widget.bottomBarFactory.create(
+        routes: routes,
+        elevation: widget.elevation,
+        bgColor: widget.bgColor,
+        selectedItemColor: widget.selectedItemColor,
+        unselectedItemColor: widget.unselectedItemColor,
+        type: widget.type,
+        iconThemeData: widget.iconThemeData,
+        selectedFontSize: widget.selectedFontSize,
+        unselectedFontSize: widget.unselectedFontSize,
+        iconSize: widget.iconSize,
+        currentIndex: value,
+        onTapAction: (index) {
+          widget.currentIndex.value = index;
+          routerDelegate.goPage(index);
         },
       ),
     );
   }
-
-  List<BartMenuRoute> get routes => menuRouterDelegate.routes;
 }
 
 /// allows to create a bottom bar styled
@@ -115,28 +123,82 @@ abstract class BartBottomBarFactory {
   const BartBottomBarFactory();
 
   @factory
-  Widget create(BartBottomBar bartBottomBar, BottonBarTapAction onTapAction);
+  Widget create({
+    required List<BartMenuRoute> routes,
+    required BottonBarTapAction onTapAction,
+    double? elevation,
+    Color? bgColor,
+    Color? selectedItemColor,
+    Color? unselectedItemColor,
+    BottomNavigationBarType? type,
+    IconThemeData? iconThemeData,
+    required double selectedFontSize,
+    required double unselectedFontSize,
+    required double iconSize,
+    required int currentIndex,
+  });
 }
 
 class _BartMaterialBottomBarFactory extends BartBottomBarFactory {
   const _BartMaterialBottomBarFactory();
 
   @override
-  Widget create(BartBottomBar bartBottomBar, BottonBarTapAction onTapAction) {
+  Widget create({
+    required List<BartMenuRoute> routes,
+    required BottonBarTapAction onTapAction,
+    double? elevation,
+    Color? bgColor,
+    Color? selectedItemColor,
+    Color? unselectedItemColor,
+    BottomNavigationBarType? type,
+    IconThemeData? iconThemeData,
+    required double selectedFontSize,
+    required double unselectedFontSize,
+    required double iconSize,
+    required int currentIndex,
+  }) {
     return BartMaterialBottomBar(
       onTap: onTapAction,
-      bartBottomBar: bartBottomBar,
+      routes: routes,
+      elevation: elevation,
+      bgColor: bgColor,
+      selectedItemColor: selectedItemColor,
+      unselectedItemColor: unselectedItemColor,
+      type: type,
+      iconThemeData: iconThemeData,
+      selectedFontSize: selectedFontSize,
+      unselectedFontSize: unselectedFontSize,
+      iconSize: iconSize,
+      currentIndex: currentIndex,
     );
   }
 }
 
 class BartMaterialBottomBar extends StatelessWidget {
-  final BartBottomBar bartBottomBar;
+  final List<BartMenuRoute> routes;
   final BottonBarTapAction onTap;
+  final int currentIndex;
+
+  final double? elevation;
+  final Color? bgColor, selectedItemColor, unselectedItemColor;
+  final BottomNavigationBarType? type;
+  final IconThemeData? iconThemeData;
+  final double iconSize;
+  final double selectedFontSize, unselectedFontSize;
 
   BartMaterialBottomBar({
-    required this.bartBottomBar,
+    required this.routes,
     required this.onTap,
+    required this.currentIndex,
+    this.elevation,
+    this.bgColor,
+    this.selectedItemColor,
+    this.unselectedItemColor,
+    this.type,
+    this.iconThemeData,
+    this.selectedFontSize = 14.0,
+    this.unselectedFontSize = 12.0,
+    this.iconSize = 24,
   });
 
   static const BartBottomBarFactory bottomBarFactory = _BartMaterialBottomBarFactory();
@@ -145,19 +207,19 @@ class BartMaterialBottomBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return BottomNavigationBar(
       items: routeWidgetList,
-      currentIndex: bartBottomBar.currentIndex.value,
-      elevation: bartBottomBar.elevation,
-      iconSize: bartBottomBar.iconSize,
-      backgroundColor: bartBottomBar.bgColor,
-      type: bartBottomBar.type ?? BottomNavigationBarType.fixed,
-      selectedIconTheme: bartBottomBar.iconThemeData,
-      selectedItemColor: bartBottomBar.selectedItemColor,
-      unselectedItemColor: bartBottomBar.unselectedItemColor,
+      currentIndex: currentIndex,
+      elevation: elevation,
+      iconSize: iconSize,
+      backgroundColor: bgColor,
+      type: type ?? BottomNavigationBarType.fixed,
+      selectedIconTheme: iconThemeData,
+      selectedItemColor: selectedItemColor,
+      unselectedItemColor: unselectedItemColor,
       onTap: (index) => onTap(index),
     );
   }
 
-  List<BottomNavigationBarItem> get routeWidgetList => bartBottomBar.routes
+  List<BottomNavigationBarItem> get routeWidgetList => routes
       .where((element) => element.routingType == BartMenuRouteType.BOTTOM_NAV)
       .map((route) => BottomNavigationBarItem(
             icon: Icon(route.icon),
