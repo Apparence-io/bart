@@ -89,9 +89,11 @@ class BartBottomBar extends StatefulWidget {
 }
 
 class _BartBottomBarState extends State<BartBottomBar> {
-  List<BartMenuRoute> get routes => MenuRouter.of(context).routerDelegate.routes;
+  List<BartMenuRoute> get routes =>
+      MenuRouter.of(context).routerDelegate.routes;
 
-  MenuRouterDelegate get routerDelegate => MenuRouter.of(context).routerDelegate;
+  MenuRouterDelegate get routerDelegate =>
+      MenuRouter.of(context).routerDelegate;
 
   @override
   Widget build(BuildContext context) {
@@ -201,7 +203,8 @@ class BartMaterialBottomBar extends StatelessWidget {
     this.iconSize = 24,
   });
 
-  static const BartBottomBarFactory bottomBarFactory = _BartMaterialBottomBarFactory();
+  static const BartBottomBarFactory bottomBarFactory =
+      _BartMaterialBottomBarFactory();
 
   @override
   Widget build(BuildContext context) {

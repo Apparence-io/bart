@@ -55,7 +55,8 @@ void main() {
         ),
         BartMenuRoute.innerRoute(
           path: '/subpage',
-          pageBuilder: (context) => PageFake(Colors.greenAccent, child: Text("Sub Route page")),
+          pageBuilder: (context) =>
+              PageFake(Colors.greenAccent, child: Text("Sub Route page")),
         ),
       ];
     }
@@ -88,7 +89,8 @@ void main() {
       );
     }
 
-    testWidgets('create app with bart bottom bar containing 3 tabs', (WidgetTester tester) async {
+    testWidgets('create app with bart bottom bar containing 3 tabs',
+        (WidgetTester tester) async {
       await tester.pumpWidget(_createApp(initialRoute: "/home"));
       await tester.pump();
       expect(find.byType(BartScaffold), findsOneWidget);
@@ -96,7 +98,8 @@ void main() {
       expect(find.byType(InkResponse), findsNWidgets(3));
     });
 
-    testWidgets('page has no app bar, click on add appbar => an appbar exists', (WidgetTester tester) async {
+    testWidgets('page has no app bar, click on add appbar => an appbar exists',
+        (WidgetTester tester) async {
       await tester.pumpWidget(_createApp(initialRoute: "/library"));
       await tester.pump();
       expect(find.byType(AppBar), findsNothing);
@@ -108,7 +111,8 @@ void main() {
       expect(find.byType(AppBar), findsOneWidget);
     });
 
-    testWidgets('click on add appbar, route to next page => appBar is reset', (WidgetTester tester) async {
+    testWidgets('click on add appbar, route to next page => appBar is reset',
+        (WidgetTester tester) async {
       await tester.pumpWidget(_createApp(initialRoute: "/library"));
       await tester.pump();
       var btnFinder = find.byKey(ValueKey("addAppBarBtn"));
@@ -118,7 +122,8 @@ void main() {
       await tester.pump(Duration(seconds: 1));
       expect(find.byType(AppBar), findsOneWidget);
       // route to second page, appbar is reset by default
-      var item2 = find.byType(InkResponse).at(1).evaluate().first.widget as InkResponse;
+      var item2 =
+          find.byType(InkResponse).at(1).evaluate().first.widget as InkResponse;
       item2.onTap!();
       await tester.pump(Duration(seconds: 1));
       expect(find.byType(AppBar), findsNothing);
@@ -126,21 +131,25 @@ void main() {
 
     testWidgets('default tab is the first one', (WidgetTester tester) async {
       await tester.pumpWidget(_createApp());
-      var currentPage = find.byType(PageFake).evaluate().first.widget as PageFake;
+      var currentPage =
+          find.byType(PageFake).evaluate().first.widget as PageFake;
       expect(currentPage.bgColor, Colors.red);
     });
 
     testWidgets('default tab is the second one', (WidgetTester tester) async {
       await tester.pumpWidget(_createApp(initialRoute: "/library"));
-      var currentPage = find.byType(PageFake).evaluate().first.widget as PageFake;
+      var currentPage =
+          find.byType(PageFake).evaluate().first.widget as PageFake;
       expect(currentPage.bgColor, Colors.blueGrey);
     });
 
-    testWidgets('bar is on tab 1, click on tab 2 => tab 2 page is visible', (WidgetTester tester) async {
+    testWidgets('bar is on tab 1, click on tab 2 => tab 2 page is visible',
+        (WidgetTester tester) async {
       await tester.pumpWidget(_createApp(initialRoute: "/home"));
       await tester.pump();
       expect(find.byType(PageFake), findsNWidgets(1));
-      var item2 = find.byType(InkResponse).at(1).evaluate().first.widget as InkResponse;
+      var item2 =
+          find.byType(InkResponse).at(1).evaluate().first.widget as InkResponse;
       item2.onTap!();
       await tester.pump(Duration(seconds: 1));
       var page = find.byType(PageFake).evaluate().last.widget as PageFake;
@@ -148,7 +157,9 @@ void main() {
       expect(page.bgColor, Colors.blueGrey);
     });
 
-    testWidgets('push a page => page is visible on top of tab, bottom navigation is still visible', (WidgetTester tester) async {
+    testWidgets(
+        'push a page => page is visible on top of tab, bottom navigation is still visible',
+        (WidgetTester tester) async {
       await tester.pumpWidget(_createApp(initialRoute: "/home"));
       await tester.pump();
       var btnFinder = find.byKey(ValueKey("subpageBtn"));
