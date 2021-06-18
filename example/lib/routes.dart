@@ -1,17 +1,14 @@
-import 'package:bart/bart/bart_model.dart';
-import 'package:bart/bart/bart_scaffold.dart';
-import 'package:bart/bart/bottom_bar.dart';
-import 'package:bart/bart/bart_appbar.dart';
+import 'package:bart/bart.dart';
+import 'package:example/fake_page.dart';
 import 'package:flutter/material.dart';
+import 'home_page.dart';
 import 'route_observer.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
-final CustomNavigatorObserver<PageRoute> routeObserver =
-    CustomNavigatorObserver<PageRoute>();
+final CustomNavigatorObserver<PageRoute> routeObserver = CustomNavigatorObserver<PageRoute>();
 
-Future appPushNamed(String route, {Object? arguments}) =>
-    navigatorKey.currentState!.pushNamed(route, arguments: arguments);
+Future appPushNamed(String route, {Object? arguments}) => navigatorKey.currentState!.pushNamed(route, arguments: arguments);
 
 List<BartMenuRoute> subRoutes() {
   return [
@@ -19,34 +16,7 @@ List<BartMenuRoute> subRoutes() {
       label: "Home",
       icon: Icons.home,
       path: '/home',
-      pageBuilder: (context) => PageFake(
-        Colors.red,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            TextButton(
-              key: ValueKey("subpageBtn"),
-              child: Text(
-                "Route to page 2",
-                style: TextStyle(color: Colors.white),
-              ),
-              onPressed: () => Navigator.of(context).pushNamed("/subpage"),
-            ),
-            TextButton(
-              key: ValueKey("subpageBtn2"),
-              child: Text(
-                "add app bar",
-                style: TextStyle(color: Colors.white),
-              ),
-              onPressed: () => Actions.invoke(
-                  context,
-                  AppBarBuildIntent(AppBar(
-                    title: Text("title text"),
-                  ))),
-            ),
-          ],
-        ),
-      ),
+      pageBuilder: (context) => HomePage(),
     ),
     BartMenuRoute.bottomBar(
       label: "Library",
@@ -62,8 +32,7 @@ List<BartMenuRoute> subRoutes() {
     ),
     BartMenuRoute.innerRoute(
       path: '/subpage',
-      pageBuilder: (context) =>
-          PageFake(Colors.greenAccent, child: Text("Sub Route page")),
+      pageBuilder: (context) => PageFake(Colors.greenAccent, child: Text("Sub Route page")),
     ),
   ];
 }
@@ -71,8 +40,7 @@ List<BartMenuRoute> subRoutes() {
 Route<dynamic> routes(RouteSettings settings) {
   switch (settings.name) {
     case '/':
-      return MaterialPageRoute(
-          builder: (_) => MainPageMenu(routesBuilder: subRoutes));
+      return MaterialPageRoute(builder: (_) => MainPageMenu(routesBuilder: subRoutes));
     default:
       throw 'unexpected Route';
   }
@@ -91,21 +59,6 @@ class MainPageMenu extends StatelessWidget {
       bottomBar: BartBottomBar.fromFactory(
         bottomBarFactory: BartMaterialBottomBar.bottomBarFactory,
       ),
-    );
-  }
-}
-
-class PageFake extends StatelessWidget {
-  final Color bgColor;
-  final Widget? child;
-
-  PageFake(this.bgColor, {this.child});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      color: bgColor,
-      child: Center(child: child),
     );
   }
 }

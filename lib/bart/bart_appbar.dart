@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+import 'animated_appbar.dart';
+
+/// Use this intent to provide a custom appBar within a child widget to the scaffold
 class AppBarBuildIntent extends Intent {
   final PreferredSizeWidget? appbar;
 
@@ -8,8 +11,8 @@ class AppBarBuildIntent extends Intent {
   factory AppBarBuildIntent.empty() => AppBarBuildIntent(null);
 }
 
-// you can change app bar within your page by calling once
-// Actions.invoke(context, AppBarBuildIntent(AppBar(title: Text("title text"))));
+/// you can change app bar within your page by calling once
+/// Actions.invoke(context, AppBarBuildIntent(AppBar(title: Text("title text"))));
 class BartAppbarAction extends Action<AppBarBuildIntent> {
   ValueNotifier<PreferredSizeWidget?> appbar;
 
@@ -25,4 +28,8 @@ mixin AppBarNotifier {
   void updateAppBar(BuildContext context, PreferredSizeWidget? appBar) {
     Actions.invoke(context, AppBarBuildIntent(appBar));
   }
+
+  void showAppBar(BuildContext context) => Actions.invoke(context, AppBarAnimationIntent.show());
+
+  void hideAppBar(BuildContext context) => Actions.invoke(context, AppBarAnimationIntent.hide());
 }

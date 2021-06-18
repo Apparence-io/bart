@@ -1,6 +1,7 @@
 import 'package:bart/bart/bart_appbar.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'animated_appbar.dart';
 import 'bottom_bar.dart';
 import 'router_delegate.dart';
 
@@ -9,7 +10,9 @@ class BartScaffold extends StatelessWidget {
   final BartRouteBuilder routesBuilder;
   final String? initialRoute;
   final List<NavigatorObserver>? navigatorObservers;
+  // appBar
   final ValueNotifier<PreferredSizeWidget?> appBarNotifier;
+  final ValueNotifier<bool> showAppBarNotifier;
   // scaffold items
   final Widget? floatingActionButton;
   final FloatingActionButtonLocation? floatingActionButtonLocation;
@@ -25,7 +28,6 @@ class BartScaffold extends StatelessWidget {
   final bool? primary;
   final DragStartBehavior? drawerDragStartBehavior;
   final bool? extendBody;
-  final bool? extendBodyBehindAppBar;
   final Color? drawerScrimColor;
   final double? drawerEdgeDragWidth;
   final bool? drawerEnableOpenDragGesture;
@@ -52,13 +54,13 @@ class BartScaffold extends StatelessWidget {
     this.primary,
     this.drawerDragStartBehavior,
     this.extendBody,
-    this.extendBodyBehindAppBar,
     this.drawerScrimColor,
     this.drawerEdgeDragWidth,
     this.drawerEnableOpenDragGesture,
     this.endDrawerEnableOpenDragGesture,
     this.restorationId,
-  }) : appBarNotifier = ValueNotifier(null);
+  })  : appBarNotifier = ValueNotifier(null),
+        showAppBarNotifier = ValueNotifier(false);
 
   @override
   Widget build(BuildContext context) {
@@ -69,13 +71,16 @@ class BartScaffold extends StatelessWidget {
       child: Actions(
         actions: <Type, Action<Intent>>{
           AppBarBuildIntent: BartAppbarAction(appBarNotifier),
+          AppBarAnimationIntent: BartAnimatedAppbarAction(showAppBarNotifier)
         },
         child: AnimatedBuilder(
           animation: appBarNotifier,
-          // child: Builder(
           builder: (ctx, child) => Scaffold(
             key: key,
-            appBar: appBarNotifier.value,
+            appBar: AnimatedAppBar(
+              appBar: appBarNotifier.value,
+              showStateNotifier: showAppBarNotifier,
+            ),
             floatingActionButton: floatingActionButton,
             floatingActionButtonLocation: floatingActionButtonLocation,
             floatingActionButtonAnimator: floatingActionButtonAnimator,
@@ -88,15 +93,13 @@ class BartScaffold extends StatelessWidget {
             backgroundColor: backgroundColor,
             resizeToAvoidBottomInset: resizeToAvoidBottomInset,
             primary: primary ?? true,
-            drawerDragStartBehavior:
-                drawerDragStartBehavior ?? DragStartBehavior.start,
+            drawerDragStartBehavior: drawerDragStartBehavior ?? DragStartBehavior.start,
             extendBody: extendBody ?? false,
-            extendBodyBehindAppBar: extendBodyBehindAppBar ?? false,
+            extendBodyBehindAppBar: true,
             drawerScrimColor: drawerScrimColor,
             drawerEdgeDragWidth: drawerEdgeDragWidth,
             drawerEnableOpenDragGesture: drawerEnableOpenDragGesture ?? true,
-            endDrawerEnableOpenDragGesture:
-                endDrawerEnableOpenDragGesture ?? true,
+            endDrawerEnableOpenDragGesture: endDrawerEnableOpenDragGesture ?? true,
             restorationId: restorationId,
             body: Router(
               routerDelegate: MenuRouter.of(ctx).routerDelegate,

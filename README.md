@@ -8,7 +8,6 @@
 # **Bart** - A scaffold powered by Navigator2 
 <a href="https://en.apparence.io"><img src="https://github.com/Apparence-io/bart/raw/master/.github/img/logo.png" alt="Apparence.io logo"></a>
 <p><small>Developed with 💙 &nbsp;by Apparence.io</small></p>
-<br/>
 
 ## Tldr - features?
 * bottom navigation bar using sub router for switching tabs within the body
@@ -107,13 +106,21 @@ class MyPage extends StatelessWidget with AppBarNotifier {
   Widget build(BuildContext context) {
     // use the update app bar method to dynamically change app bar  
     updateAppBar(context, AppBar(title: Text("test")));
+    // now call you can call show method that will start animation
+    showAppBar(context);
     return Container();
   }
 }
 ``` 
+Also you can hide AppBar with a smooth animation using this method from mixin (for example when user scroll down a list)
+```dart 
+hideAppBar(context);
+``` 
 
-or directly 
+or directly using Actions methods
 ```dart
 Actions.invoke(context, AppBarBuildIntent(AppBar(title: Text("title text"))));
+Actions.invoke(context,AppBarAnimationIntent.show());
+Actions.invoke(context,AppBarAnimationIntent.hide());
 ```
 
