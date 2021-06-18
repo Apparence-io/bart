@@ -29,7 +29,9 @@ mixin AppBarNotifier {
     Actions.invoke(context, AppBarBuildIntent(appBar));
   }
 
-  void showAppBar(BuildContext context) => Actions.invoke(context, AppBarAnimationIntent.show());
+  void showAppBar(BuildContext context) =>
+      Actions.invoke(context, AppBarAnimationIntent.show());
 
-  void hideAppBar(BuildContext context) => Actions.invoke(context, AppBarAnimationIntent.hide());
+  void hideAppBar(BuildContext context) =>
+      Actions.invoke(context, AppBarAnimationIntent.hide());
 }

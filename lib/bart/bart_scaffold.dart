@@ -93,13 +93,15 @@ class BartScaffold extends StatelessWidget {
             backgroundColor: backgroundColor,
             resizeToAvoidBottomInset: resizeToAvoidBottomInset,
             primary: primary ?? true,
-            drawerDragStartBehavior: drawerDragStartBehavior ?? DragStartBehavior.start,
+            drawerDragStartBehavior:
+                drawerDragStartBehavior ?? DragStartBehavior.start,
             extendBody: extendBody ?? false,
             extendBodyBehindAppBar: true,
             drawerScrimColor: drawerScrimColor,
             drawerEdgeDragWidth: drawerEdgeDragWidth,
             drawerEnableOpenDragGesture: drawerEnableOpenDragGesture ?? true,
-            endDrawerEnableOpenDragGesture: endDrawerEnableOpenDragGesture ?? true,
+            endDrawerEnableOpenDragGesture:
+                endDrawerEnableOpenDragGesture ?? true,
             restorationId: restorationId,
             body: Router(
               routerDelegate: MenuRouter.of(ctx).routerDelegate,
