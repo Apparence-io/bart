@@ -20,3 +20,9 @@ class BartAppbarAction extends Action<AppBarBuildIntent> {
     this.appbar.value = intent.appbar;
   }
 }
+
+mixin AppBarNotifier {
+  void updateAppBar(BuildContext context, PreferredSizeWidget? appBar) {
+    Actions.invoke(context, AppBarBuildIntent(appBar));
+  }
+}

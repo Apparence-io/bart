@@ -72,7 +72,5 @@ class MenuRouterDelegate extends RouterDelegate<MenuRoutePath>
   }
 
   @override
-  Future<void> setNewRoutePath(MenuRoutePath configuration) async {
-    print("setNewRoutePath ${configuration.toString()}");
-  }
+  Future<void> setNewRoutePath(MenuRoutePath configuration) async {}
 }
