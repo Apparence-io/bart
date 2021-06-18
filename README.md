@@ -4,9 +4,17 @@
 <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/license-MIT-purple.svg" alt="License: MIT"></a>
 </p>
 
+<br/>
+<img src="./.github/img/logo.png" alt="Apparence.io logo">
+<p><small>Developed with 💙 &nbsp;by Apparence.io</small></p>
+<br/>
+
 # **Bart** - A scaffold powered by Navigator2 
 * bottom navigation bar using sub router for switching tabs within the body
 * show AppBar on demand within your nested routes
+<p align="center">
+<img src="./.github/img/bart.gif" width="230" alt="Apparence.io logo">
+</p>
 
 ## Install 
 Add Bart in your pubspec and import it. 
