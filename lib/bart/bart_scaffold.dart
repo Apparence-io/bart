@@ -1,3 +1,4 @@
+import 'package:bart/bart/bart_appbar.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'bottom_bar.dart';
@@ -8,8 +9,8 @@ class BartScaffold extends StatelessWidget {
   final BartRouteBuilder routesBuilder;
   final String? initialRoute;
   final List<NavigatorObserver>? navigatorObservers;
+  final ValueNotifier<PreferredSizeWidget?> appBarNotifier;
   // scaffold items
-  final AppBar? appBar;
   final Widget? floatingActionButton;
   final FloatingActionButtonLocation? floatingActionButtonLocation;
   final FloatingActionButtonAnimator? floatingActionButtonAnimator;
@@ -37,7 +38,6 @@ class BartScaffold extends StatelessWidget {
     required this.routesBuilder,
     this.initialRoute,
     this.navigatorObservers,
-    this.appBar,
     this.floatingActionButton,
     this.floatingActionButtonLocation,
     this.floatingActionButtonAnimator,
@@ -58,7 +58,7 @@ class BartScaffold extends StatelessWidget {
     this.drawerEnableOpenDragGesture,
     this.endDrawerEnableOpenDragGesture,
     this.restorationId,
-  });
+  }) : appBarNotifier = ValueNotifier(null);
 
   @override
   Widget build(BuildContext context) {
@@ -66,34 +66,42 @@ class BartScaffold extends StatelessWidget {
       routesBuilder: routesBuilder,
       initialRoute: initialRoute,
       navigatorObservers: navigatorObservers,
-      child: Builder(
-        builder: (BuildContext ctx) => Scaffold(
-          key: key,
-          appBar: appBar,
-          floatingActionButton: floatingActionButton,
-          floatingActionButtonLocation: floatingActionButtonLocation,
-          floatingActionButtonAnimator: floatingActionButtonAnimator,
-          persistentFooterButtons: persistentFooterButtons,
-          drawer: drawer,
-          onDrawerChanged: onDrawerChanged,
-          endDrawer: endDrawer,
-          onEndDrawerChanged: onEndDrawerChanged,
-          bottomSheet: bottomSheet,
-          backgroundColor: backgroundColor,
-          resizeToAvoidBottomInset: resizeToAvoidBottomInset,
-          primary: primary ?? true,
-          drawerDragStartBehavior: drawerDragStartBehavior ?? DragStartBehavior.start,
-          extendBody: extendBody ?? false,
-          extendBodyBehindAppBar: extendBodyBehindAppBar ?? false,
-          drawerScrimColor: drawerScrimColor,
-          drawerEdgeDragWidth: drawerEdgeDragWidth,
-          drawerEnableOpenDragGesture: drawerEnableOpenDragGesture ?? true,
-          endDrawerEnableOpenDragGesture: endDrawerEnableOpenDragGesture ?? true,
-          restorationId: restorationId,
-          body: Router(
-            routerDelegate: MenuRouter.of(ctx).routerDelegate,
+      child: Actions(
+        actions: <Type, Action<Intent>>{
+          AppBarBuildIntent: BartAppbarAction(appBarNotifier),
+        },
+        child: AnimatedBuilder(
+          animation: appBarNotifier,
+          // child: Builder(
+          builder: (ctx, child) => Scaffold(
+            key: key,
+            appBar: appBarNotifier.value,
+            floatingActionButton: floatingActionButton,
+            floatingActionButtonLocation: floatingActionButtonLocation,
+            floatingActionButtonAnimator: floatingActionButtonAnimator,
+            persistentFooterButtons: persistentFooterButtons,
+            drawer: drawer,
+            onDrawerChanged: onDrawerChanged,
+            endDrawer: endDrawer,
+            onEndDrawerChanged: onEndDrawerChanged,
+            bottomSheet: bottomSheet,
+            backgroundColor: backgroundColor,
+            resizeToAvoidBottomInset: resizeToAvoidBottomInset,
+            primary: primary ?? true,
+            drawerDragStartBehavior: drawerDragStartBehavior ?? DragStartBehavior.start,
+            extendBody: extendBody ?? false,
+            extendBodyBehindAppBar: extendBodyBehindAppBar ?? false,
+            drawerScrimColor: drawerScrimColor,
+            drawerEdgeDragWidth: drawerEdgeDragWidth,
+            drawerEnableOpenDragGesture: drawerEnableOpenDragGesture ?? true,
+            endDrawerEnableOpenDragGesture: endDrawerEnableOpenDragGesture ?? true,
+            restorationId: restorationId,
+            body: Router(
+              routerDelegate: MenuRouter.of(ctx).routerDelegate,
+            ),
+            bottomNavigationBar: bottomBar,
           ),
-          bottomNavigationBar: bottomBar,
+          // ),
         ),
       ),
     );

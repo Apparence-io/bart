@@ -1,3 +1,4 @@
+import 'package:bart/bart/bart_appbar.dart';
 import 'package:flutter/material.dart';
 
 import 'bart_model.dart';
@@ -45,6 +46,7 @@ class MenuRouterDelegate extends RouterDelegate<MenuRoutePath> with ChangeNotifi
         key: navigatorKey,
         initialRoute: initialRoute ?? routes.first.path,
         onGenerateRoute: (RouteSettings settings) {
+          Actions.invoke(context, AppBarBuildIntent.empty());
           var searchedRoute = routes.firstWhere((element) => element.path == settings.name, orElse: () => routes.first);
           _oldRoute = _currentRoute;
           _currentRoute = PageRouteBuilder(

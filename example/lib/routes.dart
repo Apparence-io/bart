@@ -1,6 +1,7 @@
 import 'package:bart/bart/bart_model.dart';
 import 'package:bart/bart/bart_scaffold.dart';
 import 'package:bart/bart/bottom_bar.dart';
+import 'package:bart/bart/bart_appbar.dart';
 import 'package:flutter/material.dart';
 import 'route_observer.dart';
 
@@ -18,13 +19,30 @@ List<BartMenuRoute> subRoutes() {
       path: '/home',
       pageBuilder: (context) => PageFake(
         Colors.red,
-        child: TextButton(
-          key: ValueKey("subpageBtn"),
-          child: Text(
-            "Route to page 2",
-            style: TextStyle(color: Colors.white),
-          ),
-          onPressed: () => Navigator.of(context).pushNamed("/subpage"),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            TextButton(
+              key: ValueKey("subpageBtn"),
+              child: Text(
+                "Route to page 2",
+                style: TextStyle(color: Colors.white),
+              ),
+              onPressed: () => Navigator.of(context).pushNamed("/subpage"),
+            ),
+            TextButton(
+              key: ValueKey("subpageBtn2"),
+              child: Text(
+                "add app bar",
+                style: TextStyle(color: Colors.white),
+              ),
+              onPressed: () => Actions.invoke(
+                  context,
+                  AppBarBuildIntent(AppBar(
+                    title: Text("title text"),
+                  ))),
+            ),
+          ],
         ),
       ),
     ),

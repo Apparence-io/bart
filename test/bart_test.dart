@@ -1,3 +1,4 @@
+import 'package:bart/bart/bart_appbar.dart';
 import 'package:bart/bart/bart_model.dart';
 import 'package:bart/bart/bart_scaffold.dart';
 import 'package:bart/bart/bottom_bar.dart';
@@ -30,7 +31,21 @@ void main() {
           label: "Library",
           icon: Icons.video_library_rounded,
           path: '/library',
-          pageBuilder: (context) => PageFake(Colors.blueGrey),
+          pageBuilder: (context) => PageFake(
+            Colors.blueGrey,
+            child: TextButton(
+              key: ValueKey("addAppBarBtn"),
+              child: Text(
+                "add app bar",
+                style: TextStyle(color: Colors.white),
+              ),
+              onPressed: () => Actions.invoke(
+                  context,
+                  AppBarBuildIntent(AppBar(
+                    title: Text("title text"),
+                  ))),
+            ),
+          ),
         ),
         BartMenuRoute.bottomBar(
           label: "Profile",
@@ -79,6 +94,34 @@ void main() {
       expect(find.byType(BartScaffold), findsOneWidget);
       expect(find.byType(BottomNavigationBar), findsOneWidget);
       expect(find.byType(InkResponse), findsNWidgets(3));
+    });
+
+    testWidgets('page has no app bar, click on add appbar => an appbar exists', (WidgetTester tester) async {
+      await tester.pumpWidget(_createApp(initialRoute: "/library"));
+      await tester.pump();
+      expect(find.byType(AppBar), findsNothing);
+      var btnFinder = find.byKey(ValueKey("addAppBarBtn"));
+      expect(btnFinder, findsOneWidget);
+      await tester.tap(btnFinder);
+      // an app bar is visible
+      await tester.pump(Duration(seconds: 1));
+      expect(find.byType(AppBar), findsOneWidget);
+    });
+
+    testWidgets('click on add appbar, route to next page => appBar is reset', (WidgetTester tester) async {
+      await tester.pumpWidget(_createApp(initialRoute: "/library"));
+      await tester.pump();
+      var btnFinder = find.byKey(ValueKey("addAppBarBtn"));
+      expect(btnFinder, findsOneWidget);
+      await tester.tap(btnFinder);
+      // an app bar is visible
+      await tester.pump(Duration(seconds: 1));
+      expect(find.byType(AppBar), findsOneWidget);
+      // route to second page, appbar is reset by default
+      var item2 = find.byType(InkResponse).at(1).evaluate().first.widget as InkResponse;
+      item2.onTap!();
+      await tester.pump(Duration(seconds: 1));
+      expect(find.byType(AppBar), findsNothing);
     });
 
     testWidgets('default tab is the first one', (WidgetTester tester) async {
