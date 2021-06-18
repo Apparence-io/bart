@@ -6,7 +6,7 @@
 </p>
 
 <br/>
-<img src="./.github/img/logo.png" alt="Apparence.io logo">
+<img src="https://github.com/Apparence-io/bart/raw/master/.github/img/logo.png" alt="Apparence.io logo">
 <p><small>Developed with 💙 &nbsp;by Apparence.io</small></p>
 <br/>
 
@@ -14,7 +14,7 @@
 * bottom navigation bar using sub router for switching tabs within the body
 * show AppBar on demand within your nested routes
 <p align="center">
-<img src="./.github/img/bart.gif" width="230" alt="Apparence.io logo">
+<img src="https://github.com/Apparence-io/bart/raw/master/.github/img/bart.gif" width="230" alt="Apparence.io logo">
 </p>
 
 ## Install 
