@@ -5,14 +5,17 @@
 <a href="https://pub.dev/packages/bart"><img src="https://img.shields.io/pub/v/bart" alt="pub dev bart"></a>
 </p>
 
-<br/>
-<img src="https://github.com/Apparence-io/bart/raw/master/.github/img/logo.png" alt="Apparence.io logo">
+# **Bart** - A scaffold powered by Navigator2 
+<a href="https://en.apparence.io"><img src="https://github.com/Apparence-io/bart/raw/master/.github/img/logo.png" alt="Apparence.io logo"></a>
 <p><small>Developed with 💙 &nbsp;by Apparence.io</small></p>
 <br/>
 
-# **Bart** - A scaffold powered by Navigator2 
+## Tldr - features?
 * bottom navigation bar using sub router for switching tabs within the body
 * show AppBar on demand within your nested routes
+* easy integration
+* basic material bottom bar factory
+* create your own bottom bar design if you need it
 <p align="center">
 <img src="https://github.com/Apparence-io/bart/raw/master/.github/img/bart.gif" width="230" alt="Apparence.io logo">
 </p>
@@ -113,3 +116,4 @@ or directly
 ```dart
 Actions.invoke(context, AppBarBuildIntent(AppBar(title: Text("title text"))));
 ```
+
