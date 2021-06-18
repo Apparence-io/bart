@@ -1,4 +1,4 @@
-name: Alfreed
+name: main
 
 on: [push, pull_request]
 
