@@ -35,7 +35,7 @@ class MenuRouterDelegate extends RouterDelegate<MenuRoutePath>
   final List<NavigatorObserver>? navigatorObservers;
   final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
   final Map<String, Widget> pageCache = Map();
-  BartMenuRoute? _currentRoute, _oldRoute;
+  BartMenuRoute? _currentRoute;
 
   MenuRouterDelegate(this.routes, this.initialRoute, this.navigatorObservers);
 
@@ -65,7 +65,6 @@ class MenuRouterDelegate extends RouterDelegate<MenuRoutePath>
             (element) => element.path == settings.name,
             orElse: () => routes.first,
           );
-          _oldRoute = _currentRoute;
           _currentRoute = searchedRoute;
           var pageRoute = PageRouteBuilder(
               maintainState: searchedRoute.maintainState ?? true,
