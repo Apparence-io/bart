@@ -65,7 +65,8 @@ void main() {
         ),
         BartMenuRoute.innerRoute(
           path: '/subpage',
-          pageBuilder: (context) => PageFake(Colors.greenAccent, child: Text("Sub Route page")),
+          pageBuilder: (context) =>
+              PageFake(Colors.greenAccent, child: Text("Sub Route page")),
         ),
       ];
     }
@@ -98,7 +99,8 @@ void main() {
       );
     }
 
-    testWidgets('create app with bart bottom bar containing 3 tabs', (WidgetTester tester) async {
+    testWidgets('create app with bart bottom bar containing 3 tabs',
+        (WidgetTester tester) async {
       await tester.pumpWidget(_createApp(initialRoute: "/home"));
       await tester.pump();
       expect(find.byType(BartScaffold), findsOneWidget);
@@ -106,7 +108,8 @@ void main() {
       expect(find.byType(InkResponse), findsNWidgets(3));
     });
 
-    testWidgets('page has no app bar, click on add appbar => an appbar exists', (WidgetTester tester) async {
+    testWidgets('page has no app bar, click on add appbar => an appbar exists',
+        (WidgetTester tester) async {
       await tester.pumpWidget(_createApp(initialRoute: "/library"));
       await tester.pump();
       expect(find.byType(AppBar), findsNothing);
@@ -118,10 +121,12 @@ void main() {
       expect(find.byType(AppBar), findsOneWidget);
     });
 
-    testWidgets('click on add appbar, route to next page => appBar is reset', (WidgetTester tester) async {
+    testWidgets('click on add appbar, route to next page => appBar is reset',
+        (WidgetTester tester) async {
       await tester.pumpWidget(_createApp(initialRoute: "/library"));
       await tester.pump();
-      var appBar = find.byType(AnimatedAppBar).evaluate().first.widget as AnimatedAppBar;
+      var appBar =
+          find.byType(AnimatedAppBar).evaluate().first.widget as AnimatedAppBar;
       var btnFinder = find.byKey(ValueKey("addAppBarBtn"));
       expect(btnFinder, findsOneWidget);
       await tester.tap(btnFinder);
@@ -130,7 +135,8 @@ void main() {
       expect(find.byType(AppBar), findsOneWidget);
       expect(appBar.showStateNotifier.value, isTrue);
       // route to second page, appbar is reset by default
-      var item2 = find.byType(InkResponse).at(2).evaluate().first.widget as InkResponse;
+      var item2 =
+          find.byType(InkResponse).at(2).evaluate().first.widget as InkResponse;
       item2.onTap!();
       await tester.pump(Duration(seconds: 1));
       expect(appBar.showStateNotifier.value, isFalse);
@@ -138,21 +144,25 @@ void main() {
 
     testWidgets('default tab is the first one', (WidgetTester tester) async {
       await tester.pumpWidget(_createApp());
-      var currentPage = find.byType(PageFake).evaluate().first.widget as PageFake;
+      var currentPage =
+          find.byType(PageFake).evaluate().first.widget as PageFake;
       expect(currentPage.bgColor, Colors.red);
     });
 
     testWidgets('default tab is the second one', (WidgetTester tester) async {
       await tester.pumpWidget(_createApp(initialRoute: "/library"));
-      var currentPage = find.byType(PageFake).evaluate().first.widget as PageFake;
+      var currentPage =
+          find.byType(PageFake).evaluate().first.widget as PageFake;
       expect(currentPage.bgColor, Colors.blueGrey);
     });
 
-    testWidgets('bar is on tab 1, click on tab 2 => tab 2 page is visible', (WidgetTester tester) async {
+    testWidgets('bar is on tab 1, click on tab 2 => tab 2 page is visible',
+        (WidgetTester tester) async {
       await tester.pumpWidget(_createApp(initialRoute: "/home"));
       await tester.pump();
       expect(find.byType(PageFake), findsNWidgets(1));
-      var item2 = find.byType(InkResponse).at(1).evaluate().first.widget as InkResponse;
+      var item2 =
+          find.byType(InkResponse).at(1).evaluate().first.widget as InkResponse;
       item2.onTap!();
       await tester.pump(Duration(seconds: 1));
       var page1 = find.byType(PageFake).evaluate().last.widget as PageFake;
@@ -160,7 +170,9 @@ void main() {
       expect(page1.bgColor, Colors.blueGrey);
     });
 
-    testWidgets('push a page => page is visible on top of tab, bottom navigation is still visible', (WidgetTester tester) async {
+    testWidgets(
+        'push a page => page is visible on top of tab, bottom navigation is still visible',
+        (WidgetTester tester) async {
       await tester.pumpWidget(_createApp(initialRoute: "/home"));
       await tester.pump();
       var btnFinder = find.byKey(ValueKey("subpageBtn"));
@@ -199,7 +211,8 @@ void main() {
         ),
         BartMenuRoute.innerRoute(
           path: '/subpage',
-          pageBuilder: (context) => PageFake(Colors.greenAccent, child: Text("Sub Route page")),
+          pageBuilder: (context) =>
+              PageFake(Colors.greenAccent, child: Text("Sub Route page")),
         ),
       ];
     }
@@ -232,7 +245,8 @@ void main() {
       );
     }
 
-    testWidgets('''bar is on tab 1, shows appBar using mixin''', (WidgetTester tester) async {
+    testWidgets('''bar is on tab 1, shows appBar using mixin''',
+        (WidgetTester tester) async {
       await tester.pumpWidget(_createApp(initialRoute: "/home"));
       await tester.pump();
       await tester.pumpAndSettle(Duration(milliseconds: 500));
@@ -241,8 +255,10 @@ void main() {
       expect(find.byType(AppBar), findsOneWidget);
     });
 
-    testWidgets('''bar is on tab 1 with cache=true, click on button increment counter (counter 1 => 2), go tab 2 then tab 1
-        => tab 1 is back with restored state (counter = 2)''', (WidgetTester tester) async {
+    testWidgets(
+        '''bar is on tab 1 with cache=true, click on button increment counter (counter 1 => 2), go tab 2 then tab 1
+        => tab 1 is back with restored state (counter = 2)''',
+        (WidgetTester tester) async {
       await tester.pumpWidget(_createApp(initialRoute: "/home"));
       await tester.pump();
       // tap button to change counter
@@ -251,24 +267,29 @@ void main() {
       await tester.pump();
       expect(find.text("2"), findsOneWidget);
       // go page 2
-      var item2 = find.byType(InkResponse).at(1).evaluate().first.widget as InkResponse;
+      var item2 =
+          find.byType(InkResponse).at(1).evaluate().first.widget as InkResponse;
       item2.onTap!();
       await tester.pump(Duration(seconds: 1));
       var page = find.byType(PageFake).evaluate().last.widget as PageFake;
       expect(page.bgColor, Colors.yellow);
       expect(find.byKey(ValueKey("counter")), findsOneWidget);
       // go page 1
-      var item1 = find.byType(InkResponse).at(0).evaluate().first.widget as InkResponse;
+      var item1 =
+          find.byType(InkResponse).at(0).evaluate().first.widget as InkResponse;
       item1.onTap!();
       await tester.pump(Duration(seconds: 1));
       expect(find.byType(PageFakeCounter), findsOneWidget);
       expect(find.byKey(ValueKey("counter")), findsOneWidget);
-      var counter = find.byKey(ValueKey("counter")).evaluate().first.widget as Text;
+      var counter =
+          find.byKey(ValueKey("counter")).evaluate().first.widget as Text;
       expect(counter.data, "2");
     });
 
-    testWidgets('''bar is on tab 3 with cache=false, click on button increment counter (counter 1 => 2), go tab 2 then tab 3
-        => tab 3 is back with initial state (counter = 1)''', (WidgetTester tester) async {
+    testWidgets(
+        '''bar is on tab 3 with cache=false, click on button increment counter (counter 1 => 2), go tab 2 then tab 3
+        => tab 3 is back with initial state (counter = 1)''',
+        (WidgetTester tester) async {
       await tester.pumpWidget(_createApp(initialRoute: "/profile"));
       await tester.pump();
       // tap button to change counter
@@ -277,19 +298,22 @@ void main() {
       await tester.pump();
       expect(find.text("2"), findsOneWidget);
       // go page 2
-      var item2 = find.byType(InkResponse).at(1).evaluate().first.widget as InkResponse;
+      var item2 =
+          find.byType(InkResponse).at(1).evaluate().first.widget as InkResponse;
       item2.onTap!();
       await tester.pump(Duration(seconds: 1));
       var page = find.byType(PageFake).evaluate().last.widget as PageFake;
       expect(page.bgColor, Colors.yellow);
       expect(find.byKey(ValueKey("counter")), findsOneWidget);
       // go page 1
-      var item1 = find.byType(InkResponse).at(0).evaluate().first.widget as InkResponse;
+      var item1 =
+          find.byType(InkResponse).at(0).evaluate().first.widget as InkResponse;
       item1.onTap!();
       await tester.pump(Duration(seconds: 1));
       expect(find.byType(PageFakeCounter), findsOneWidget);
       expect(find.byKey(ValueKey("counter")), findsOneWidget);
-      var counter = find.byKey(ValueKey("counter")).evaluate().first.widget as Text;
+      var counter =
+          find.byKey(ValueKey("counter")).evaluate().first.widget as Text;
       expect(counter.data, "1");
     });
   });

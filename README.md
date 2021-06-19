@@ -11,10 +11,12 @@
 
 ## Tldr - features?
 * bottom navigation bar using sub router for switching tabs within the body
-* show AppBar on demand within your nested routes
 * easy integration
+* show AppBar on demand within your nested routes (automatically animated)
 * basic material bottom bar factory
 * create your own bottom bar design if you need it
+* cache route page if you need to restore state
+
 <p align="center">
 <img src="https://github.com/Apparence-io/bart/raw/master/.github/img/bart.gif" width="230" alt="Apparence.io logo">
 </p>
@@ -69,6 +71,22 @@ This creates a route that you can push within your scaffold body
 BartMenuRoute.innerRoute(...)
 ```
 
+### Enable disable route caching
+
+#### Why?
+Imagine you got a page with a counter. You increment this counter and change tab. You want this tab to come back with the incremented counter? That's the reason why you need cache. 
+
+#### How
+**By default BartMenuRoute bottomBar factory is cached**. But you can override it.
+```dart
+BartMenuRoute.bottomBar(cache: true)
+```
+
+**By default BartMenuRoute innerRoute factory is NOT cached**. But you can override it.
+```dart
+BartMenuRoute.bottomBar(cache: false)
+```
+
 ## Create your page 
 ```dart
 class MainPageMenu extends StatelessWidget {
@@ -96,6 +114,7 @@ See code in library.
 
 ## Show an AppBar 
 You can show an AppBar or hide it whenever you want inside BartScaffold subPages. 
+> Appbar will automatically shows or hide with a smooth animation
 
 Using mixin method 
 ```dart
