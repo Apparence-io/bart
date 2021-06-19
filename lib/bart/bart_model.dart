@@ -11,6 +11,7 @@ class BartMenuRoute {
   WidgetBuilder pageBuilder;
   RouteSettings settings;
   bool? maintainState;
+  bool cache;
   BartMenuRouteType routingType;
 
   BartMenuRoute._({
@@ -20,6 +21,7 @@ class BartMenuRoute {
     required this.pageBuilder,
     required this.settings,
     required this.routingType,
+    required this.cache,
     this.maintainState,
   });
 
@@ -28,12 +30,14 @@ class BartMenuRoute {
     required IconData icon,
     required String path,
     required WidgetBuilder pageBuilder,
+    bool cache = true,
     Object? args,
   }) =>
       BartMenuRoute._(
         label: label,
         icon: icon,
         path: path,
+        cache: cache,
         routingType: BartMenuRouteType.BOTTOM_NAV,
         pageBuilder: pageBuilder,
         settings: RouteSettings(arguments: args, name: path),
@@ -42,12 +46,14 @@ class BartMenuRoute {
   factory BartMenuRoute.innerRoute({
     required String path,
     required WidgetBuilder pageBuilder,
+    bool cache = false,
     Object? args,
   }) =>
       BartMenuRoute._(
         path: path,
         routingType: BartMenuRouteType.SUB_ROUTE,
         pageBuilder: pageBuilder,
+        cache: cache,
         settings: RouteSettings(arguments: args, name: path),
       );
 }
