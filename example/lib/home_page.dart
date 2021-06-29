@@ -49,6 +49,54 @@ class HomePage extends StatelessWidget {
                 AppBarAnimationIntent.hide(),
               );
             },
+          ),
+          TextButton(
+            child: Text(
+              "Change bottom bar index 0",
+              style: TextStyle(color: Colors.white),
+            ),
+            onPressed: () {
+              Actions.invoke(
+                context,
+                BottomBarIndexIntent(0),
+              );
+            },
+          ),
+          TextButton(
+            child: Text(
+              "Change bottom bar index 1",
+              style: TextStyle(color: Colors.white),
+            ),
+            onPressed: () {
+              Actions.invoke(
+                context,
+                BottomBarIndexIntent(1),
+              );
+            },
+          ),
+          TextButton(
+            child: Text(
+              "Change bottom bar index 2",
+              style: TextStyle(color: Colors.white),
+            ),
+            onPressed: () {
+              Actions.invoke(
+                context,
+                BottomBarIndexIntent(2),
+              );
+            },
+          ),
+          TextButton(
+            child: Text(
+              "Change bottom bar index 3",
+              style: TextStyle(color: Colors.white),
+            ),
+            onPressed: () {
+              Actions.invoke(
+                context,
+                BottomBarIndexIntent(3),
+              );
+            },
           )
         ],
       ),

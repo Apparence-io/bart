@@ -30,6 +30,14 @@ void main() {
                   ),
                   onPressed: () => Navigator.of(context).pushNamed("/subpage"),
                 ),
+                TextButton(
+                  key: ValueKey("changeBottomBarIndexBtn"),
+                  child: Text(
+                    "Change index to 1",
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  onPressed: () => Actions.invoke(context, BottomBarIndexIntent(1)),
+                ),
               ],
             ),
           ),
@@ -185,6 +193,25 @@ void main() {
       expect(find.byType(BottomNavigationBar), findsOneWidget);
       expect(find.byType(InkResponse), findsNWidgets(3));
     });
+
+    testWidgets(
+        '''bar is on tab 1, tap on change bottom bar button => bottom bar index is now on second element''',
+            (WidgetTester tester) async {
+          await tester.pumpWidget(_createApp(initialRoute: "/home"));
+          await tester.pump();
+
+          BartBottomBar bottomBar = tester.firstWidget(find.byType(BartBottomBar)) as BartBottomBar;
+          expect(bottomBar.currentIndex.value, equals(0));
+
+          var changeBottomIndexButton = find.byKey(ValueKey("changeBottomBarIndexBtn"));
+          expect(changeBottomIndexButton, findsOneWidget);
+          await tester.tap(changeBottomIndexButton);
+          await tester.pump(Duration(seconds: 1));
+
+          // Index has been changed
+          bottomBar = tester.firstWidget(find.byType(BartBottomBar)) as BartBottomBar;
+          expect(bottomBar.currentIndex.value, equals(1));
+        });
   });
 
   group('4 tabs, tab 1,3 are counters', () {
