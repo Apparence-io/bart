@@ -52,52 +52,31 @@ class HomePage extends StatelessWidget {
           ),
           TextButton(
             child: Text(
-              "Change bottom bar index 0",
+              "Go to library",
               style: TextStyle(color: Colors.white),
             ),
             onPressed: () {
-              Actions.invoke(
-                context,
-                BottomBarIndexIntent(0),
-              );
+              Navigator.of(context).pushNamed("/library");
             },
           ),
           TextButton(
             child: Text(
-              "Change bottom bar index 1",
+              "Go to profile",
               style: TextStyle(color: Colors.white),
             ),
             onPressed: () {
-              Actions.invoke(
-                context,
-                BottomBarIndexIntent(1),
-              );
+              Navigator.of(context).pushNamed("/profile");
             },
           ),
           TextButton(
             child: Text(
-              "Change bottom bar index 2",
+              "Go to counter",
               style: TextStyle(color: Colors.white),
             ),
             onPressed: () {
-              Actions.invoke(
-                context,
-                BottomBarIndexIntent(2),
-              );
+              Navigator.of(context).pushNamed("/counter");
             },
           ),
-          TextButton(
-            child: Text(
-              "Change bottom bar index 3",
-              style: TextStyle(color: Colors.white),
-            ),
-            onPressed: () {
-              Actions.invoke(
-                context,
-                BottomBarIndexIntent(3),
-              );
-            },
-          )
         ],
       ),
     );

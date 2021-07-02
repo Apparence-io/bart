@@ -41,14 +41,6 @@ class MenuRouterDelegate extends RouterDelegate<MenuRoutePath>
 
   void goPage(int n) {
     if (routes[n].path == _currentRoute!.path) return;
-    // if (routes[n].routingType == BartMenuRouteType.BOTTOM_NAV) {
-    //   // navigatorKey.currentState!.registerForRestoration(property, restorationId)
-    //   // RestorableProperty
-    //   // RestorationMixin
-    //   navigatorKey.currentState!.restorablePushReplacementNamed(routes[n].path);
-    // } else {
-    //   navigatorKey.currentState!.pushReplacementNamed(routes[n].path);
-    // }
     navigatorKey.currentState!.pushReplacementNamed(routes[n].path);
     notifyListeners();
   }
@@ -86,6 +78,15 @@ class MenuRouterDelegate extends RouterDelegate<MenuRoutePath>
               element.didPush(pageRoute, null);
               // element.didReplace(newRoute: _currentRoute, oldRoute: _oldRoute);
             });
+          }
+          if (_currentRoute!.routingType == BartMenuRouteType.BOTTOM_NAV) {
+            var bottomBarList = this
+                .routes
+                .where((element) =>
+                    element.routingType == BartMenuRouteType.BOTTOM_NAV)
+                .toList();
+            var indexOfItem = bottomBarList.indexOf(_currentRoute!);
+            Actions.invoke(context, BottomBarIndexIntent(indexOfItem));
           }
           return pageRoute;
         });

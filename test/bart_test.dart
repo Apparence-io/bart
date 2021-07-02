@@ -31,12 +31,12 @@ void main() {
                   onPressed: () => Navigator.of(context).pushNamed("/subpage"),
                 ),
                 TextButton(
-                  key: ValueKey("changeBottomBarIndexBtn"),
+                  key: ValueKey("goToLibraryButton"),
                   child: Text(
-                    "Change index to 1",
+                    "Go to library",
                     style: TextStyle(color: Colors.white),
                   ),
-                  onPressed: () => Actions.invoke(context, BottomBarIndexIntent(1)),
+                  onPressed: () => Navigator.of(context).pushNamed("/library"),
                 ),
               ],
             ),
@@ -179,6 +179,28 @@ void main() {
     });
 
     testWidgets(
+        'bar is on tab 1 (home), click on library page button 2 => tab 2 page is visible and tab 2 icon is selected',
+        (WidgetTester tester) async {
+      await tester.pumpWidget(_createApp(initialRoute: "/home"));
+      await tester.pump();
+
+      BartBottomBar bottomBar =
+          tester.firstWidget(find.byType(BartBottomBar)) as BartBottomBar;
+      expect(bottomBar.currentIndex.value, equals(0));
+
+      var libraryButton = find.byKey(ValueKey('goToLibraryButton'));
+      await tester.tap(libraryButton);
+      await tester.pump(Duration(seconds: 1));
+      var page1 = find.byType(PageFake).evaluate().last.widget as PageFake;
+      expect(find.byType(PageFake), findsNWidgets(2));
+      expect(page1.bgColor, Colors.blueGrey);
+
+      bottomBar =
+          tester.firstWidget(find.byType(BartBottomBar)) as BartBottomBar;
+      expect(bottomBar.currentIndex.value, equals(1));
+    });
+
+    testWidgets(
         'push a page => page is visible on top of tab, bottom navigation is still visible',
         (WidgetTester tester) async {
       await tester.pumpWidget(_createApp(initialRoute: "/home"));
@@ -193,25 +215,6 @@ void main() {
       expect(find.byType(BottomNavigationBar), findsOneWidget);
       expect(find.byType(InkResponse), findsNWidgets(3));
     });
-
-    testWidgets(
-        '''bar is on tab 1, tap on change bottom bar button => bottom bar index is now on second element''',
-            (WidgetTester tester) async {
-          await tester.pumpWidget(_createApp(initialRoute: "/home"));
-          await tester.pump();
-
-          BartBottomBar bottomBar = tester.firstWidget(find.byType(BartBottomBar)) as BartBottomBar;
-          expect(bottomBar.currentIndex.value, equals(0));
-
-          var changeBottomIndexButton = find.byKey(ValueKey("changeBottomBarIndexBtn"));
-          expect(changeBottomIndexButton, findsOneWidget);
-          await tester.tap(changeBottomIndexButton);
-          await tester.pump(Duration(seconds: 1));
-
-          // Index has been changed
-          bottomBar = tester.firstWidget(find.byType(BartBottomBar)) as BartBottomBar;
-          expect(bottomBar.currentIndex.value, equals(1));
-        });
   });
 
   group('4 tabs, tab 1,3 are counters', () {

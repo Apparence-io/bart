@@ -247,14 +247,8 @@ class BartBottomBarIndexAction extends Action<BottomBarIndexIntent> {
 
   @override
   void invoke(covariant BottomBarIndexIntent intent) {
-    this.indexNotifier.value = intent.index;
+    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
+      this.indexNotifier.value = intent.index;
+    });
   }
 }
-
-mixin BottomBarNotifier {
-  void updateIndex(final BuildContext context, final int index) {
-    Actions.invoke(context, BottomBarIndexIntent(index));
-  }
-
-}
-

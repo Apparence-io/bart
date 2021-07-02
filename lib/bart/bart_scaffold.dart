@@ -72,7 +72,8 @@ class BartScaffold extends StatelessWidget {
         actions: <Type, Action<Intent>>{
           AppBarBuildIntent: BartAppbarAction(appBarNotifier),
           AppBarAnimationIntent: BartAnimatedAppbarAction(showAppBarNotifier),
-          BottomBarIndexIntent: BartBottomBarIndexAction(this.bottomBar.currentIndex)
+          BottomBarIndexIntent:
+              BartBottomBarIndexAction(this.bottomBar.currentIndex)
         },
         child: AnimatedBuilder(
           animation: appBarNotifier,
