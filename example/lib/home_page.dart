@@ -49,7 +49,34 @@ class HomePage extends StatelessWidget {
                 AppBarAnimationIntent.hide(),
               );
             },
-          )
+          ),
+          TextButton(
+            child: Text(
+              "Go to library",
+              style: TextStyle(color: Colors.white),
+            ),
+            onPressed: () {
+              Navigator.of(context).pushNamed("/library");
+            },
+          ),
+          TextButton(
+            child: Text(
+              "Go to profile",
+              style: TextStyle(color: Colors.white),
+            ),
+            onPressed: () {
+              Navigator.of(context).pushNamed("/profile");
+            },
+          ),
+          TextButton(
+            child: Text(
+              "Go to counter",
+              style: TextStyle(color: Colors.white),
+            ),
+            onPressed: () {
+              Navigator.of(context).pushNamed("/counter");
+            },
+          ),
         ],
       ),
     );

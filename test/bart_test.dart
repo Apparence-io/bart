@@ -30,6 +30,14 @@ void main() {
                   ),
                   onPressed: () => Navigator.of(context).pushNamed("/subpage"),
                 ),
+                TextButton(
+                  key: ValueKey("goToLibraryButton"),
+                  child: Text(
+                    "Go to library",
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  onPressed: () => Navigator.of(context).pushNamed("/library"),
+                ),
               ],
             ),
           ),
@@ -168,6 +176,28 @@ void main() {
       var page1 = find.byType(PageFake).evaluate().last.widget as PageFake;
       expect(find.byType(PageFake), findsNWidgets(2));
       expect(page1.bgColor, Colors.blueGrey);
+    });
+
+    testWidgets(
+        'bar is on tab 1 (home), click on library page button 2 => tab 2 page is visible and tab 2 icon is selected',
+        (WidgetTester tester) async {
+      await tester.pumpWidget(_createApp(initialRoute: "/home"));
+      await tester.pump();
+
+      BartBottomBar bottomBar =
+          tester.firstWidget(find.byType(BartBottomBar)) as BartBottomBar;
+      expect(bottomBar.currentIndex.value, equals(0));
+
+      var libraryButton = find.byKey(ValueKey('goToLibraryButton'));
+      await tester.tap(libraryButton);
+      await tester.pump(Duration(seconds: 1));
+      var page1 = find.byType(PageFake).evaluate().last.widget as PageFake;
+      expect(find.byType(PageFake), findsNWidgets(2));
+      expect(page1.bgColor, Colors.blueGrey);
+
+      bottomBar =
+          tester.firstWidget(find.byType(BartBottomBar)) as BartBottomBar;
+      expect(bottomBar.currentIndex.value, equals(1));
     });
 
     testWidgets(

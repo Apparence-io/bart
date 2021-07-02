@@ -230,3 +230,25 @@ class BartMaterialBottomBar extends StatelessWidget {
           ))
       .toList();
 }
+
+/// Use this intent to change the current index
+class BottomBarIndexIntent extends Intent {
+  final int index;
+
+  BottomBarIndexIntent(this.index);
+}
+
+/// you can change the current index by calling
+/// Actions.invoke(context, AppBarBuildIntent(AppBar(title: Text("title text"))));
+class BartBottomBarIndexAction extends Action<BottomBarIndexIntent> {
+  ValueNotifier<int> indexNotifier;
+
+  BartBottomBarIndexAction(this.indexNotifier);
+
+  @override
+  void invoke(covariant BottomBarIndexIntent intent) {
+    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
+      this.indexNotifier.value = intent.index;
+    });
+  }
+}
