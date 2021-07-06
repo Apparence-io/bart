@@ -4,7 +4,8 @@ abstract class MenuRoutePath {}
 
 enum BartMenuRouteType { BOTTOM_NAV, SUB_ROUTE }
 
-typedef BartPageBuilder = Widget Function(BuildContext context, RouteSettings? settings);
+typedef BartPageBuilder = Widget Function(
+    BuildContext context, RouteSettings? settings);
 
 class BartMenuRoute {
   String? label;
