@@ -60,7 +60,7 @@ class MenuRouterDelegate extends RouterDelegate<MenuRoutePath>
           _currentRoute = searchedRoute;
           var pageRoute = PageRouteBuilder(
               maintainState: searchedRoute.maintainState ?? true,
-              settings: searchedRoute.settings,
+              settings: settings,
               pageBuilder: (context, __, ___) {
                 if (searchedRoute.cache) {
                   if (!pageCache.containsKey(searchedRoute.path)) {
