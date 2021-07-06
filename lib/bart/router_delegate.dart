@@ -14,22 +14,16 @@ class MenuRouter extends InheritedWidget {
     required BartRouteBuilder routesBuilder,
     List<NavigatorObserver>? navigatorObservers,
     required this.child,
-  })  : routerDelegate = MenuRouterDelegate(
-            routesBuilder.call(), initialRoute, navigatorObservers),
+  })  : routerDelegate = MenuRouterDelegate(routesBuilder.call(), initialRoute, navigatorObservers),
         super(key: key, child: child);
 
-  static MenuRouter of(BuildContext context) =>
-      context.dependOnInheritedWidgetOfExactType<MenuRouter>()!;
+  static MenuRouter of(BuildContext context) => context.dependOnInheritedWidgetOfExactType<MenuRouter>()!;
 
   @override
   bool updateShouldNotify(MenuRouter oldWidget) => true;
 }
 
-class MenuRouterDelegate extends RouterDelegate<MenuRoutePath>
-    with
-        ChangeNotifier,
-        PopNavigatorRouterDelegateMixin<MenuRoutePath>,
-        AppBarNotifier {
+class MenuRouterDelegate extends RouterDelegate<MenuRoutePath> with ChangeNotifier, PopNavigatorRouterDelegateMixin<MenuRoutePath>, AppBarNotifier {
   final List<BartMenuRoute> routes;
   final String? initialRoute;
   final List<NavigatorObserver>? navigatorObservers;
@@ -64,15 +58,13 @@ class MenuRouterDelegate extends RouterDelegate<MenuRoutePath>
               pageBuilder: (context, __, ___) {
                 if (searchedRoute.cache) {
                   if (!pageCache.containsKey(searchedRoute.path)) {
-                    pageCache[searchedRoute.path] =
-                        searchedRoute.pageBuilder(context);
+                    pageCache[searchedRoute.path] = searchedRoute.pageBuilder(context, settings);
                   }
                   return pageCache[searchedRoute.path]!;
                 }
-                return searchedRoute.pageBuilder(context);
+                return searchedRoute.pageBuilder(context, settings);
               },
-              transitionsBuilder: (_, a, __, c) =>
-                  FadeTransition(opacity: a, child: c));
+              transitionsBuilder: (_, a, __, c) => FadeTransition(opacity: a, child: c));
           if (navigatorObservers != null) {
             navigatorObservers!.forEach((element) {
               element.didPush(pageRoute, null);
@@ -80,11 +72,7 @@ class MenuRouterDelegate extends RouterDelegate<MenuRoutePath>
             });
           }
           if (_currentRoute!.routingType == BartMenuRouteType.BOTTOM_NAV) {
-            var bottomBarList = this
-                .routes
-                .where((element) =>
-                    element.routingType == BartMenuRouteType.BOTTOM_NAV)
-                .toList();
+            var bottomBarList = this.routes.where((element) => element.routingType == BartMenuRouteType.BOTTOM_NAV).toList();
             var indexOfItem = bottomBarList.indexOf(_currentRoute!);
             Actions.invoke(context, BottomBarIndexIntent(indexOfItem));
           }

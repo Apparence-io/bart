@@ -4,11 +4,13 @@ abstract class MenuRoutePath {}
 
 enum BartMenuRouteType { BOTTOM_NAV, SUB_ROUTE }
 
+typedef BartPageBuilder = Widget Function(BuildContext context, RouteSettings? settings);
+
 class BartMenuRoute {
   String? label;
   IconData? icon;
   String path;
-  WidgetBuilder pageBuilder;
+  BartPageBuilder pageBuilder;
   RouteSettings settings;
   bool? maintainState;
   bool cache;
@@ -29,9 +31,8 @@ class BartMenuRoute {
     required String label,
     required IconData icon,
     required String path,
-    required WidgetBuilder pageBuilder,
+    required BartPageBuilder pageBuilder,
     bool cache = true,
-    Object? args,
   }) =>
       BartMenuRoute._(
         label: label,
@@ -40,20 +41,19 @@ class BartMenuRoute {
         cache: cache,
         routingType: BartMenuRouteType.BOTTOM_NAV,
         pageBuilder: pageBuilder,
-        settings: RouteSettings(arguments: args, name: path),
+        settings: RouteSettings(name: path),
       );
 
   factory BartMenuRoute.innerRoute({
     required String path,
-    required WidgetBuilder pageBuilder,
+    required BartPageBuilder pageBuilder,
     bool cache = false,
-    Object? args,
   }) =>
       BartMenuRoute._(
         path: path,
         routingType: BartMenuRouteType.SUB_ROUTE,
         pageBuilder: pageBuilder,
         cache: cache,
-        settings: RouteSettings(arguments: args, name: path),
+        settings: RouteSettings(name: path),
       );
 }
