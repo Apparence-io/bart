@@ -1,3 +1,6 @@
+## [0.1.0] - Add settings to page build
+* add args setting to sub navigation
+
 ## [0.0.3] - Cache and Appbar animation
 * show or hide appbar with animation 
 * preserve page in cache (see readme)

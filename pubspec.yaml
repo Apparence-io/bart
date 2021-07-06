@@ -1,6 +1,6 @@
 name: bart
 description: A bottom navigation bar using navigator 2 for switching tabs
-version: 0.0.3
+version: 0.1.0
 homepage: https://en.apparence.io
 repository: https://github.com/Apparence-io/bart
 
