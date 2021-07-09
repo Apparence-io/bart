@@ -22,7 +22,11 @@ class MenuRouter extends InheritedWidget {
       context.dependOnInheritedWidgetOfExactType<MenuRouter>()!;
 
   @override
-  bool updateShouldNotify(MenuRouter oldWidget) => true;
+  bool updateShouldNotify(MenuRouter oldWidget) {
+    this.routerDelegate.initialRoute =
+        oldWidget.routerDelegate._currentRoute?.path;
+    return true;
+  }
 }
 
 class MenuRouterDelegate extends RouterDelegate<MenuRoutePath>
@@ -31,7 +35,7 @@ class MenuRouterDelegate extends RouterDelegate<MenuRoutePath>
         PopNavigatorRouterDelegateMixin<MenuRoutePath>,
         AppBarNotifier {
   final List<BartMenuRoute> routes;
-  final String? initialRoute;
+  String? initialRoute;
   final List<NavigatorObserver>? navigatorObservers;
   final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
   final Map<String, Widget> pageCache = Map();
