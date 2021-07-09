@@ -16,6 +16,8 @@ class BartMenuRoute {
   bool? maintainState;
   bool cache;
   BartMenuRouteType routingType;
+  final RouteTransitionsBuilder? transitionsBuilder;
+  final Duration? transitionDuration;
 
   BartMenuRoute._({
     this.label,
@@ -26,6 +28,8 @@ class BartMenuRoute {
     required this.routingType,
     required this.cache,
     this.maintainState,
+    this.transitionsBuilder,
+    this.transitionDuration,
   });
 
   factory BartMenuRoute.bottomBar({
@@ -33,6 +37,8 @@ class BartMenuRoute {
     required IconData icon,
     required String path,
     required BartPageBuilder pageBuilder,
+    RouteTransitionsBuilder? transitionsBuilder,
+    Duration? transitionDuration,
     bool cache = true,
   }) =>
       BartMenuRoute._(
@@ -43,11 +49,15 @@ class BartMenuRoute {
         routingType: BartMenuRouteType.BOTTOM_NAV,
         pageBuilder: pageBuilder,
         settings: RouteSettings(name: path),
+        transitionsBuilder: transitionsBuilder,
+        transitionDuration: transitionDuration,
       );
 
   factory BartMenuRoute.innerRoute({
     required String path,
     required BartPageBuilder pageBuilder,
+    RouteTransitionsBuilder? transitionsBuilder,
+    Duration? transitionDuration,
     bool cache = false,
   }) =>
       BartMenuRoute._(
@@ -56,5 +66,7 @@ class BartMenuRoute {
         pageBuilder: pageBuilder,
         cache: cache,
         settings: RouteSettings(name: path),
+        transitionsBuilder: transitionsBuilder,
+        transitionDuration: transitionDuration,
       );
 }

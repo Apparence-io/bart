@@ -71,8 +71,10 @@ class MenuRouterDelegate extends RouterDelegate<MenuRoutePath>
                 }
                 return searchedRoute.pageBuilder(context, settings);
               },
-              transitionsBuilder: (_, a, __, c) =>
-                  FadeTransition(opacity: a, child: c));
+              transitionDuration: searchedRoute.transitionDuration ??
+                  Duration(milliseconds: 300),
+              transitionsBuilder: searchedRoute.transitionsBuilder ??
+                  (_, a, b, child) => child);
           if (navigatorObservers != null) {
             navigatorObservers!.forEach((element) {
               element.didPush(pageRoute, null);

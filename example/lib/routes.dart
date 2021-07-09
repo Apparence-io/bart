@@ -4,6 +4,7 @@ import 'package:example/page_counter.dart';
 import 'package:flutter/material.dart';
 import 'home_page.dart';
 import 'route_observer.dart';
+import 'package:animations/animations.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
@@ -26,6 +27,14 @@ List<BartMenuRoute> subRoutes() {
       icon: Icons.video_library_rounded,
       path: '/library',
       pageBuilder: (context, settings) => PageFake(Colors.blueGrey),
+      transitionDuration: Duration(milliseconds: 500),
+      transitionsBuilder: (context, anim1, anim2, widget) =>
+          FadeThroughTransition(
+        animation: anim1,
+        secondaryAnimation: anim2,
+        child: widget,
+        // fillColor: Colors.white,
+      ),
     ),
     BartMenuRoute.bottomBar(
       label: "Profile",

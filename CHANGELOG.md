@@ -1,3 +1,7 @@
+## [0.1.1] - Transitions
+* handle transition for routes (optionnal) default is none
+* handle transition duration for routes (optionnal) default is 300ms
+
 ## [0.1.0] - Add settings to page build
 * add args setting to sub navigation
 

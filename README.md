@@ -143,3 +143,21 @@ Actions.invoke(context,AppBarAnimationIntent.show());
 Actions.invoke(context,AppBarAnimationIntent.hide());
 ```
 
+## Handle transition
+You can use the official animation plugin to create better transition or create your owns. 
+
+Ex using animation package: 
+```dart
+BartMenuRoute.bottomBar(
+  label: "Library",
+  icon: Icons.video_library_rounded,
+  path: '/library',
+  pageBuilder: (context, settings) => PageFake(Colors.blueGrey),
+  transitionDuration: Duration(milliseconds: 500),
+  transitionsBuilder: (context, anim1, anim2, widget) => FadeThroughTransition(
+    animation: anim1,
+    secondaryAnimation: anim2,
+    child: widget,
+  ),
+),
+```
