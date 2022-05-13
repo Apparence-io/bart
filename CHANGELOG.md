@@ -1,3 +1,6 @@
+## [0.2.0]
+* remove unnecessary null check 
+
 ## [0.1.1] - Transitions
 * handle transition for routes (optionnal) default is none
 * handle transition duration for routes (optionnal) default is 300ms

@@ -1,3 +1,4 @@
+import 'package:bart/bart/utils.dart';
 import 'package:flutter/material.dart';
 
 import 'bart_model.dart';
@@ -247,7 +248,7 @@ class BartBottomBarIndexAction extends Action<BottomBarIndexIntent> {
 
   @override
   void invoke(covariant BottomBarIndexIntent intent) {
-    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
+    ambiguate(WidgetsBinding.instance)!.addPostFrameCallback((timeStamp) {
       this.indexNotifier.value = intent.index;
     });
   }

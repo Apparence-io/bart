@@ -1,3 +1,4 @@
+import 'package:bart/bart/utils.dart';
 import 'package:flutter/material.dart';
 
 import 'animated_appbar.dart';
@@ -42,7 +43,7 @@ mixin AppBarNotifier {
 
   _runWhenReady(BuildContext context, Function onReady) {
     if (context.debugDoingBuild) {
-      WidgetsBinding.instance!.addPostFrameCallback((_) {
+      ambiguate(WidgetsBinding.instance)!.addPostFrameCallback((_) {
         onReady();
       });
     } else {
