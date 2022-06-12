@@ -94,10 +94,10 @@ BartMenuRoute.bottomBar(
     path: '/library',
     cache: true,
     pageBuilder: (context, settings) => PageFake(
-    Colors.blueGrey.shade100,
-    rebuildAfterDisposed: false,
-    key: PageStorageKey<String>("library"),
-),
+        Colors.blueGrey.shade100,
+        rebuildAfterDisposed: false,
+        key: PageStorageKey<String>("library"),
+    ),
 ```
 
 

@@ -26,7 +26,10 @@ List<BartMenuRoute> subRoutes() {
       label: "Library",
       icon: Icons.video_library_rounded,
       path: '/library',
-      pageBuilder: (context, settings) => PageFake(Colors.blueGrey),
+      pageBuilder: (context, settings) => PageFake(
+        Colors.blueGrey,
+        key: PageStorageKey<String>("library"),
+      ),
       transitionDuration: Duration(milliseconds: 500),
       transitionsBuilder: (context, anim1, anim2, widget) =>
           FadeThroughTransition(
@@ -40,7 +43,10 @@ List<BartMenuRoute> subRoutes() {
       label: "Profile",
       icon: Icons.person,
       path: '/profile',
-      pageBuilder: (contextn, settings) => PageFake(Colors.yellow),
+      pageBuilder: (contextn, settings) => PageFake(
+        Colors.yellow,
+        key: PageStorageKey<String>("profile"),
+      ),
     ),
     BartMenuRoute.bottomBar(
       label: "Counter",
@@ -50,8 +56,10 @@ List<BartMenuRoute> subRoutes() {
     ),
     BartMenuRoute.innerRoute(
       path: '/subpage',
-      pageBuilder: (context, settings) =>
-          PageFake(Colors.greenAccent, child: Text("Sub Route page")),
+      pageBuilder: (context, settings) => PageFake(
+        Colors.greenAccent,
+        child: Text("Sub Route page"),
+      ),
     ),
   ];
 }
