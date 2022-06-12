@@ -1,3 +1,6 @@
+## [0.3.0]
+* preserve state and scroll within navigation if cache activated
+
 ## [0.2.0]
 * remove unnecessary null check 
 

@@ -31,10 +31,17 @@ class MenuRouterDelegate extends RouterDelegate<MenuRoutePath>
         PopNavigatorRouterDelegateMixin<MenuRoutePath>,
         AppBarNotifier {
   final List<BartMenuRoute> routes;
+
   final String? initialRoute;
+
   final List<NavigatorObserver>? navigatorObservers;
+
   final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+
   final Map<String, Widget> pageCache = Map();
+
+  final PageStorageBucket bucket = PageStorageBucket();
+
   BartMenuRoute? _currentRoute;
 
   MenuRouterDelegate(this.routes, this.initialRoute, this.navigatorObservers);
@@ -67,7 +74,10 @@ class MenuRouterDelegate extends RouterDelegate<MenuRoutePath>
                     pageCache[searchedRoute.path] =
                         searchedRoute.pageBuilder(context, settings);
                   }
-                  return pageCache[searchedRoute.path]!;
+                  return PageStorage(
+                    bucket: bucket,
+                    child: pageCache[searchedRoute.path]!,
+                  );
                 }
                 return searchedRoute.pageBuilder(context, settings);
               },

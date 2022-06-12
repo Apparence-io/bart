@@ -82,6 +82,25 @@ Imagine you got a page with a counter. You increment this counter and change tab
 BartMenuRoute.bottomBar(cache: true)
 ```
 
+#### How to use it?
+1 - let cache as active
+2 - your tab pages must use a ```PageStorageKey```
+
+Example 
+```dart 
+BartMenuRoute.bottomBar(
+    label: "Library",
+    icon: Icons.video_library_rounded,
+    path: '/library',
+    cache: true,
+    pageBuilder: (context, settings) => PageFake(
+    Colors.blueGrey.shade100,
+    rebuildAfterDisposed: false,
+    key: PageStorageKey<String>("library"),
+),
+```
+
+
 **By default BartMenuRoute innerRoute factory is NOT cached**. But you can override it.
 ```dart
 BartMenuRoute.bottomBar(cache: false)
