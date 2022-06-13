@@ -5,7 +5,6 @@ import 'bart_model.dart';
 import 'bottom_bar.dart';
 
 class MenuRouter extends InheritedWidget {
-  final Widget child;
   final MenuRouterDelegate routerDelegate;
 
   MenuRouter({
@@ -13,9 +12,12 @@ class MenuRouter extends InheritedWidget {
     String? initialRoute,
     required BartRouteBuilder routesBuilder,
     List<NavigatorObserver>? navigatorObservers,
-    required this.child,
+    required Widget child,
   })  : routerDelegate = MenuRouterDelegate(
-            routesBuilder.call(), initialRoute, navigatorObservers),
+          routesBuilder.call(),
+          initialRoute,
+          navigatorObservers,
+        ),
         super(key: key, child: child);
 
   static MenuRouter of(BuildContext context) =>
@@ -36,15 +38,20 @@ class MenuRouterDelegate extends RouterDelegate<MenuRoutePath>
 
   final List<NavigatorObserver>? navigatorObservers;
 
-  final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+  @override
+  final GlobalKey<NavigatorState> navigatorKey;
 
-  final Map<String, Widget> pageCache = Map();
+  final Map<String, Widget> pageCache = {};
 
   final PageStorageBucket bucket = PageStorageBucket();
 
   BartMenuRoute? _currentRoute;
 
-  MenuRouterDelegate(this.routes, this.initialRoute, this.navigatorObservers);
+  MenuRouterDelegate(
+    this.routes,
+    this.initialRoute,
+    this.navigatorObservers,
+  ) : navigatorKey = GlobalKey<NavigatorState>();
 
   void goPage(int n) {
     if (routes[n].path == _currentRoute!.path) return;
@@ -82,20 +89,19 @@ class MenuRouterDelegate extends RouterDelegate<MenuRoutePath>
                 return searchedRoute.pageBuilder(context, settings);
               },
               transitionDuration: searchedRoute.transitionDuration ??
-                  Duration(milliseconds: 300),
+                  const Duration(milliseconds: 300),
               transitionsBuilder: searchedRoute.transitionsBuilder ??
                   (_, a, b, child) => child);
           if (navigatorObservers != null) {
-            navigatorObservers!.forEach((element) {
+            for (var element in navigatorObservers!) {
               element.didPush(pageRoute, null);
-              // element.didReplace(newRoute: _currentRoute, oldRoute: _oldRoute);
-            });
+            }
           }
-          if (_currentRoute!.routingType == BartMenuRouteType.BOTTOM_NAV) {
-            var bottomBarList = this
-                .routes
+          if (_currentRoute!.routingType ==
+              BartMenuRouteType.bottomNavigation) {
+            var bottomBarList = routes
                 .where((element) =>
-                    element.routingType == BartMenuRouteType.BOTTOM_NAV)
+                    element.routingType == BartMenuRouteType.bottomNavigation)
                 .toList();
             var indexOfItem = bottomBarList.indexOf(_currentRoute!);
             Actions.invoke(context, BottomBarIndexIntent(indexOfItem));

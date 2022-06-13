@@ -22,7 +22,7 @@ List<BartMenuRoute> subRoutes() {
       label: "Home",
       icon: Icons.home,
       path: '/home',
-      pageBuilder: (context, settings) => HomePage(),
+      pageBuilder: (context, settings) => const HomePage(),
       transitionDuration: bottomBarTransitionDuration,
       transitionsBuilder: bottomBarTransition,
     ),
@@ -30,7 +30,7 @@ List<BartMenuRoute> subRoutes() {
       label: "Library",
       icon: Icons.video_library_rounded,
       path: '/library',
-      pageBuilder: (context, settings) => FakeListPage(
+      pageBuilder: (context, settings) => const FakeListPage(
         key: PageStorageKey<String>("library"),
       ),
       transitionDuration: bottomBarTransitionDuration,
@@ -40,7 +40,7 @@ List<BartMenuRoute> subRoutes() {
       label: "Profile",
       icon: Icons.person,
       path: '/profile',
-      pageBuilder: (contextn, settings) => PageFake(
+      pageBuilder: (contextn, settings) => const PageFake(
         Colors.yellow,
         key: PageStorageKey<String>("profile"),
       ),
@@ -57,7 +57,7 @@ List<BartMenuRoute> subRoutes() {
     ),
     BartMenuRoute.innerRoute(
       path: '/subpage',
-      pageBuilder: (context, settings) => PageFake(
+      pageBuilder: (context, settings) => const PageFake(
         Colors.greenAccent,
         showAppbar: true,
         child: Text("Sub Route page"),
@@ -66,11 +66,17 @@ List<BartMenuRoute> subRoutes() {
   ];
 }
 
-final bottomBarTransition = (c, a1, a2, child) => FadeThroughTransition(
+Widget bottomBarTransition(
+  BuildContext c,
+  Animation<double> a1,
+  Animation<double> a2,
+  Widget child,
+) =>
+    FadeThroughTransition(
       animation: a1,
       secondaryAnimation: a2,
-      child: child,
       fillColor: Colors.white,
+      child: child,
     );
 
 const bottomBarTransitionDuration = Duration(milliseconds: 500);

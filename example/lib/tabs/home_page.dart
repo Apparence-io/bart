@@ -13,15 +13,15 @@ class HomePage extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           TextButton(
-            key: ValueKey("subpageBtn"),
-            child: Text(
+            key: const ValueKey("subpageBtn"),
+            child: const Text(
               "Route to page 2",
               style: TextStyle(color: Colors.white),
             ),
             onPressed: () => Navigator.of(context).pushNamed("/subpage"),
           ),
           TextButton(
-            child: Text(
+            child: const Text(
               "add app bar",
               style: TextStyle(color: Colors.white),
             ),
@@ -29,7 +29,7 @@ class HomePage extends StatelessWidget {
               Actions.invoke(
                 context,
                 AppBarBuildIntent(AppBar(
-                  title: Text("title text"),
+                  title: const Text("title text"),
                 )),
               );
               Actions.invoke(
@@ -39,7 +39,7 @@ class HomePage extends StatelessWidget {
             },
           ),
           TextButton(
-            child: Text(
+            child: const Text(
               "hide app bar",
               style: TextStyle(color: Colors.white),
             ),
@@ -51,7 +51,7 @@ class HomePage extends StatelessWidget {
             },
           ),
           TextButton(
-            child: Text(
+            child: const Text(
               "Go to library",
               style: TextStyle(color: Colors.white),
             ),
@@ -60,7 +60,7 @@ class HomePage extends StatelessWidget {
             },
           ),
           TextButton(
-            child: Text(
+            child: const Text(
               "Go to profile",
               style: TextStyle(color: Colors.white),
             ),
@@ -69,7 +69,7 @@ class HomePage extends StatelessWidget {
             },
           ),
           TextButton(
-            child: Text(
+            child: const Text(
               "Go to counter",
               style: TextStyle(color: Colors.white),
             ),

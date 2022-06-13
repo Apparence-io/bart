@@ -5,11 +5,11 @@ import 'package:flutter/material.dart';
 class AppBarAnimationIntent extends Intent {
   final bool state;
 
-  AppBarAnimationIntent(this.state);
+  const AppBarAnimationIntent(this.state);
 
-  factory AppBarAnimationIntent.show() => AppBarAnimationIntent(true);
+  factory AppBarAnimationIntent.show() => const AppBarAnimationIntent(true);
 
-  factory AppBarAnimationIntent.hide() => AppBarAnimationIntent(false);
+  factory AppBarAnimationIntent.hide() => const AppBarAnimationIntent(false);
 }
 
 /// se this action when using animated appBar to show/hide using [AppBarBuildIntent]
@@ -20,7 +20,7 @@ class BartAnimatedAppbarAction extends Action<AppBarAnimationIntent> {
 
   @override
   void invoke(covariant AppBarAnimationIntent intent) {
-    this.show.value = intent.state;
+    show.value = intent.state;
   }
 }
 
@@ -42,7 +42,7 @@ class AnimatedAppBar extends StatelessWidget implements PreferredSizeWidget {
         children: [
           AnimatedPositioned(
             curve: Curves.decelerate,
-            duration: Duration(milliseconds: 300),
+            duration: const Duration(milliseconds: 300),
             top: show ? 0 : -150,
             left: 0,
             right: 0,
@@ -54,5 +54,6 @@ class AnimatedAppBar extends StatelessWidget implements PreferredSizeWidget {
   }
 
   @override
-  Size get preferredSize => appBar == null ? Size(0, 0) : appBar!.preferredSize;
+  Size get preferredSize =>
+      appBar == null ? const Size(0, 0) : appBar!.preferredSize;
 }

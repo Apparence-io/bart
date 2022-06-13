@@ -7,9 +7,9 @@ import 'animated_appbar.dart';
 class AppBarBuildIntent extends Intent {
   final PreferredSizeWidget? appbar;
 
-  AppBarBuildIntent(this.appbar);
+  const AppBarBuildIntent(this.appbar);
 
-  factory AppBarBuildIntent.empty() => AppBarBuildIntent(null);
+  factory AppBarBuildIntent.empty() => const AppBarBuildIntent(null);
 }
 
 /// you can change app bar within your page by calling once
@@ -21,7 +21,7 @@ class BartAppbarAction extends Action<AppBarBuildIntent> {
 
   @override
   void invoke(covariant AppBarBuildIntent intent) {
-    this.appbar.value = intent.appbar;
+    appbar.value = intent.appbar;
   }
 }
 

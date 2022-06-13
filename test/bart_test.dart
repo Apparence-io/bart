@@ -19,20 +19,20 @@ void main() {
           path: '/home',
           pageBuilder: (context, settings) => PageFake(
             Colors.red,
-            key: ValueKey("page1"),
+            key: const ValueKey("page1"),
             child: Column(
               children: [
                 TextButton(
-                  key: ValueKey("subpageBtn"),
-                  child: Text(
+                  key: const ValueKey("subpageBtn"),
+                  child: const Text(
                     "Route to page 2",
                     style: TextStyle(color: Colors.white),
                   ),
                   onPressed: () => Navigator.of(context).pushNamed("/subpage"),
                 ),
                 TextButton(
-                  key: ValueKey("goToLibraryButton"),
-                  child: Text(
+                  key: const ValueKey("goToLibraryButton"),
+                  child: const Text(
                     "Go to library",
                     style: TextStyle(color: Colors.white),
                   ),
@@ -49,8 +49,8 @@ void main() {
           pageBuilder: (context, settings) => PageFake(
             Colors.blueGrey,
             child: TextButton(
-              key: ValueKey("addAppBarBtn"),
-              child: Text(
+              key: const ValueKey("addAppBarBtn"),
+              child: const Text(
                 "add app bar",
                 style: TextStyle(color: Colors.white),
               ),
@@ -58,7 +58,7 @@ void main() {
                 Actions.invoke(
                     context,
                     AppBarBuildIntent(AppBar(
-                      title: Text("title text"),
+                      title: const Text("title text"),
                     )));
                 Actions.invoke(context, AppBarAnimationIntent.show());
               },
@@ -69,12 +69,12 @@ void main() {
           label: "Profile",
           icon: Icons.person,
           path: '/profile',
-          pageBuilder: (context, settings) => PageFake(Colors.yellow),
+          pageBuilder: (context, settings) => const PageFake(Colors.yellow),
         ),
         BartMenuRoute.innerRoute(
           path: '/subpage',
           pageBuilder: (context, settings) =>
-              PageFake(Colors.greenAccent, child: Text("Sub Route page")),
+              const PageFake(Colors.greenAccent, child: Text("Sub Route page")),
         ),
       ];
     }
@@ -121,11 +121,11 @@ void main() {
       await tester.pumpWidget(_createApp(initialRoute: "/library"));
       await tester.pump();
       expect(find.byType(AppBar), findsNothing);
-      var btnFinder = find.byKey(ValueKey("addAppBarBtn"));
+      var btnFinder = find.byKey(const ValueKey("addAppBarBtn"));
       expect(btnFinder, findsOneWidget);
       await tester.tap(btnFinder);
       // an app bar is visible
-      await tester.pump(Duration(seconds: 1));
+      await tester.pump(const Duration(seconds: 1));
       expect(find.byType(AppBar), findsOneWidget);
     });
 
@@ -135,18 +135,18 @@ void main() {
       await tester.pump();
       var appBar =
           find.byType(AnimatedAppBar).evaluate().first.widget as AnimatedAppBar;
-      var btnFinder = find.byKey(ValueKey("addAppBarBtn"));
+      var btnFinder = find.byKey(const ValueKey("addAppBarBtn"));
       expect(btnFinder, findsOneWidget);
       await tester.tap(btnFinder);
       // an app bar is visible
-      await tester.pump(Duration(seconds: 1));
+      await tester.pump(const Duration(seconds: 1));
       expect(find.byType(AppBar), findsOneWidget);
       expect(appBar.showStateNotifier.value, isTrue);
       // route to second page, appbar is reset by default
       var item2 =
           find.byType(InkResponse).at(2).evaluate().first.widget as InkResponse;
       item2.onTap!();
-      await tester.pump(Duration(seconds: 1));
+      await tester.pump(const Duration(seconds: 1));
       expect(appBar.showStateNotifier.value, isFalse);
     });
 
@@ -172,7 +172,7 @@ void main() {
       var item2 =
           find.byType(InkResponse).at(1).evaluate().first.widget as InkResponse;
       item2.onTap!();
-      await tester.pump(Duration(seconds: 1));
+      await tester.pump(const Duration(seconds: 1));
       var page1 = find.byType(PageFake).evaluate().last.widget as PageFake;
       expect(find.byType(PageFake), findsNWidgets(2));
       expect(page1.bgColor, Colors.blueGrey);
@@ -188,9 +188,9 @@ void main() {
           tester.firstWidget(find.byType(BartBottomBar)) as BartBottomBar;
       expect(bottomBar.currentIndex.value, equals(0));
 
-      var libraryButton = find.byKey(ValueKey('goToLibraryButton'));
+      var libraryButton = find.byKey(const ValueKey('goToLibraryButton'));
       await tester.tap(libraryButton);
-      await tester.pump(Duration(seconds: 1));
+      await tester.pump(const Duration(seconds: 1));
       var page1 = find.byType(PageFake).evaluate().last.widget as PageFake;
       expect(find.byType(PageFake), findsNWidgets(2));
       expect(page1.bgColor, Colors.blueGrey);
@@ -205,11 +205,11 @@ void main() {
         (WidgetTester tester) async {
       await tester.pumpWidget(_createApp(initialRoute: "/home"));
       await tester.pump();
-      var btnFinder = find.byKey(ValueKey("subpageBtn"));
+      var btnFinder = find.byKey(const ValueKey("subpageBtn"));
       expect(btnFinder, findsOneWidget);
       await tester.tap(btnFinder);
       // new page is visible
-      await tester.pump(Duration(seconds: 1));
+      await tester.pump(const Duration(seconds: 1));
       expect(find.text("Sub Route page"), findsOneWidget);
       expect(find.byType(BartScaffold), findsOneWidget);
       expect(find.byType(BottomNavigationBar), findsOneWidget);
@@ -230,7 +230,7 @@ void main() {
           label: "lib",
           icon: Icons.person,
           path: '/lib',
-          pageBuilder: (context, settings) => PageFake(Colors.yellow),
+          pageBuilder: (context, settings) => const PageFake(Colors.yellow),
         ),
         BartMenuRoute.bottomBar(
           label: "Profile",
@@ -242,7 +242,7 @@ void main() {
         BartMenuRoute.innerRoute(
           path: '/subpage',
           pageBuilder: (context, settings) =>
-              PageFake(Colors.greenAccent, child: Text("Sub Route page")),
+              const PageFake(Colors.greenAccent, child: Text("Sub Route page")),
         ),
       ];
     }
@@ -279,8 +279,8 @@ void main() {
         (WidgetTester tester) async {
       await tester.pumpWidget(_createApp(initialRoute: "/home"));
       await tester.pump();
-      await tester.pumpAndSettle(Duration(milliseconds: 500));
-      await tester.pump(Duration(milliseconds: 500));
+      await tester.pumpAndSettle(const Duration(milliseconds: 500));
+      await tester.pump(const Duration(milliseconds: 500));
 
       expect(find.byType(AppBar), findsOneWidget);
     });
@@ -293,26 +293,26 @@ void main() {
       await tester.pump();
       // tap button to change counter
       expect(find.text("1"), findsOneWidget);
-      await tester.tap(find.byKey(ValueKey("addCountBtn")));
+      await tester.tap(find.byKey(const ValueKey("addCountBtn")));
       await tester.pump();
       expect(find.text("2"), findsOneWidget);
       // go page 2
       var item2 =
           find.byType(InkResponse).at(1).evaluate().first.widget as InkResponse;
       item2.onTap!();
-      await tester.pump(Duration(seconds: 1));
+      await tester.pump(const Duration(seconds: 1));
       var page = find.byType(PageFake).evaluate().last.widget as PageFake;
       expect(page.bgColor, Colors.yellow);
-      expect(find.byKey(ValueKey("counter")), findsOneWidget);
+      expect(find.byKey(const ValueKey("counter")), findsOneWidget);
       // go page 1
       var item1 =
           find.byType(InkResponse).at(0).evaluate().first.widget as InkResponse;
       item1.onTap!();
-      await tester.pump(Duration(seconds: 1));
+      await tester.pump(const Duration(seconds: 1));
       expect(find.byType(PageFakeCounter), findsOneWidget);
-      expect(find.byKey(ValueKey("counter")), findsOneWidget);
+      expect(find.byKey(const ValueKey("counter")), findsOneWidget);
       var counter =
-          find.byKey(ValueKey("counter")).evaluate().first.widget as Text;
+          find.byKey(const ValueKey("counter")).evaluate().first.widget as Text;
       expect(counter.data, "2");
     });
 
@@ -324,26 +324,26 @@ void main() {
       await tester.pump();
       // tap button to change counter
       expect(find.text("1"), findsOneWidget);
-      await tester.tap(find.byKey(ValueKey("addCountBtn")));
+      await tester.tap(find.byKey(const ValueKey("addCountBtn")));
       await tester.pump();
       expect(find.text("2"), findsOneWidget);
       // go page 2
       var item2 =
           find.byType(InkResponse).at(1).evaluate().first.widget as InkResponse;
       item2.onTap!();
-      await tester.pump(Duration(seconds: 1));
+      await tester.pump(const Duration(seconds: 1));
       var page = find.byType(PageFake).evaluate().last.widget as PageFake;
       expect(page.bgColor, Colors.yellow);
-      expect(find.byKey(ValueKey("counter")), findsOneWidget);
+      expect(find.byKey(const ValueKey("counter")), findsOneWidget);
       // go page 1
       var item1 =
           find.byType(InkResponse).at(0).evaluate().first.widget as InkResponse;
       item1.onTap!();
-      await tester.pump(Duration(seconds: 1));
+      await tester.pump(const Duration(seconds: 1));
       expect(find.byType(PageFakeCounter), findsOneWidget);
-      expect(find.byKey(ValueKey("counter")), findsOneWidget);
+      expect(find.byKey(const ValueKey("counter")), findsOneWidget);
       var counter =
-          find.byKey(ValueKey("counter")).evaluate().first.widget as Text;
+          find.byKey(const ValueKey("counter")).evaluate().first.widget as Text;
       expect(counter.data, "1");
     });
   });

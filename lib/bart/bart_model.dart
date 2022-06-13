@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 abstract class MenuRoutePath {}
 
-enum BartMenuRouteType { BOTTOM_NAV, SUB_ROUTE }
+enum BartMenuRouteType { bottomNavigation, subRoute }
 
 typedef BartPageBuilder = Widget Function(
     BuildContext context, RouteSettings? settings);
@@ -27,6 +27,7 @@ class BartMenuRoute {
     required this.settings,
     required this.routingType,
     required this.cache,
+    // ignore: unused_element
     this.maintainState,
     this.transitionsBuilder,
     this.transitionDuration,
@@ -46,7 +47,7 @@ class BartMenuRoute {
         icon: icon,
         path: path,
         cache: cache,
-        routingType: BartMenuRouteType.BOTTOM_NAV,
+        routingType: BartMenuRouteType.bottomNavigation,
         pageBuilder: pageBuilder,
         settings: RouteSettings(name: path),
         transitionsBuilder: transitionsBuilder,
@@ -62,7 +63,7 @@ class BartMenuRoute {
   }) =>
       BartMenuRoute._(
         path: path,
-        routingType: BartMenuRouteType.SUB_ROUTE,
+        routingType: BartMenuRouteType.subRoute,
         pageBuilder: pageBuilder,
         cache: cache,
         settings: RouteSettings(name: path),

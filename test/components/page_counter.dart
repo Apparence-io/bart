@@ -8,10 +8,10 @@ class PageFakeCounter extends StatefulWidget {
   PageFakeCounter({Key? key, this.showAppBar = false}) : super(key: key);
 
   @override
-  _PageFakeCounterState createState() => _PageFakeCounterState();
+  PageFakeCounterState createState() => PageFakeCounterState();
 }
 
-class _PageFakeCounterState extends State<PageFakeCounter> with AppBarNotifier {
+class PageFakeCounterState extends State<PageFakeCounter> with AppBarNotifier {
   @override
   void initState() {
     super.initState();
@@ -20,7 +20,7 @@ class _PageFakeCounterState extends State<PageFakeCounter> with AppBarNotifier {
   @override
   Widget build(BuildContext context) {
     if (widget.showAppBar) {
-      updateAppBar(context, AppBar(title: Text("appbar")));
+      updateAppBar(context, AppBar(title: const Text("appbar")));
       showAppBar(context);
     }
     return ValueListenableBuilder(
@@ -32,21 +32,21 @@ class _PageFakeCounterState extends State<PageFakeCounter> with AppBarNotifier {
           children: [
             Text(
               "$counter",
-              key: ValueKey("counter"),
+              key: const ValueKey("counter"),
             ),
             TextButton(
-              key: ValueKey("addCountBtn"),
+              key: const ValueKey("addCountBtn"),
               onPressed: () {
                 setState(() {
                   widget.counter.value++;
                 });
               },
-              child: Text("Add"),
+              child: const Text("Add"),
             ),
             TextButton(
-              key: ValueKey("hideAppBar"),
+              key: const ValueKey("hideAppBar"),
               onPressed: () => hideAppBar(context),
-              child: Text("hide app bar"),
+              child: const Text("hide app bar"),
             ),
           ],
         ),

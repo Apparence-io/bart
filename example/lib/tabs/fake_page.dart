@@ -5,7 +5,7 @@ class PageFake extends StatelessWidget {
   final Widget? child;
   final bool showAppbar;
 
-  PageFake(
+  const PageFake(
     this.bgColor, {
     this.child,
     Key? key,

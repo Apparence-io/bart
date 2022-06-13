@@ -20,7 +20,7 @@ class BartBottomBar extends StatefulWidget {
   /// use [BartMaterialBottomBar.bottomBarFactory] by default but you can create your own
   final BartBottomBarFactory bottomBarFactory;
 
-  BartBottomBar._({
+  const BartBottomBar._({
     required this.bottomBarFactory,
     this.elevation,
     this.bgColor,
@@ -86,10 +86,11 @@ class BartBottomBar extends StatefulWidget {
       );
 
   @override
-  _BartBottomBarState createState() => _BartBottomBarState();
+  BartBottomBarState createState() => BartBottomBarState();
 }
 
-class _BartBottomBarState extends State<BartBottomBar> {
+@visibleForTesting
+class BartBottomBarState extends State<BartBottomBar> {
   List<BartMenuRoute> get routes =>
       MenuRouter.of(context).routerDelegate.routes;
 
@@ -189,7 +190,8 @@ class BartMaterialBottomBar extends StatelessWidget {
   final double iconSize;
   final double selectedFontSize, unselectedFontSize;
 
-  BartMaterialBottomBar({
+  const BartMaterialBottomBar({
+    Key? key,
     required this.routes,
     required this.onTap,
     required this.currentIndex,
@@ -202,7 +204,7 @@ class BartMaterialBottomBar extends StatelessWidget {
     this.selectedFontSize = 14.0,
     this.unselectedFontSize = 12.0,
     this.iconSize = 24,
-  });
+  }) : super(key: key);
 
   static const BartBottomBarFactory bottomBarFactory =
       _BartMaterialBottomBarFactory();
@@ -224,7 +226,8 @@ class BartMaterialBottomBar extends StatelessWidget {
   }
 
   List<BottomNavigationBarItem> get routeWidgetList => routes
-      .where((element) => element.routingType == BartMenuRouteType.BOTTOM_NAV)
+      .where((element) =>
+          element.routingType == BartMenuRouteType.bottomNavigation)
       .map((route) => BottomNavigationBarItem(
             icon: Icon(route.icon),
             label: route.label,
@@ -236,7 +239,7 @@ class BartMaterialBottomBar extends StatelessWidget {
 class BottomBarIndexIntent extends Intent {
   final int index;
 
-  BottomBarIndexIntent(this.index);
+  const BottomBarIndexIntent(this.index);
 }
 
 /// you can change the current index by calling
@@ -249,7 +252,7 @@ class BartBottomBarIndexAction extends Action<BottomBarIndexIntent> {
   @override
   void invoke(covariant BottomBarIndexIntent intent) {
     ambiguate(WidgetsBinding.instance)!.addPostFrameCallback((timeStamp) {
-      this.indexNotifier.value = intent.index;
+      indexNotifier.value = intent.index;
     });
   }
 }

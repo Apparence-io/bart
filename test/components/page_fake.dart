@@ -4,7 +4,7 @@ class PageFake extends StatelessWidget {
   final Color bgColor;
   final Widget? child;
 
-  PageFake(this.bgColor, {this.child, Key? key}) : super(key: key);
+  const PageFake(this.bgColor, {this.child, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

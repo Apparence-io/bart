@@ -60,7 +60,8 @@ class BartScaffold extends StatelessWidget {
     this.endDrawerEnableOpenDragGesture,
     this.restorationId,
   })  : appBarNotifier = ValueNotifier(null),
-        showAppBarNotifier = ValueNotifier(false);
+        showAppBarNotifier = ValueNotifier(false),
+        super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -72,8 +73,7 @@ class BartScaffold extends StatelessWidget {
         actions: <Type, Action<Intent>>{
           AppBarBuildIntent: BartAppbarAction(appBarNotifier),
           AppBarAnimationIntent: BartAnimatedAppbarAction(showAppBarNotifier),
-          BottomBarIndexIntent:
-              BartBottomBarIndexAction(this.bottomBar.currentIndex)
+          BottomBarIndexIntent: BartBottomBarIndexAction(bottomBar.currentIndex)
         },
         child: AnimatedBuilder(
           animation: appBarNotifier,
