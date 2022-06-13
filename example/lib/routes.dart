@@ -1,10 +1,12 @@
 import 'package:bart/bart.dart';
-import 'package:example/fake_page.dart';
-import 'package:example/page_counter.dart';
+import 'package:example/tabs/page_counter.dart';
+import 'package:example/tabs/fake_list.dart';
 import 'package:flutter/material.dart';
-import 'home_page.dart';
+import 'tabs/home_page.dart';
 import 'route_observer.dart';
 import 'package:animations/animations.dart';
+
+import 'tabs/fake_page.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
@@ -21,23 +23,18 @@ List<BartMenuRoute> subRoutes() {
       icon: Icons.home,
       path: '/home',
       pageBuilder: (context, settings) => HomePage(),
+      transitionDuration: bottomBarTransitionDuration,
+      transitionsBuilder: bottomBarTransition,
     ),
     BartMenuRoute.bottomBar(
       label: "Library",
       icon: Icons.video_library_rounded,
       path: '/library',
-      pageBuilder: (context, settings) => PageFake(
-        Colors.blueGrey,
+      pageBuilder: (context, settings) => FakeListPage(
         key: PageStorageKey<String>("library"),
       ),
-      transitionDuration: Duration(milliseconds: 500),
-      transitionsBuilder: (context, anim1, anim2, widget) =>
-          FadeThroughTransition(
-        animation: anim1,
-        secondaryAnimation: anim2,
-        child: widget,
-        // fillColor: Colors.white,
-      ),
+      transitionDuration: bottomBarTransitionDuration,
+      transitionsBuilder: bottomBarTransition,
     ),
     BartMenuRoute.bottomBar(
       label: "Profile",
@@ -47,46 +44,33 @@ List<BartMenuRoute> subRoutes() {
         Colors.yellow,
         key: PageStorageKey<String>("profile"),
       ),
+      transitionDuration: bottomBarTransitionDuration,
+      transitionsBuilder: bottomBarTransition,
     ),
     BartMenuRoute.bottomBar(
       label: "Counter",
       icon: Icons.countertops,
       path: '/counter',
       pageBuilder: (context, settings) => PageFakeCounter(showAppBar: true),
+      transitionDuration: bottomBarTransitionDuration,
+      transitionsBuilder: bottomBarTransition,
     ),
     BartMenuRoute.innerRoute(
       path: '/subpage',
       pageBuilder: (context, settings) => PageFake(
         Colors.greenAccent,
+        showAppbar: true,
         child: Text("Sub Route page"),
       ),
     ),
   ];
 }
 
-Route<dynamic> routes(RouteSettings settings) {
-  switch (settings.name) {
-    case '/':
-      return MaterialPageRoute(
-          builder: (_) => MainPageMenu(routesBuilder: subRoutes));
-    default:
-      throw 'unexpected Route';
-  }
-}
-
-class MainPageMenu extends StatelessWidget {
-  final BartRouteBuilder routesBuilder;
-
-  const MainPageMenu({Key? key, required this.routesBuilder}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return BartScaffold(
-      routesBuilder: routesBuilder,
-      navigatorObservers: [routeObserver],
-      bottomBar: BartBottomBar.fromFactory(
-        bottomBarFactory: BartMaterialBottomBar.bottomBarFactory,
-      ),
+final bottomBarTransition = (c, a1, a2, child) => FadeThroughTransition(
+      animation: a1,
+      secondaryAnimation: a2,
+      child: child,
+      fillColor: Colors.white,
     );
-  }
-}
+
+const bottomBarTransitionDuration = Duration(milliseconds: 500);

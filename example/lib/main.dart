@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'navigation.dart';
 import 'routes.dart';
 
 void main() {
@@ -19,5 +20,15 @@ class MyApp extends StatelessWidget {
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
     );
+  }
+}
+
+Route<dynamic> routes(RouteSettings settings) {
+  switch (settings.name) {
+    case '/':
+      return MaterialPageRoute(
+          builder: (_) => MainPageMenu(routesBuilder: subRoutes));
+    default:
+      throw 'unexpected Route';
   }
 }

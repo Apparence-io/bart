@@ -1,6 +1,6 @@
 import 'package:bart/bart.dart';
+import 'package:example/tabs/fake_page.dart';
 import 'package:flutter/material.dart';
-import 'fake_page.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
