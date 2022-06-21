@@ -1,3 +1,6 @@
+## [0.3.1]
+* upgrade android example project
+
 ## [0.3.0]
 * preserve state and scroll within navigation if cache activated
 
