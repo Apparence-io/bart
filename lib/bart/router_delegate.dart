@@ -2,7 +2,7 @@ import 'package:bart/bart/bart_appbar.dart';
 import 'package:flutter/material.dart';
 
 import 'bart_model.dart';
-import 'bottom_bar.dart';
+import 'bottom_bar/bottom_bar.dart';
 
 class MenuRouter extends InheritedWidget {
   final MenuRouterDelegate routerDelegate;
@@ -24,7 +24,11 @@ class MenuRouter extends InheritedWidget {
       context.dependOnInheritedWidgetOfExactType<MenuRouter>()!;
 
   @override
-  bool updateShouldNotify(MenuRouter oldWidget) => true;
+  bool updateShouldNotify(MenuRouter oldWidget) {
+    routerDelegate.initialRoute ??=
+        oldWidget.routerDelegate._currentRoute?.path;
+    return true;
+  }
 }
 
 class MenuRouterDelegate extends RouterDelegate<MenuRoutePath>
@@ -34,7 +38,7 @@ class MenuRouterDelegate extends RouterDelegate<MenuRoutePath>
         AppBarNotifier {
   final List<BartMenuRoute> routes;
 
-  final String? initialRoute;
+  String? initialRoute;
 
   final List<NavigatorObserver>? navigatorObservers;
 

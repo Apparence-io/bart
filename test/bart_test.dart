@@ -2,7 +2,7 @@ import 'package:bart/bart/animated_appbar.dart';
 import 'package:bart/bart/bart_appbar.dart';
 import 'package:bart/bart/bart_model.dart';
 import 'package:bart/bart/bart_scaffold.dart';
-import 'package:bart/bart/bottom_bar.dart';
+import 'package:bart/bart/bottom_bar/bottom_bar.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter/material.dart';
 
