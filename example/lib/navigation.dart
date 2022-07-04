@@ -12,8 +12,8 @@ class MainPageMenu extends StatelessWidget {
     return BartScaffold(
       routesBuilder: routesBuilder,
       navigatorObservers: [routeObserver],
-      bottomBar: BartBottomBar.fromFactory(
-        bottomBarFactory: BartMaterialBottomBar.bottomBarFactory,
+      bottomBar: BartBottomBar.auto(
+        // bottomBarFactory: BartCupertinoBottomBar.bottomBarFactory,
       ),
     );
   }
