@@ -131,6 +131,16 @@ Default behavior is using material standart theme but you can create yours.<br/>
 Simply extends BartBottomBarFactory and create your own bottom bar like BartMaterialBottomBar. <br/>
 See code in library.
 
+You can use cupertino factory to display iOS style:
+```
+BartBottomBar.cupertino()
+```
+
+If you want to display iOS & material style according device, juste use adaptive factory:
+```
+BartBottomBar.adaptive()
+```
+
 ## Show an AppBar 
 You can show an AppBar or hide it whenever you want inside BartScaffold subPages. 
 > Appbar will automatically shows or hide with a smooth animation
