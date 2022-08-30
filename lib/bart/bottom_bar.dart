@@ -1,10 +1,11 @@
 import 'package:bart/bart/utils.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'bart_model.dart';
 import 'router_delegate.dart';
 
-typedef BottonBarTapAction = void Function(int index);
+typedef BottomBarTapAction = void Function(int index);
 
 typedef BartRouteBuilder = List<BartMenuRoute> Function();
 
@@ -15,6 +16,7 @@ class BartBottomBar extends StatefulWidget {
   final BottomNavigationBarType? type;
   final IconThemeData? iconThemeData;
   final double iconSize;
+  final bool enableHapticFeedback;
   final double selectedFontSize, unselectedFontSize;
 
   /// use [BartMaterialBottomBar.bottomBarFactory] by default but you can create your own
@@ -27,6 +29,7 @@ class BartBottomBar extends StatefulWidget {
     this.selectedItemColor,
     this.unselectedItemColor,
     this.type,
+    this.enableHapticFeedback = true,
     this.iconThemeData,
     this.selectedFontSize = 14.0,
     this.unselectedFontSize = 12.0,
@@ -40,6 +43,7 @@ class BartBottomBar extends StatefulWidget {
           Color? selectedItemColor,
           Color? unselectedItemColor,
           BottomNavigationBarType? type,
+          bool enableHapticFeedback = true,
           IconThemeData? iconThemeData,
           double selectedFontSize = 14.0,
           double unselectedFontSize = 12.0,
@@ -49,6 +53,7 @@ class BartBottomBar extends StatefulWidget {
         bottomBarFactory: BartMaterialBottomBar.bottomBarFactory,
         elevation: elevation,
         bgColor: bgColor,
+        enableHapticFeedback: enableHapticFeedback,
         selectedItemColor: selectedItemColor,
         unselectedItemColor: unselectedItemColor,
         type: type,
@@ -65,6 +70,7 @@ class BartBottomBar extends StatefulWidget {
           Color? bgColor,
           Color? selectedItemColor,
           Color? unselectedItemColor,
+          bool enableHapticFeedback = true,
           BottomNavigationBarType? type,
           IconThemeData? iconThemeData,
           double selectedFontSize = 14.0,
@@ -75,6 +81,7 @@ class BartBottomBar extends StatefulWidget {
         bottomBarFactory: bottomBarFactory,
         elevation: elevation,
         bgColor: bgColor,
+        enableHapticFeedback: enableHapticFeedback,
         selectedItemColor: selectedItemColor,
         unselectedItemColor: unselectedItemColor,
         type: type,
@@ -115,6 +122,9 @@ class BartBottomBarState extends State<BartBottomBar> {
         currentIndex: value,
         onTapAction: (index) {
           widget.currentIndex.value = index;
+          if (widget.enableHapticFeedback) {
+            HapticFeedback.selectionClick();
+          }
           routerDelegate.goPage(index);
         },
       ),
@@ -129,7 +139,7 @@ abstract class BartBottomBarFactory {
   @factory
   Widget create({
     required List<BartMenuRoute> routes,
-    required BottonBarTapAction onTapAction,
+    required BottomBarTapAction onTapAction,
     double? elevation,
     Color? bgColor,
     Color? selectedItemColor,
@@ -149,7 +159,7 @@ class _BartMaterialBottomBarFactory extends BartBottomBarFactory {
   @override
   Widget create({
     required List<BartMenuRoute> routes,
-    required BottonBarTapAction onTapAction,
+    required BottomBarTapAction onTapAction,
     double? elevation,
     Color? bgColor,
     Color? selectedItemColor,
@@ -180,7 +190,7 @@ class _BartMaterialBottomBarFactory extends BartBottomBarFactory {
 
 class BartMaterialBottomBar extends StatelessWidget {
   final List<BartMenuRoute> routes;
-  final BottonBarTapAction onTap;
+  final BottomBarTapAction onTap;
   final int currentIndex;
 
   final double? elevation;
