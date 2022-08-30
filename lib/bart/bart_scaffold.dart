@@ -2,7 +2,7 @@ import 'package:bart/bart/bart_appbar.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'animated_appbar.dart';
-import 'bottom_bar.dart';
+import 'bottom_bar/bottom_bar.dart';
 import 'router_delegate.dart';
 
 class BartScaffold extends StatelessWidget {

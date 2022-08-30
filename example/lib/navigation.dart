@@ -12,9 +12,9 @@ class MainPageMenu extends StatelessWidget {
     return BartScaffold(
       routesBuilder: routesBuilder,
       navigatorObservers: [routeObserver],
-      bottomBar: BartBottomBar.fromFactory(
-        bottomBarFactory: BartMaterialBottomBar.bottomBarFactory,
-      ),
+      bottomBar: BartBottomBar.adaptive(
+          // bottomBarFactory: BartCupertinoBottomBar.bottomBarFactory,
+          ),
     );
   }
 }
