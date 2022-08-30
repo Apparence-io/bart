@@ -1,3 +1,8 @@
+## [0.4.0]
+* add cupertino factory to match iOS syle
+* add adaptive factory to automatically switch depending on the device
+* add iOS example project
+
 ## [0.3.1]
 * upgrade android example project
 
