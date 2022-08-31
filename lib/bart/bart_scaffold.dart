@@ -1,4 +1,4 @@
-import 'package:bart/bart/animated_appbar.dart';
+import 'package:bart/bart/widgets/animated_appbar.dart';
 import 'package:bart/bart/bart_appbar.dart';
 import 'package:bart/bart/bart_model.dart';
 import 'package:bart/bart/utils.dart';
@@ -65,7 +65,6 @@ class _BartScaffoldState extends State<BartScaffold>
                   appBar: widget.appBarNotifier.value,
                   showStateNotifier: widget.showAppBarNotifier,
                 ),
-                // appBar: show ? widget.appBarNotifier.value : null,
                 backgroundColor: widget.scaffoldOptions?.backgroundColor,
                 floatingActionButton:
                     widget.scaffoldOptions?.floatingActionButton,

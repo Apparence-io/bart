@@ -1,7 +1,7 @@
 import 'package:bart/bart/utils.dart';
 import 'package:flutter/material.dart';
 
-import 'animated_appbar.dart';
+import 'widgets/animated_appbar.dart';
 
 /// Use this intent to provide a custom appBar within a child widget to the scaffold
 class AppBarBuildIntent extends Intent {

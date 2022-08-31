@@ -1,8 +1,8 @@
-import 'package:bart/bart/animated_appbar.dart';
+import 'package:bart/bart/widgets/animated_appbar.dart';
 import 'package:bart/bart/bart_appbar.dart';
 import 'package:bart/bart/bart_model.dart';
 import 'package:bart/bart/bart_scaffold.dart';
-import 'package:bart/bart/bottom_bar/bottom_bar.dart';
+import 'package:bart/bart/widgets/bottom_bar/bottom_bar.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter/material.dart';
 
@@ -186,7 +186,7 @@ void main() {
 
       BartBottomBar bottomBar =
           tester.firstWidget(find.byType(BartBottomBar)) as BartBottomBar;
-      expect(bottomBar.currentIndex.value, equals(0));
+      expect(bottomBar.currentIndex, equals(0));
 
       var libraryButton = find.byKey(const ValueKey('goToLibraryButton'));
       await tester.tap(libraryButton);
@@ -197,7 +197,7 @@ void main() {
 
       bottomBar =
           tester.firstWidget(find.byType(BartBottomBar)) as BartBottomBar;
-      expect(bottomBar.currentIndex.value, equals(1));
+      expect(bottomBar.currentIndex, equals(1));
     });
 
     testWidgets(

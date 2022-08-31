@@ -46,10 +46,6 @@ class HomePage extends StatelessWidget {
             onPressed: () {
               Actions.invoke(
                 context,
-                AppBarBuildIntent(null),
-              );
-              Actions.invoke(
-                context,
                 AppBarAnimationIntent.hide(),
               );
             },
