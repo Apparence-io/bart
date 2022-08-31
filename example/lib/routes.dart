@@ -52,7 +52,7 @@ List<BartMenuRoute> subRoutes() {
       transitionsBuilder: bottomBarTransition,
     ),
     BartMenuRoute.innerRoute(
-      path: '/subpage',
+      path: '/home/inner',
       pageBuilder: (parentContext, settings) => const PageFake(
         Colors.greenAccent,
         showAppBar: true,

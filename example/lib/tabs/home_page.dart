@@ -18,14 +18,6 @@ class HomePage extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           TextButton(
-            key: const ValueKey("subpageBtn"),
-            child: const Text(
-              "Route to page 2",
-              style: TextStyle(color: Colors.white),
-            ),
-            onPressed: () => Navigator.of(context).pushNamed("/subpage"),
-          ),
-          TextButton(
             child: const Text(
               "add app bar",
               style: TextStyle(color: Colors.white),
@@ -65,12 +57,20 @@ class HomePage extends StatelessWidget {
             },
           ),
           TextButton(
+            key: const ValueKey("subpageBtn"),
+            child: const Text(
+              "Go to inner page",
+              style: TextStyle(color: Colors.white),
+            ),
+            onPressed: () => Navigator.of(context).pushNamed("/home/inner"),
+          ),
+          TextButton(
             child: const Text(
               "Go to library",
               style: TextStyle(color: Colors.white),
             ),
             onPressed: () {
-              Navigator.of(parentContext).pushNamed("/library");
+              Navigator.of(context).pushNamed("/library");
             },
           ),
           TextButton(

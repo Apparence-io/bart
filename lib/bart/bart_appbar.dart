@@ -14,10 +14,10 @@ class AppBarBuildIntent extends Intent {
 
 /// you can change app bar within your page by calling once
 /// Actions.invoke(context, AppBarBuildIntent(AppBar(title: Text("title text"))));
-class BartAppbarAction extends Action<AppBarBuildIntent> {
+class BartAppBarAction extends Action<AppBarBuildIntent> {
   ValueNotifier<PreferredSizeWidget?> appbar;
 
-  BartAppbarAction(this.appbar);
+  BartAppBarAction(this.appbar);
 
   @override
   void invoke(covariant AppBarBuildIntent intent) {

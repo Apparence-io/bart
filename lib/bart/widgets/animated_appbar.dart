@@ -13,10 +13,10 @@ class AppBarAnimationIntent extends Intent {
 }
 
 /// se this action when using animated appBar to show/hide using [AppBarBuildIntent]
-class BartAnimatedAppbarAction extends Action<AppBarAnimationIntent> {
+class BartAnimatedAppBarAction extends Action<AppBarAnimationIntent> {
   ValueNotifier<bool> show;
 
-  BartAnimatedAppbarAction(this.show);
+  BartAnimatedAppBarAction(this.show);
 
   @override
   void invoke(covariant AppBarAnimationIntent intent) {

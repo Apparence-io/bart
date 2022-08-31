@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'package:bart/bart/bart_appbar.dart';
 import 'package:bart/bart/widgets/bottom_bar/bottom_bar.dart';
 import 'package:bart/bart/widgets/nested_navigator.dart';
 
@@ -8,17 +7,37 @@ import 'bart_model.dart';
 
 class MenuRouter extends InheritedWidget {
   final BartRouteBuilder routesBuilder;
-  GlobalKey<NavigatorState> navigationKey;
+  final GlobalKey<NavigatorState> navigationKey;
   final ValueNotifier<int> indexNotifier;
+  final ValueNotifier<BartMenuRouteType> routingTypeNotifier;
 
-  MenuRouter({
+  const MenuRouter({
     Key? key,
     String? initialRoute,
     required this.routesBuilder,
     required this.navigationKey,
     required this.indexNotifier,
+    required this.routingTypeNotifier,
     required Widget child,
   }) : super(key: key, child: child);
+
+  currentIndex(String path) {
+    final extractedPath = path.split('/')
+      ..removeWhere((element) => element.isEmpty);
+
+    String domain;
+    if (extractedPath.length > 1) {
+      domain = extractedPath.first;
+    } else {
+      domain = path;
+    }
+
+    return routesBuilder().indexWhere(
+      (element) => removePath(element.path) == removePath(domain),
+    );
+  }
+
+  removePath(String path) => path.replaceAll('/', '');
 
   static MenuRouter of(BuildContext context) =>
       context.dependOnInheritedWidgetOfExactType<MenuRouter>()!;
@@ -26,6 +45,13 @@ class MenuRouter extends InheritedWidget {
   @override
   bool updateShouldNotify(MenuRouter oldWidget) {
     return true;
+  }
+
+  BartMenuRoute currentRoute(String path) {
+    return routesBuilder().firstWhere(
+      (element) => element.path == path,
+      orElse: () => routesBuilder().first,
+    );
   }
 }
 
@@ -55,14 +81,24 @@ class _RouteAwareWidgetState extends State<RouteAwareWidget> with RouteAware {
     super.dispose();
   }
 
+  void refreshIndex() {
+    final index = MenuRouter.of(context).currentIndex(widget.route.path);
+    final route = MenuRouter.of(context).currentRoute(widget.route.path);
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      MenuRouter.of(context).indexNotifier.value = index;
+      MenuRouter.of(context).routingTypeNotifier.value = route.routingType;
+    });
+  }
+
   @override
   void didPush() {
-    print('didPush ${widget.route.path}');
+    refreshIndex();
   }
 
   @override
   void didPopNext() {
-    print('didPopNext ${widget.route.path}');
+    refreshIndex();
   }
 
   @override

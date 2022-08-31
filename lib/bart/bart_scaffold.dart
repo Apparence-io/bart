@@ -35,6 +35,7 @@ class _BartScaffoldState extends State<BartScaffold>
     with SingleTickerProviderStateMixin {
   final GlobalKey<NavigatorState> navigationKey = GlobalKey<NavigatorState>();
   final indexNotifier = ValueNotifier(0);
+  final routingTypeNotifier = ValueNotifier(BartMenuRouteType.bottomNavigation);
 
   List<BartMenuRoute> get routesBuilder => widget.routesBuilder();
   int get initialIndex {
@@ -51,11 +52,12 @@ class _BartScaffoldState extends State<BartScaffold>
       indexNotifier: indexNotifier,
       routesBuilder: widget.routesBuilder,
       navigationKey: navigationKey,
+      routingTypeNotifier: routingTypeNotifier,
       child: Actions(
         actions: <Type, Action<Intent>>{
-          AppBarBuildIntent: BartAppbarAction(widget.appBarNotifier),
+          AppBarBuildIntent: BartAppBarAction(widget.appBarNotifier),
           AppBarAnimationIntent:
-              BartAnimatedAppbarAction(widget.showAppBarNotifier),
+              BartAnimatedAppBarAction(widget.showAppBarNotifier),
         },
         child: AnimatedBuilder(
             animation: widget.appBarNotifier,

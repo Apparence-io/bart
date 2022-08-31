@@ -159,14 +159,17 @@ class BartBottomBar extends StatefulWidget {
 @visibleForTesting
 class BartBottomBarState extends State<BartBottomBar> {
   List<BartMenuRoute> get routes => MenuRouter.of(context).routesBuilder();
-  get currentIndexNotifier => MenuRouter.of(context).indexNotifier;
+  ValueNotifier<int> get currentIndexNotifier =>
+      MenuRouter.of(context).indexNotifier;
+  ValueNotifier<BartMenuRouteType> get currentRoutingTypeNotifier =>
+      MenuRouter.of(context).routingTypeNotifier;
 
   void onTap(int index) {
-    if (currentIndexNotifier.value == index) {
+    if (currentIndexNotifier.value == index &&
+        currentRoutingTypeNotifier.value ==
+            BartMenuRouteType.bottomNavigation) {
       return;
     }
-
-    currentIndexNotifier.value = index;
 
     if (widget.enableHapticFeedback) {
       HapticFeedback.selectionClick();
