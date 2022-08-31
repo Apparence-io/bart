@@ -80,8 +80,7 @@ class _BartScaffoldState extends State<BartScaffold>
                 onEndDrawerChanged: widget.scaffoldOptions?.onEndDrawerChanged,
                 bottomNavigationBar: widget.bottomBar,
                 bottomSheet: widget.scaffoldOptions?.bottomSheet,
-                extendBodyBehindAppBar:
-                    widget.scaffoldOptions?.extendBodyBehindAppBar ?? false,
+                extendBodyBehindAppBar: true, // TODO: use user preference
                 drawerEdgeDragWidth:
                     widget.scaffoldOptions?.drawerEdgeDragWidth,
                 drawerScrimColor: widget.scaffoldOptions?.drawerScrimColor,
