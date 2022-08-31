@@ -1,11 +1,13 @@
 import 'package:bart/bart/bart_appbar.dart';
+import 'package:bart/bart/bart_model.dart';
+import 'package:bart/bart/nested_navigator.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'animated_appbar.dart';
 import 'bottom_bar/bottom_bar.dart';
 import 'router_delegate.dart';
 
-class BartScaffold extends StatelessWidget {
+class BartScaffold extends StatefulWidget {
   final BartBottomBar bottomBar;
   final BartRouteBuilder routesBuilder;
   final String? initialRoute;
@@ -64,55 +66,114 @@ class BartScaffold extends StatelessWidget {
         super(key: key);
 
   @override
+  State<BartScaffold> createState() => _BartScaffoldState();
+}
+
+class _BartScaffoldState extends State<BartScaffold>
+    with SingleTickerProviderStateMixin {
+  late TabController _tabController;
+  final GlobalKey<NavigatorState> navigationKey = GlobalKey<NavigatorState>();
+
+  List<BartMenuRoute> get routesBuilder => widget.routesBuilder();
+  int get initialIndex {
+    final index = routesBuilder
+        .indexWhere((element) => element.path == widget.initialRoute);
+    return index == -1 ? 0 : index;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    _tabController = TabController(
+      length: routesBuilder.length,
+      initialIndex: initialIndex,
+      vsync: this,
+    );
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return MenuRouter(
-      routesBuilder: routesBuilder,
-      initialRoute: initialRoute,
-      navigatorObservers: navigatorObservers,
-      child: Actions(
-        actions: <Type, Action<Intent>>{
-          AppBarBuildIntent: BartAppbarAction(appBarNotifier),
-          AppBarAnimationIntent: BartAnimatedAppbarAction(showAppBarNotifier),
-          BottomBarIndexIntent: BartBottomBarIndexAction(bottomBar.currentIndex)
-        },
-        child: AnimatedBuilder(
-          animation: appBarNotifier,
-          builder: (ctx, child) => Scaffold(
-            key: key,
-            appBar: AnimatedAppBar(
-              appBar: appBarNotifier.value,
-              showStateNotifier: showAppBarNotifier,
+    return Scaffold(
+      body: Column(
+        children: [
+          Expanded(
+            child: NestedNavigator(
+              navigationKey: navigationKey,
+              initialRoute: '/library',
+              routes: routesBuilder,
+              // onGenerateRoute: widget.routesBuilder,
             ),
-            floatingActionButton: floatingActionButton,
-            floatingActionButtonLocation: floatingActionButtonLocation,
-            floatingActionButtonAnimator: floatingActionButtonAnimator,
-            persistentFooterButtons: persistentFooterButtons,
-            drawer: drawer,
-            onDrawerChanged: onDrawerChanged,
-            endDrawer: endDrawer,
-            onEndDrawerChanged: onEndDrawerChanged,
-            bottomSheet: bottomSheet,
-            backgroundColor: backgroundColor,
-            resizeToAvoidBottomInset: resizeToAvoidBottomInset,
-            primary: primary ?? true,
-            drawerDragStartBehavior:
-                drawerDragStartBehavior ?? DragStartBehavior.start,
-            extendBody: extendBody ?? false,
-            extendBodyBehindAppBar: true,
-            drawerScrimColor: drawerScrimColor,
-            drawerEdgeDragWidth: drawerEdgeDragWidth,
-            drawerEnableOpenDragGesture: drawerEnableOpenDragGesture ?? true,
-            endDrawerEnableOpenDragGesture:
-                endDrawerEnableOpenDragGesture ?? true,
-            restorationId: restorationId,
-            body: Router(
-              routerDelegate: MenuRouter.of(ctx).routerDelegate,
-            ),
-            bottomNavigationBar: bottomBar,
+            // child: TabBarView(
+            //   controller: _tabController,
+            //   physics: NeverScrollableScrollPhysics(),
+            //   children: routesBuilder.map((e) => e.pageBuilder()),
+            // ),
           ),
-          // ),
-        ),
+          TabBar(
+            controller: _tabController,
+            onTap: (value) {
+              Navigator.of(navigationKey.currentContext!).pushNamed(routesBuilder[value].path);
+            },
+            tabs: [
+              Tab(icon: Icon(Icons.directions_car)),
+              Tab(icon: Icon(Icons.directions_car)),
+              Tab(icon: Icon(Icons.directions_car)),
+              Tab(icon: Icon(Icons.directions_car)),
+              Tab(icon: Icon(Icons.directions_car)),
+            ],
+          ),
+        ],
       ),
     );
+    // return MenuRouter(
+    //   routesBuilder: widget.routesBuilder,
+    //   initialRoute: widget.initialRoute,
+    //   navigatorObservers: widget.navigatorObservers,
+    //   child: Actions(
+    //     actions: <Type, Action<Intent>>{
+    //       AppBarBuildIntent: BartAppbarAction(widget.appBarNotifier),
+    //       AppBarAnimationIntent: BartAnimatedAppbarAction(widget.showAppBarNotifier),
+    //       BottomBarIndexIntent: BartBottomBarIndexAction(widget.bottomBar.currentIndex)
+    //     },
+    //     child: AnimatedBuilder(
+    //       animation: widget.appBarNotifier,
+    //       builder: (ctx, child) => Scaffold(
+    //         key: widget.key,
+    //         appBar: AnimatedAppBar(
+    //           appBar: widget.appBarNotifier.value,
+    //           showStateNotifier: widget.showAppBarNotifier,
+    //         ),
+    //         floatingActionButton: widget.floatingActionButton,
+    //         floatingActionButtonLocation: widget.floatingActionButtonLocation,
+    //         floatingActionButtonAnimator: widget.floatingActionButtonAnimator,
+    //         persistentFooterButtons: widget.persistentFooterButtons,
+    //         drawer: widget.drawer,
+    //         onDrawerChanged: widget.onDrawerChanged,
+    //         endDrawer: widget.endDrawer,
+    //         onEndDrawerChanged: widget.onEndDrawerChanged,
+    //         bottomSheet: widget.bottomSheet,
+    //         backgroundColor: widget.backgroundColor,
+    //         resizeToAvoidBottomInset: widget.resizeToAvoidBottomInset,
+    //         primary: widget.primary ?? true,
+    //         drawerDragStartBehavior:
+    //             widget.drawerDragStartBehavior ?? DragStartBehavior.start,
+    //         extendBody: widget.extendBody ?? false,
+    //         extendBodyBehindAppBar: true,
+    //         drawerScrimColor: widget.drawerScrimColor,
+    //         drawerEdgeDragWidth: widget.drawerEdgeDragWidth,
+    //         drawerEnableOpenDragGesture: widget.drawerEnableOpenDragGesture ?? true,
+    //         endDrawerEnableOpenDragGesture:
+    //             widget.endDrawerEnableOpenDragGesture ?? true,
+    //         restorationId: widget.restorationId,
+    //         body: Router(
+    //           routerDelegate: MenuRouter.of(ctx).routerDelegate,
+    //         ),
+    //         bottomNavigationBar: widget.bottomBar,
+    //       ),
+    //       // ),
+    //     ),
+    //   ),
+    // );
   }
 }
