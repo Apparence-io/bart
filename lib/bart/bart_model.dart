@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 abstract class MenuRoutePath {}
@@ -70,4 +71,52 @@ class BartMenuRoute {
         transitionsBuilder: transitionsBuilder,
         transitionDuration: transitionDuration,
       );
+}
+
+class ScaffoldOptions {
+  final Key? key;
+  final Widget? floatingActionButton;
+  final FloatingActionButtonLocation? floatingActionButtonLocation;
+  final FloatingActionButtonAnimator? floatingActionButtonAnimator;
+  final List<Widget>? persistentFooterButtons;
+  final Widget? drawer;
+  final DrawerCallback? onDrawerChanged;
+  final Widget? endDrawer;
+  final DrawerCallback? onEndDrawerChanged;
+  final Widget? bottomSheet;
+  final Color? backgroundColor;
+  final bool? resizeToAvoidBottomInset;
+  final bool? primary;
+  final DragStartBehavior? drawerDragStartBehavior;
+  final bool? extendBody;
+  final Color? drawerScrimColor;
+  final double? drawerEdgeDragWidth;
+  final bool? drawerEnableOpenDragGesture;
+  final bool? endDrawerEnableOpenDragGesture;
+  final String? restorationId;
+  final bool? extendBodyBehindAppBar;
+
+  ScaffoldOptions({
+    this.key,
+    this.floatingActionButton,
+    this.floatingActionButtonLocation,
+    this.floatingActionButtonAnimator,
+    this.persistentFooterButtons,
+    this.drawer,
+    this.onDrawerChanged,
+    this.endDrawer,
+    this.onEndDrawerChanged,
+    this.bottomSheet,
+    this.backgroundColor,
+    this.resizeToAvoidBottomInset,
+    this.primary,
+    this.drawerDragStartBehavior,
+    this.extendBody,
+    this.drawerScrimColor,
+    this.drawerEdgeDragWidth,
+    this.drawerEnableOpenDragGesture,
+    this.endDrawerEnableOpenDragGesture,
+    this.restorationId,
+    this.extendBodyBehindAppBar,
+  });
 }

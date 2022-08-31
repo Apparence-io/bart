@@ -1,11 +1,9 @@
-import 'package:bart/bart/bart_appbar.dart';
 import 'package:bart/bart/bart_model.dart';
 import 'package:bart/bart/widgets/bottom_bar/bottom_bar.dart';
 import 'package:bart/bart/widgets/nested_navigator.dart';
 import 'package:bart/bart/router_delegate.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'animated_appbar.dart';
 
 class BartScaffold extends StatefulWidget {
   final BartBottomBar bottomBar;
@@ -15,26 +13,7 @@ class BartScaffold extends StatefulWidget {
   // appBar
   final ValueNotifier<PreferredSizeWidget?> appBarNotifier;
   final ValueNotifier<bool> showAppBarNotifier;
-  // scaffold items
-  final Widget? floatingActionButton;
-  final FloatingActionButtonLocation? floatingActionButtonLocation;
-  final FloatingActionButtonAnimator? floatingActionButtonAnimator;
-  final List<Widget>? persistentFooterButtons;
-  final Widget? drawer;
-  final DrawerCallback? onDrawerChanged;
-  final Widget? endDrawer;
-  final DrawerCallback? onEndDrawerChanged;
-  final Widget? bottomSheet;
-  final Color? backgroundColor;
-  final bool? resizeToAvoidBottomInset;
-  final bool? primary;
-  final DragStartBehavior? drawerDragStartBehavior;
-  final bool? extendBody;
-  final Color? drawerScrimColor;
-  final double? drawerEdgeDragWidth;
-  final bool? drawerEnableOpenDragGesture;
-  final bool? endDrawerEnableOpenDragGesture;
-  final String? restorationId;
+  final ScaffoldOptions? scaffoldOptions;
 
   BartScaffold({
     Key? key,
@@ -42,25 +21,7 @@ class BartScaffold extends StatefulWidget {
     required this.routesBuilder,
     this.initialRoute,
     this.navigatorObservers,
-    this.floatingActionButton,
-    this.floatingActionButtonLocation,
-    this.floatingActionButtonAnimator,
-    this.persistentFooterButtons,
-    this.drawer,
-    this.onDrawerChanged,
-    this.endDrawer,
-    this.onEndDrawerChanged,
-    this.bottomSheet,
-    this.backgroundColor,
-    this.resizeToAvoidBottomInset,
-    this.primary,
-    this.drawerDragStartBehavior,
-    this.extendBody,
-    this.drawerScrimColor,
-    this.drawerEdgeDragWidth,
-    this.drawerEnableOpenDragGesture,
-    this.endDrawerEnableOpenDragGesture,
-    this.restorationId,
+    this.scaffoldOptions,
   })  : appBarNotifier = ValueNotifier(null),
         showAppBarNotifier = ValueNotifier(false),
         super(key: key);
@@ -72,7 +33,6 @@ class BartScaffold extends StatefulWidget {
 class _BartScaffoldState extends State<BartScaffold>
     with SingleTickerProviderStateMixin, RouteAware {
   final GlobalKey<NavigatorState> navigationKey = GlobalKey<NavigatorState>();
-  // final RouteObserver<ModalRoute> routeObserver = RouteObserver<ModalRoute>();
   final indexNotifier = ValueNotifier(0);
 
   List<BartMenuRoute> get routesBuilder => widget.routesBuilder();
@@ -83,37 +43,46 @@ class _BartScaffoldState extends State<BartScaffold>
   }
 
   @override
-  void initState() {
-    super.initState();
-    indexNotifier.addListener(() {
-      print('dtes');
-      print(indexNotifier.value);
-    });
-    // WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-    //   routeObserver.subscribe(this, ModalRoute.of(navigationKey.currentContext!)!);
-    // });
-  }
-
-  @override
   Widget build(BuildContext context) {
-    // TODO: put this in a model
     return MenuRouter(
       indexNotifier: indexNotifier,
       routesBuilder: widget.routesBuilder,
       navigationKey: navigationKey,
       child: Scaffold(
-        body: Column(
-          children: [
-            Expanded(
-              child: NestedNavigator(
-                navigationKey: navigationKey,
-                routes: routesBuilder,
-                // navigatorObserver: routeObserver,
-                // onGenerateRoute: widget.routesBuilder,
-              ),
-            ),
-            widget.bottomBar
-          ],
+        backgroundColor: widget.scaffoldOptions?.backgroundColor,
+        floatingActionButton: widget.scaffoldOptions?.floatingActionButton,
+        floatingActionButtonLocation:
+            widget.scaffoldOptions?.floatingActionButtonLocation,
+        floatingActionButtonAnimator:
+            widget.scaffoldOptions?.floatingActionButtonAnimator,
+        persistentFooterButtons:
+            widget.scaffoldOptions?.persistentFooterButtons,
+        drawer: widget.scaffoldOptions?.drawer,
+        onDrawerChanged: widget.scaffoldOptions?.onDrawerChanged,
+        endDrawer: widget.scaffoldOptions?.endDrawer,
+        onEndDrawerChanged: widget.scaffoldOptions?.onEndDrawerChanged,
+        bottomNavigationBar: widget.bottomBar,
+        bottomSheet: widget.scaffoldOptions?.bottomSheet,
+        extendBodyBehindAppBar:
+            widget.scaffoldOptions?.extendBodyBehindAppBar ?? false,
+        drawerEdgeDragWidth: widget.scaffoldOptions?.drawerEdgeDragWidth,
+        drawerScrimColor: widget.scaffoldOptions?.drawerScrimColor,
+        drawerDragStartBehavior:
+            widget.scaffoldOptions?.drawerDragStartBehavior ??
+                DragStartBehavior.start,
+        primary: widget.scaffoldOptions?.primary ?? true,
+        drawerEnableOpenDragGesture:
+            widget.scaffoldOptions?.drawerEnableOpenDragGesture ?? true,
+        endDrawerEnableOpenDragGesture:
+            widget.scaffoldOptions?.endDrawerEnableOpenDragGesture ?? true,
+        extendBody: widget.scaffoldOptions?.extendBody ?? false,
+        resizeToAvoidBottomInset:
+            widget.scaffoldOptions?.resizeToAvoidBottomInset,
+        restorationId: widget.scaffoldOptions?.restorationId,
+        key: widget.scaffoldOptions?.key,
+        body: NestedNavigator(
+          navigationKey: navigationKey,
+          routes: routesBuilder,
         ),
       ),
     );
