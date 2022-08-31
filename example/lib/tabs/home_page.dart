@@ -46,6 +46,10 @@ class HomePage extends StatelessWidget {
             onPressed: () {
               Actions.invoke(
                 context,
+                AppBarBuildIntent(null),
+              );
+              Actions.invoke(
+                context,
                 AppBarAnimationIntent.hide(),
               );
             },
@@ -56,7 +60,7 @@ class HomePage extends StatelessWidget {
               style: TextStyle(color: Colors.white),
             ),
             onPressed: () {
-              Navigator.of(context).pushNamed("/library");
+              Navigator.of(context).pushNamed("library");
             },
           ),
           TextButton(
@@ -65,7 +69,7 @@ class HomePage extends StatelessWidget {
               style: TextStyle(color: Colors.white),
             ),
             onPressed: () {
-              Navigator.of(context).pushNamed("/profile");
+              Navigator.of(context).pushNamed("profile");
             },
           ),
           TextButton(
@@ -74,7 +78,7 @@ class HomePage extends StatelessWidget {
               style: TextStyle(color: Colors.white),
             ),
             onPressed: () {
-              Navigator.of(context).pushNamed("/counter");
+              Navigator.of(context).pushNamed("counter");
             },
           ),
         ],
