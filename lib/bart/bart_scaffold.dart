@@ -1,11 +1,12 @@
 import 'package:bart/bart/bart_appbar.dart';
 import 'package:bart/bart/bart_model.dart';
+import 'package:bart/bart/bottom_bar/styles/bottom_bar_material.dart';
 import 'package:bart/bart/nested_navigator.dart';
+import 'package:bart/bart/router_delegate.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'animated_appbar.dart';
 import 'bottom_bar/bottom_bar.dart';
-import 'router_delegate.dart';
 
 class BartScaffold extends StatefulWidget {
   final BartBottomBar bottomBar;
@@ -70,9 +71,10 @@ class BartScaffold extends StatefulWidget {
 }
 
 class _BartScaffoldState extends State<BartScaffold>
-    with SingleTickerProviderStateMixin {
-  late TabController _tabController;
+    with SingleTickerProviderStateMixin, RouteAware {
   final GlobalKey<NavigatorState> navigationKey = GlobalKey<NavigatorState>();
+  // final RouteObserver<ModalRoute> routeObserver = RouteObserver<ModalRoute>();
+  final indexNotifier = ValueNotifier(0);
 
   List<BartMenuRoute> get routesBuilder => widget.routesBuilder();
   int get initialIndex {
@@ -84,96 +86,37 @@ class _BartScaffoldState extends State<BartScaffold>
   @override
   void initState() {
     super.initState();
-
-    _tabController = TabController(
-      length: routesBuilder.length,
-      initialIndex: initialIndex,
-      vsync: this,
-    );
+    indexNotifier.addListener(() {
+      print('dtes');
+      print(indexNotifier.value);
+    });
+    // WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+    //   routeObserver.subscribe(this, ModalRoute.of(navigationKey.currentContext!)!);
+    // });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Column(
-        children: [
-          Expanded(
-            child: NestedNavigator(
-              navigationKey: navigationKey,
-              initialRoute: '/library',
-              routes: routesBuilder,
-              // onGenerateRoute: widget.routesBuilder,
+    // TODO: put this in a model
+    return MenuRouter(
+      indexNotifier: indexNotifier,
+      routesBuilder: widget.routesBuilder,
+      navigationKey: navigationKey,
+      child: Scaffold(
+        body: Column(
+          children: [
+            Expanded(
+              child: NestedNavigator(
+                navigationKey: navigationKey,
+                routes: routesBuilder,
+                // navigatorObserver: routeObserver,
+                // onGenerateRoute: widget.routesBuilder,
+              ),
             ),
-            // child: TabBarView(
-            //   controller: _tabController,
-            //   physics: NeverScrollableScrollPhysics(),
-            //   children: routesBuilder.map((e) => e.pageBuilder()),
-            // ),
-          ),
-          TabBar(
-            controller: _tabController,
-            onTap: (value) {
-              Navigator.of(navigationKey.currentContext!).pushNamed(routesBuilder[value].path);
-            },
-            tabs: [
-              Tab(icon: Icon(Icons.directions_car)),
-              Tab(icon: Icon(Icons.directions_car)),
-              Tab(icon: Icon(Icons.directions_car)),
-              Tab(icon: Icon(Icons.directions_car)),
-              Tab(icon: Icon(Icons.directions_car)),
-            ],
-          ),
-        ],
+            widget.bottomBar
+          ],
+        ),
       ),
     );
-    // return MenuRouter(
-    //   routesBuilder: widget.routesBuilder,
-    //   initialRoute: widget.initialRoute,
-    //   navigatorObservers: widget.navigatorObservers,
-    //   child: Actions(
-    //     actions: <Type, Action<Intent>>{
-    //       AppBarBuildIntent: BartAppbarAction(widget.appBarNotifier),
-    //       AppBarAnimationIntent: BartAnimatedAppbarAction(widget.showAppBarNotifier),
-    //       BottomBarIndexIntent: BartBottomBarIndexAction(widget.bottomBar.currentIndex)
-    //     },
-    //     child: AnimatedBuilder(
-    //       animation: widget.appBarNotifier,
-    //       builder: (ctx, child) => Scaffold(
-    //         key: widget.key,
-    //         appBar: AnimatedAppBar(
-    //           appBar: widget.appBarNotifier.value,
-    //           showStateNotifier: widget.showAppBarNotifier,
-    //         ),
-    //         floatingActionButton: widget.floatingActionButton,
-    //         floatingActionButtonLocation: widget.floatingActionButtonLocation,
-    //         floatingActionButtonAnimator: widget.floatingActionButtonAnimator,
-    //         persistentFooterButtons: widget.persistentFooterButtons,
-    //         drawer: widget.drawer,
-    //         onDrawerChanged: widget.onDrawerChanged,
-    //         endDrawer: widget.endDrawer,
-    //         onEndDrawerChanged: widget.onEndDrawerChanged,
-    //         bottomSheet: widget.bottomSheet,
-    //         backgroundColor: widget.backgroundColor,
-    //         resizeToAvoidBottomInset: widget.resizeToAvoidBottomInset,
-    //         primary: widget.primary ?? true,
-    //         drawerDragStartBehavior:
-    //             widget.drawerDragStartBehavior ?? DragStartBehavior.start,
-    //         extendBody: widget.extendBody ?? false,
-    //         extendBodyBehindAppBar: true,
-    //         drawerScrimColor: widget.drawerScrimColor,
-    //         drawerEdgeDragWidth: widget.drawerEdgeDragWidth,
-    //         drawerEnableOpenDragGesture: widget.drawerEnableOpenDragGesture ?? true,
-    //         endDrawerEnableOpenDragGesture:
-    //             widget.endDrawerEnableOpenDragGesture ?? true,
-    //         restorationId: widget.restorationId,
-    //         body: Router(
-    //           routerDelegate: MenuRouter.of(ctx).routerDelegate,
-    //         ),
-    //         bottomNavigationBar: widget.bottomBar,
-    //       ),
-    //       // ),
-    //     ),
-    //   ),
-    // );
   }
 }

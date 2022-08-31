@@ -3,14 +3,16 @@ import 'package:flutter/material.dart';
 
 class NestedNavigator extends StatelessWidget {
   final GlobalKey<NavigatorState> navigationKey;
-  final String initialRoute;
+  final NavigatorObserver? navigatorObserver;
+  final String? initialRoute;
   final List<BartMenuRoute> routes;
   final Function()? onWillPop;
 
   NestedNavigator({
     required this.navigationKey,
-    required this.initialRoute,
+    this.initialRoute,
     required this.routes,
+    this.navigatorObserver,
     this.onWillPop,
   });
 
@@ -20,6 +22,7 @@ class NestedNavigator extends StatelessWidget {
       child: Navigator(
         key: navigationKey,
         initialRoute: initialRoute,
+        observers: navigatorObserver != null ? [navigatorObserver!] : [],
         onGenerateRoute: (RouteSettings routeSettings) {
           final route = routes.firstWhere(
             (element) => element.path == routeSettings.name,
@@ -28,7 +31,8 @@ class NestedNavigator extends StatelessWidget {
           // TODO: routeSettings unused ???
           if (routeSettings.name == initialRoute) {
             return PageRouteBuilder(
-              pageBuilder: (context, __, ___) => route.pageBuilder(context, routeSettings),
+              pageBuilder: (context, __, ___) =>
+                  route.pageBuilder(context, routeSettings),
               settings: routeSettings,
             );
           } else {

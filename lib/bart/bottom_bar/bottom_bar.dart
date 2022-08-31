@@ -1,10 +1,8 @@
-import 'package:universal_io/io.dart';
-
 import 'package:bart/bart/bottom_bar/styles/bottom_bar_cupertino.dart';
 import 'package:bart/bart/bottom_bar/styles/bottom_bar_material.dart';
-import 'package:bart/bart/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:universal_io/io.dart';
 
 import '../bart_model.dart';
 import '../router_delegate.dart';
@@ -13,8 +11,10 @@ typedef BottomBarTapAction = void Function(int index);
 
 typedef BartRouteBuilder = List<BartMenuRoute> Function();
 
+enum Theme { material, cupertino, custom }
+
 class BartBottomBar extends StatefulWidget {
-  final ValueNotifier<int> currentIndex;
+  final int currentIndex;
   final double? elevation;
   final double? height;
   final Color? bgColor, selectedItemColor, unselectedItemColor;
@@ -23,12 +23,9 @@ class BartBottomBar extends StatefulWidget {
   final double iconSize;
   final bool enableHapticFeedback;
   final double selectedFontSize, unselectedFontSize;
-
-  /// use [BartMaterialBottomBar.bottomBarFactory] by default but you can create your own
-  final BartBottomBarFactory bottomBarFactory;
+  final Theme theme;
 
   const BartBottomBar._({
-    required this.bottomBarFactory,
     this.elevation,
     this.bgColor,
     this.selectedItemColor,
@@ -40,24 +37,25 @@ class BartBottomBar extends StatefulWidget {
     this.selectedFontSize = 14.0,
     this.unselectedFontSize = 12.0,
     this.iconSize = 24,
+    required this.theme,
     required this.currentIndex,
   });
 
-  factory BartBottomBar.material(
-          {double? elevation,
-          Color? bgColor,
-          Color? selectedItemColor,
-          Color? unselectedItemColor,
-          double? height,
-          BottomNavigationBarType? type,
-          bool enableHapticFeedback = true,
-          IconThemeData? iconThemeData,
-          double selectedFontSize = 14.0,
-          double unselectedFontSize = 12.0,
-          double iconSize = 24,
-          int index = 0}) =>
+  factory BartBottomBar.material({
+    double? elevation,
+    Color? bgColor,
+    Color? selectedItemColor,
+    Color? unselectedItemColor,
+    double? height,
+    BottomNavigationBarType? type,
+    bool enableHapticFeedback = true,
+    IconThemeData? iconThemeData,
+    double selectedFontSize = 14.0,
+    double unselectedFontSize = 12.0,
+    double iconSize = 24,
+    int index = 0,
+  }) =>
       BartBottomBar._(
-        bottomBarFactory: BartMaterialBottomBar.bottomBarFactory,
         elevation: elevation,
         bgColor: bgColor,
         enableHapticFeedback: enableHapticFeedback,
@@ -69,55 +67,47 @@ class BartBottomBar extends StatefulWidget {
         unselectedFontSize: unselectedFontSize,
         iconSize: iconSize,
         height: height,
-        currentIndex: ValueNotifier(index),
+        theme: Theme.material,
+        currentIndex: index,
       );
 
-  factory BartBottomBar.cupertino(
-          {double? elevation,
-          Color? bgColor,
-          Color? selectedItemColor,
-          Color? unselectedItemColor,
-          BottomNavigationBarType? type,
-          bool enableHapticFeedback = true,
-          IconThemeData? iconThemeData,
-          double selectedFontSize = 14.0,
-          double unselectedFontSize = 12.0,
-          double iconSize = 24,
-          double? height,
-          int index = 0}) =>
+  factory BartBottomBar.cupertino({
+    Color? bgColor,
+    Color? selectedItemColor,
+    Color? unselectedItemColor,
+    BottomNavigationBarType? type,
+    bool enableHapticFeedback = true,
+    double iconSize = 24,
+    double? height,
+    int index = 0,
+  }) =>
       BartBottomBar._(
-        bottomBarFactory: BartCupertinoBottomBar.bottomBarFactory,
-        elevation: elevation,
         bgColor: bgColor,
         enableHapticFeedback: enableHapticFeedback,
         selectedItemColor: selectedItemColor,
         unselectedItemColor: unselectedItemColor,
         type: type,
         height: height,
-        iconThemeData: iconThemeData,
-        selectedFontSize: selectedFontSize,
-        unselectedFontSize: unselectedFontSize,
         iconSize: iconSize,
-        currentIndex: ValueNotifier(index),
+        theme: Theme.cupertino,
+        currentIndex: index,
       );
 
-  factory BartBottomBar.adaptive(
-          {double? elevation,
-          Color? bgColor,
-          Color? selectedItemColor,
-          Color? unselectedItemColor,
-          BottomNavigationBarType? type,
-          bool enableHapticFeedback = true,
-          IconThemeData? iconThemeData,
-          double selectedFontSize = 14.0,
-          double unselectedFontSize = 12.0,
-          double iconSize = 24,
-          double? height,
-          int index = 0}) =>
+  factory BartBottomBar.adaptive({
+    double? elevation,
+    Color? bgColor,
+    Color? selectedItemColor,
+    Color? unselectedItemColor,
+    BottomNavigationBarType? type,
+    bool enableHapticFeedback = true,
+    IconThemeData? iconThemeData,
+    double selectedFontSize = 14.0,
+    double unselectedFontSize = 12.0,
+    double iconSize = 24,
+    double? height,
+    int index = 0,
+  }) =>
       BartBottomBar._(
-        bottomBarFactory: Platform.isIOS
-            ? BartCupertinoBottomBar.bottomBarFactory
-            : BartMaterialBottomBar.bottomBarFactory,
         elevation: elevation,
         bgColor: bgColor,
         height: height,
@@ -129,25 +119,25 @@ class BartBottomBar extends StatefulWidget {
         selectedFontSize: selectedFontSize,
         unselectedFontSize: unselectedFontSize,
         iconSize: iconSize,
-        currentIndex: ValueNotifier(index),
+        theme: Platform.isIOS ? Theme.cupertino : Theme.material,
+        currentIndex: index,
       );
 
-  factory BartBottomBar.fromFactory(
-          {required BartBottomBarFactory bottomBarFactory,
-          double? elevation,
-          Color? bgColor,
-          Color? selectedItemColor,
-          Color? unselectedItemColor,
-          double? height,
-          bool enableHapticFeedback = true,
-          BottomNavigationBarType? type,
-          IconThemeData? iconThemeData,
-          double selectedFontSize = 14.0,
-          double unselectedFontSize = 12.0,
-          double iconSize = 24,
-          int index = 0}) =>
+  factory BartBottomBar.fromFactory({
+    double? elevation,
+    Color? bgColor,
+    Color? selectedItemColor,
+    Color? unselectedItemColor,
+    double? height,
+    bool enableHapticFeedback = true,
+    BottomNavigationBarType? type,
+    IconThemeData? iconThemeData,
+    double selectedFontSize = 14.0,
+    double unselectedFontSize = 12.0,
+    double iconSize = 24,
+    int index = 0,
+  }) =>
       BartBottomBar._(
-        bottomBarFactory: bottomBarFactory,
         elevation: elevation,
         bgColor: bgColor,
         height: height,
@@ -159,7 +149,8 @@ class BartBottomBar extends StatefulWidget {
         selectedFontSize: selectedFontSize,
         unselectedFontSize: unselectedFontSize,
         iconSize: iconSize,
-        currentIndex: ValueNotifier(index),
+        theme: Theme.custom,
+        currentIndex: index,
       );
 
   @override
@@ -168,84 +159,81 @@ class BartBottomBar extends StatefulWidget {
 
 @visibleForTesting
 class BartBottomBarState extends State<BartBottomBar> {
-  List<BartMenuRoute> get routes =>
-      MenuRouter.of(context).routerDelegate.routes;
+  List<BartMenuRoute> get routes => MenuRouter.of(context).routesBuilder();
+  get currentIndexNotifier => MenuRouter.of(context).indexNotifier;
 
-  MenuRouterDelegate get routerDelegate =>
-      MenuRouter.of(context).routerDelegate;
+  void onTap(int index) {
+    if (currentIndexNotifier.value == index) {
+      return;
+    }
+
+    currentIndexNotifier.value = index;
+
+    if (widget.enableHapticFeedback) {
+      HapticFeedback.selectionClick();
+    }
+    final nestedContext = MenuRouter.of(context).navigationKey.currentContext;
+    if (nestedContext != null) {
+      Navigator.of(nestedContext).pushReplacementNamed(routes[index].path);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    return ValueListenableBuilder<int>(
-      valueListenable: widget.currentIndex,
-      builder: (ctx, value, child) => widget.bottomBarFactory.create(
-        routes: routes,
-        elevation: widget.elevation,
-        height: widget.height,
-        bgColor: widget.bgColor,
-        selectedItemColor: widget.selectedItemColor,
-        unselectedItemColor: widget.unselectedItemColor,
-        type: widget.type,
-        iconThemeData: widget.iconThemeData,
-        selectedFontSize: widget.selectedFontSize,
-        unselectedFontSize: widget.unselectedFontSize,
-        iconSize: widget.iconSize,
-        currentIndex: value,
-        onTapAction: (index) {
-          widget.currentIndex.value = index;
-          if (widget.enableHapticFeedback) {
-            HapticFeedback.selectionClick();
-          }
-          routerDelegate.goPage(index);
-        },
-      ),
+    return ValueListenableBuilder(
+      valueListenable: currentIndexNotifier,
+      builder: ((context, int index, child) {
+        Widget bottomBar;
+        switch (widget.theme) {
+          case Theme.cupertino:
+            bottomBar = BartCupertinoBottomBar(
+              routes: routes,
+              height: widget.height,
+              bgColor: widget.bgColor,
+              selectedItemColor: widget.selectedItemColor,
+              unselectedItemColor: widget.unselectedItemColor,
+              iconSize: widget.iconSize,
+              currentIndex: index,
+              onTap: onTap,
+            );
+            break;
+          case Theme.material:
+            bottomBar = BartMaterialBottomBar(
+              routes: routes,
+              elevation: widget.elevation,
+              height: widget.height,
+              bgColor: widget.bgColor,
+              selectedItemColor: widget.selectedItemColor,
+              unselectedItemColor: widget.unselectedItemColor,
+              type: widget.type,
+              iconThemeData: widget.iconThemeData,
+              selectedFontSize: widget.selectedFontSize,
+              unselectedFontSize: widget.unselectedFontSize,
+              iconSize: widget.iconSize,
+              currentIndex: index,
+              onTap: onTap,
+            );
+            break;
+          default:
+            // TODO: create a custom bottom bar
+            bottomBar = BartMaterialBottomBar(
+              routes: routes,
+              elevation: widget.elevation,
+              height: widget.height,
+              bgColor: widget.bgColor,
+              selectedItemColor: widget.selectedItemColor,
+              unselectedItemColor: widget.unselectedItemColor,
+              type: widget.type,
+              iconThemeData: widget.iconThemeData,
+              selectedFontSize: widget.selectedFontSize,
+              unselectedFontSize: widget.unselectedFontSize,
+              iconSize: widget.iconSize,
+              currentIndex: index,
+              onTap: onTap,
+            );
+        }
+        return bottomBar;
+      }),
     );
-  }
-}
-
-/// allows to create a bottom bar styled
-abstract class BartBottomBarFactory {
-  const BartBottomBarFactory();
-
-  // FIXME: remove this factory because some properties are only available
-  // for Cupertino or Material
-  @factory
-  Widget create({
-    required List<BartMenuRoute> routes,
-    required BottomBarTapAction onTapAction,
-    double? elevation,
-    Color? bgColor,
-    Border? border,
-    Color? selectedItemColor,
-    Color? unselectedItemColor,
-    BottomNavigationBarType? type,
-    IconThemeData? iconThemeData,
-    double? selectedFontSize,
-    double? unselectedFontSize,
-    required double iconSize,
-    required int currentIndex,
-    double? height,
-  });
-}
-
-/// Use this intent to change the current index
-class BottomBarIndexIntent extends Intent {
-  final int index;
-
-  const BottomBarIndexIntent(this.index);
-}
-
-/// you can change the current index by calling
-/// Actions.invoke(context, AppBarBuildIntent(AppBar(title: Text("title text"))));
-class BartBottomBarIndexAction extends Action<BottomBarIndexIntent> {
-  ValueNotifier<int> indexNotifier;
-
-  BartBottomBarIndexAction(this.indexNotifier);
-
-  @override
-  void invoke(covariant BottomBarIndexIntent intent) {
-    ambiguate(WidgetsBinding.instance)!.addPostFrameCallback((timeStamp) {
-      indexNotifier.value = intent.index;
-    });
   }
 }
