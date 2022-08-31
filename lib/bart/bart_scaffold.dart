@@ -103,7 +103,10 @@ class _BartScaffoldState extends State<BartScaffold>
                 body: NestedNavigator(
                   navigationKey: navigationKey,
                   routes: routesBuilder,
+                  initialRoute: widget.initialRoute,
                   navigatorObserver: routeObserver,
+                  appBarNotifier: widget.appBarNotifier,
+                  showAppBarNotifier: widget.showAppBarNotifier,
                   parentContext: context,
                 ),
               );

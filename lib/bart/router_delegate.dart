@@ -58,10 +58,14 @@ class MenuRouter extends InheritedWidget {
 class RouteAwareWidget extends StatefulWidget {
   final BartMenuRoute route;
   final Widget child;
+  final ValueNotifier<PreferredSizeWidget?> appBarNotifier;
+  final ValueNotifier<bool> showAppBarNotifier;
   const RouteAwareWidget({
     Key? key,
     required this.route,
     required this.child,
+    required this.appBarNotifier,
+    required this.showAppBarNotifier,
   }) : super(key: key);
 
   @override
@@ -88,6 +92,9 @@ class _RouteAwareWidgetState extends State<RouteAwareWidget> with RouteAware {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       MenuRouter.of(context).indexNotifier.value = index;
       MenuRouter.of(context).routingTypeNotifier.value = route.routingType;
+
+      widget.showAppBarNotifier.value = false;
+      widget.appBarNotifier.value = null;
     });
   }
 

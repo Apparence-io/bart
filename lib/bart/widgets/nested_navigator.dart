@@ -8,6 +8,8 @@ class NestedNavigator extends StatefulWidget {
   final BuildContext parentContext;
   final GlobalKey<NavigatorState> navigationKey;
   final RouteObserver<dynamic> navigatorObserver;
+  final ValueNotifier<PreferredSizeWidget?> appBarNotifier;
+  final ValueNotifier<bool> showAppBarNotifier;
   final String? initialRoute;
   final List<BartMenuRoute> routes;
   final Function()? onWillPop;
@@ -16,6 +18,8 @@ class NestedNavigator extends StatefulWidget {
     Key? key,
     required this.parentContext,
     required this.navigationKey,
+    required this.appBarNotifier,
+    required this.showAppBarNotifier,
     this.initialRoute,
     required this.routes,
     required this.navigatorObserver,
@@ -42,6 +46,8 @@ class _NestedNavigatorState extends State<NestedNavigator> {
 
           return MaterialPageRoute(
             builder: (context) => RouteAwareWidget(
+              appBarNotifier: widget.appBarNotifier,
+              showAppBarNotifier: widget.showAppBarNotifier,
               route: route,
               child: route.pageBuilder(
                 widget.parentContext,

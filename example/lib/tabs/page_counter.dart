@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 class PageFakeCounter extends StatefulWidget {
   final bool showAppBar;
 
-  PageFakeCounter({Key? key, this.showAppBar = false}) : super(key: key);
+  const PageFakeCounter({Key? key, this.showAppBar = false}) : super(key: key);
 
   @override
   PageFakeCounterState createState() => PageFakeCounterState();
