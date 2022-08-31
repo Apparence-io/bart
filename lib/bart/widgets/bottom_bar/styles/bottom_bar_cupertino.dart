@@ -1,5 +1,5 @@
 import 'package:bart/bart/bart_model.dart';
-import 'package:bart/bart/bottom_bar/bottom_bar.dart';
+import 'package:bart/bart/widgets/bottom_bar/bottom_bar.dart';
 import 'package:flutter/cupertino.dart';
 
 class BartCupertinoBottomBar extends StatelessWidget {

@@ -1,11 +1,10 @@
-import 'package:bart/bart/bottom_bar/styles/bottom_bar_cupertino.dart';
-import 'package:bart/bart/bottom_bar/styles/bottom_bar_material.dart';
+import 'package:bart/bart/bart_model.dart';
+import 'package:bart/bart/router_delegate.dart';
+import 'package:bart/bart/widgets/bottom_bar/styles/bottom_bar_cupertino.dart';
+import 'package:bart/bart/widgets/bottom_bar/styles/bottom_bar_material.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:universal_io/io.dart';
-
-import '../bart_model.dart';
-import '../router_delegate.dart';
 
 typedef BottomBarTapAction = void Function(int index);
 

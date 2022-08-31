@@ -1,8 +1,8 @@
 import 'package:bart/bart/bart_appbar.dart';
+import 'package:bart/bart/widgets/bottom_bar/bottom_bar.dart';
 import 'package:flutter/material.dart';
 
 import 'bart_model.dart';
-import 'bottom_bar/bottom_bar.dart';
 
 class MenuRouter extends InheritedWidget {
   final BartRouteBuilder routesBuilder;

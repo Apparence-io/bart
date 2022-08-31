@@ -1,12 +1,11 @@
 import 'package:bart/bart/bart_appbar.dart';
 import 'package:bart/bart/bart_model.dart';
-import 'package:bart/bart/bottom_bar/styles/bottom_bar_material.dart';
-import 'package:bart/bart/nested_navigator.dart';
+import 'package:bart/bart/widgets/bottom_bar/bottom_bar.dart';
+import 'package:bart/bart/widgets/nested_navigator.dart';
 import 'package:bart/bart/router_delegate.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'animated_appbar.dart';
-import 'bottom_bar/bottom_bar.dart';
 
 class BartScaffold extends StatefulWidget {
   final BartBottomBar bottomBar;
