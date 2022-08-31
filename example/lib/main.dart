@@ -16,7 +16,6 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       onGenerateRoute: routes,
-      navigatorObservers: [routeObserver],
       theme: ThemeData(
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
@@ -29,7 +28,17 @@ Route<dynamic> routes(RouteSettings settings) {
   switch (settings.name) {
     case '/':
       return MaterialPageRoute(
-          builder: (_) => const MainPageMenu(routesBuilder: subRoutes));
+        builder: (_) => const MainPageMenu(routesBuilder: subRoutes),
+      );
+    case '/parent':
+      return MaterialPageRoute(
+        builder: (_) => Scaffold(
+          appBar: AppBar(),
+          body: const Center(
+            child: Text('Parent'),
+          ),
+        ),
+      );
     default:
       throw 'unexpected Route';
   }

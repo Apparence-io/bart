@@ -1,54 +1,63 @@
 import 'package:bart/bart/bart_model.dart';
+import 'package:bart/bart/router_delegate.dart';
 import 'package:flutter/material.dart';
 
-class NestedNavigator extends StatelessWidget {
+final RouteObserver<dynamic> routeObserver = RouteObserver<PageRoute>();
+
+class NestedNavigator extends StatefulWidget {
+  final BuildContext parentContext;
   final GlobalKey<NavigatorState> navigationKey;
-  final NavigatorObserver? navigatorObserver;
+  final RouteObserver<dynamic> navigatorObserver;
   final String? initialRoute;
   final List<BartMenuRoute> routes;
   final Function()? onWillPop;
 
-  NestedNavigator({
+  const NestedNavigator({
+    Key? key,
+    required this.parentContext,
     required this.navigationKey,
     this.initialRoute,
     required this.routes,
-    this.navigatorObserver,
+    required this.navigatorObserver,
     this.onWillPop,
-  });
+  }) : super(key: key);
 
+  @override
+  State<NestedNavigator> createState() => _NestedNavigatorState();
+}
+
+class _NestedNavigatorState extends State<NestedNavigator> {
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
       child: Navigator(
-        key: navigationKey,
-        initialRoute: initialRoute,
-        observers: navigatorObserver != null ? [navigatorObserver!] : [],
+        key: widget.navigationKey,
+        initialRoute: widget.initialRoute,
+        observers: [routeObserver],
         onGenerateRoute: (RouteSettings routeSettings) {
-          final route = routes.firstWhere(
+          final route = widget.routes.firstWhere(
             (element) => element.path == routeSettings.name,
-            orElse: () => routes.first,
+            orElse: () => widget.routes.first,
           );
-          // TODO: routeSettings unused ???
-          if (routeSettings.name == initialRoute) {
-            return PageRouteBuilder(
-              pageBuilder: (context, __, ___) =>
-                  route.pageBuilder(context, routeSettings),
-              settings: routeSettings,
-            );
-          } else {
-            return MaterialPageRoute(
-              builder: (context) => route.pageBuilder(context, routeSettings),
-              settings: routeSettings,
-            );
-          }
+
+          return MaterialPageRoute(
+            builder: (context) => RouteAwareWidget(
+              route: route,
+              child: route.pageBuilder(
+                widget.parentContext,
+                routeSettings,
+              ),
+            ),
+            settings: routeSettings,
+          );
         },
       ),
       onWillPop: () {
-        if (this.onWillPop != null) {
-          this.onWillPop!();
+        if (widget.onWillPop != null) {
+          widget.onWillPop!();
         }
-        if (navigationKey.currentState!.canPop()) {
-          navigationKey.currentState!.pop();
+        if (widget.navigationKey.currentState!.canPop()) {
+          widget.navigationKey.currentState!.pop();
           return Future<bool>.value(false);
         }
         return Future<bool>.value(true);

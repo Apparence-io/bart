@@ -12,7 +12,6 @@ class BartScaffold extends StatefulWidget {
   final BartBottomBar bottomBar;
   final BartRouteBuilder routesBuilder;
   final String? initialRoute;
-  final List<NavigatorObserver>? navigatorObservers;
   // appBar
   final ValueNotifier<PreferredSizeWidget?> appBarNotifier;
   final ValueNotifier<bool> showAppBarNotifier;
@@ -23,7 +22,6 @@ class BartScaffold extends StatefulWidget {
     required this.bottomBar,
     required this.routesBuilder,
     this.initialRoute,
-    this.navigatorObservers,
     this.scaffoldOptions,
   })  : appBarNotifier = ValueNotifier(null),
         showAppBarNotifier = ValueNotifier(false),
@@ -34,7 +32,7 @@ class BartScaffold extends StatefulWidget {
 }
 
 class _BartScaffoldState extends State<BartScaffold>
-    with SingleTickerProviderStateMixin, RouteAware {
+    with SingleTickerProviderStateMixin {
   final GlobalKey<NavigatorState> navigationKey = GlobalKey<NavigatorState>();
   final indexNotifier = ValueNotifier(0);
 
@@ -44,6 +42,8 @@ class _BartScaffoldState extends State<BartScaffold>
         .indexWhere((element) => element.path == widget.initialRoute);
     return index == -1 ? 0 : index;
   }
+
+  final RouteObserver<PageRoute> routeObserver = RouteObserver<PageRoute>();
 
   @override
   Widget build(BuildContext context) {
@@ -101,6 +101,8 @@ class _BartScaffoldState extends State<BartScaffold>
                 body: NestedNavigator(
                   navigationKey: navigationKey,
                   routes: routesBuilder,
+                  navigatorObserver: routeObserver,
+                  parentContext: context,
                 ),
               );
             }),

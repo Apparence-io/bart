@@ -3,15 +3,11 @@ import 'package:example/tabs/page_counter.dart';
 import 'package:example/tabs/fake_list.dart';
 import 'package:flutter/material.dart';
 import 'tabs/home_page.dart';
-import 'route_observer.dart';
 import 'package:animations/animations.dart';
 
 import 'tabs/fake_page.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
-
-final CustomNavigatorObserver<PageRoute> routeObserver =
-    CustomNavigatorObserver<PageRoute>();
 
 Future appPushNamed(String route, {Object? arguments}) =>
     navigatorKey.currentState!.pushNamed(route, arguments: arguments);
@@ -21,28 +17,27 @@ List<BartMenuRoute> subRoutes() {
     BartMenuRoute.bottomBar(
       label: "Home",
       icon: Icons.home,
-      path: 'home',
-      pageBuilder: (context, settings) => const HomePage(),
+      path: '/home',
+      pageBuilder: (parentContext, settings) => HomePage(
+        parentContext: parentContext,
+      ),
       transitionDuration: bottomBarTransitionDuration,
       transitionsBuilder: bottomBarTransition,
     ),
     BartMenuRoute.bottomBar(
       label: "Library",
       icon: Icons.video_library_rounded,
-      path: 'library',
-      pageBuilder: (context, settings) => const FakeListPage(
-        key: PageStorageKey<String>("library"),
-      ),
+      path: '/library',
+      pageBuilder: (parentContext, settings) => const FakeListPage(),
       transitionDuration: bottomBarTransitionDuration,
       transitionsBuilder: bottomBarTransition,
     ),
     BartMenuRoute.bottomBar(
       label: "Profile",
       icon: Icons.person,
-      path: 'profile',
-      pageBuilder: (context, settings) => const PageFake(
+      path: '/profile',
+      pageBuilder: (parentContext, settings) => const PageFake(
         Colors.yellow,
-        key: PageStorageKey<String>("profile"),
       ),
       transitionDuration: bottomBarTransitionDuration,
       transitionsBuilder: bottomBarTransition,
@@ -50,16 +45,17 @@ List<BartMenuRoute> subRoutes() {
     BartMenuRoute.bottomBar(
       label: "Counter",
       icon: Icons.countertops,
-      path: 'counter',
-      pageBuilder: (context, settings) => PageFakeCounter(showAppBar: true),
+      path: '/counter',
+      pageBuilder: (parentContext, settings) =>
+          PageFakeCounter(showAppBar: true),
       transitionDuration: bottomBarTransitionDuration,
       transitionsBuilder: bottomBarTransition,
     ),
     BartMenuRoute.innerRoute(
-      path: 'subpage',
-      pageBuilder: (context, settings) => const PageFake(
+      path: '/subpage',
+      pageBuilder: (parentContext, settings) => const PageFake(
         Colors.greenAccent,
-        showAppbar: true,
+        showAppBar: true,
         child: Text("Sub Route page"),
       ),
     ),

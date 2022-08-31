@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 class PageFake extends StatelessWidget {
   final Color bgColor;
   final Widget? child;
-  final bool showAppbar;
+  final bool showAppBar;
 
   const PageFake(
     this.bgColor, {
     this.child,
     Key? key,
-    this.showAppbar = false,
+    this.showAppBar = false,
   }) : super(key: key);
 
   @override

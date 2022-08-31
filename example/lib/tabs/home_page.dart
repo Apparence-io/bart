@@ -1,9 +1,14 @@
-import 'package:bart/bart.dart';
 import 'package:example/tabs/fake_page.dart';
 import 'package:flutter/material.dart';
 
+import 'package:bart/bart.dart';
+
 class HomePage extends StatelessWidget {
-  const HomePage({Key? key}) : super(key: key);
+  final BuildContext parentContext;
+  const HomePage({
+    Key? key,
+    required this.parentContext,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -52,11 +57,20 @@ class HomePage extends StatelessWidget {
           ),
           TextButton(
             child: const Text(
+              "Go to parent page",
+              style: TextStyle(color: Colors.white),
+            ),
+            onPressed: () {
+              Navigator.of(parentContext).pushNamed("/parent");
+            },
+          ),
+          TextButton(
+            child: const Text(
               "Go to library",
               style: TextStyle(color: Colors.white),
             ),
             onPressed: () {
-              Navigator.of(context).pushNamed("library");
+              Navigator.of(parentContext).pushNamed("/library");
             },
           ),
           TextButton(
@@ -65,7 +79,7 @@ class HomePage extends StatelessWidget {
               style: TextStyle(color: Colors.white),
             ),
             onPressed: () {
-              Navigator.of(context).pushNamed("profile");
+              Navigator.of(context).pushNamed("/profile");
             },
           ),
           TextButton(
@@ -74,7 +88,7 @@ class HomePage extends StatelessWidget {
               style: TextStyle(color: Colors.white),
             ),
             onPressed: () {
-              Navigator.of(context).pushNamed("counter");
+              Navigator.of(context).pushNamed("/counter");
             },
           ),
         ],
