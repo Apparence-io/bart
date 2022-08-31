@@ -1,4 +1,7 @@
+import 'package:bart/bart/animated_appbar.dart';
+import 'package:bart/bart/bart_appbar.dart';
 import 'package:bart/bart/bart_model.dart';
+import 'package:bart/bart/utils.dart';
 import 'package:bart/bart/widgets/bottom_bar/bottom_bar.dart';
 import 'package:bart/bart/widgets/nested_navigator.dart';
 import 'package:bart/bart/router_delegate.dart';
@@ -48,43 +51,84 @@ class _BartScaffoldState extends State<BartScaffold>
       indexNotifier: indexNotifier,
       routesBuilder: widget.routesBuilder,
       navigationKey: navigationKey,
-      child: Scaffold(
-        backgroundColor: widget.scaffoldOptions?.backgroundColor,
-        floatingActionButton: widget.scaffoldOptions?.floatingActionButton,
-        floatingActionButtonLocation:
-            widget.scaffoldOptions?.floatingActionButtonLocation,
-        floatingActionButtonAnimator:
-            widget.scaffoldOptions?.floatingActionButtonAnimator,
-        persistentFooterButtons:
-            widget.scaffoldOptions?.persistentFooterButtons,
-        drawer: widget.scaffoldOptions?.drawer,
-        onDrawerChanged: widget.scaffoldOptions?.onDrawerChanged,
-        endDrawer: widget.scaffoldOptions?.endDrawer,
-        onEndDrawerChanged: widget.scaffoldOptions?.onEndDrawerChanged,
-        bottomNavigationBar: widget.bottomBar,
-        bottomSheet: widget.scaffoldOptions?.bottomSheet,
-        extendBodyBehindAppBar:
-            widget.scaffoldOptions?.extendBodyBehindAppBar ?? false,
-        drawerEdgeDragWidth: widget.scaffoldOptions?.drawerEdgeDragWidth,
-        drawerScrimColor: widget.scaffoldOptions?.drawerScrimColor,
-        drawerDragStartBehavior:
-            widget.scaffoldOptions?.drawerDragStartBehavior ??
-                DragStartBehavior.start,
-        primary: widget.scaffoldOptions?.primary ?? true,
-        drawerEnableOpenDragGesture:
-            widget.scaffoldOptions?.drawerEnableOpenDragGesture ?? true,
-        endDrawerEnableOpenDragGesture:
-            widget.scaffoldOptions?.endDrawerEnableOpenDragGesture ?? true,
-        extendBody: widget.scaffoldOptions?.extendBody ?? false,
-        resizeToAvoidBottomInset:
-            widget.scaffoldOptions?.resizeToAvoidBottomInset,
-        restorationId: widget.scaffoldOptions?.restorationId,
-        key: widget.scaffoldOptions?.key,
-        body: NestedNavigator(
-          navigationKey: navigationKey,
-          routes: routesBuilder,
-        ),
+      child: Actions(
+        actions: <Type, Action<Intent>>{
+          AppBarBuildIntent: BartAppbarAction(widget.appBarNotifier),
+          AppBarAnimationIntent:
+              BartAnimatedAppbarAction(widget.showAppBarNotifier),
+        },
+        child: AnimatedBuilder(
+            animation: widget.appBarNotifier,
+            builder: (context, child) {
+              return Scaffold(
+                appBar: AnimatedAppBar(
+                  appBar: widget.appBarNotifier.value,
+                  showStateNotifier: widget.showAppBarNotifier,
+                ),
+                // appBar: show ? widget.appBarNotifier.value : null,
+                backgroundColor: widget.scaffoldOptions?.backgroundColor,
+                floatingActionButton:
+                    widget.scaffoldOptions?.floatingActionButton,
+                floatingActionButtonLocation:
+                    widget.scaffoldOptions?.floatingActionButtonLocation,
+                floatingActionButtonAnimator:
+                    widget.scaffoldOptions?.floatingActionButtonAnimator,
+                persistentFooterButtons:
+                    widget.scaffoldOptions?.persistentFooterButtons,
+                drawer: widget.scaffoldOptions?.drawer,
+                onDrawerChanged: widget.scaffoldOptions?.onDrawerChanged,
+                endDrawer: widget.scaffoldOptions?.endDrawer,
+                onEndDrawerChanged: widget.scaffoldOptions?.onEndDrawerChanged,
+                bottomNavigationBar: widget.bottomBar,
+                bottomSheet: widget.scaffoldOptions?.bottomSheet,
+                extendBodyBehindAppBar:
+                    widget.scaffoldOptions?.extendBodyBehindAppBar ?? false,
+                drawerEdgeDragWidth:
+                    widget.scaffoldOptions?.drawerEdgeDragWidth,
+                drawerScrimColor: widget.scaffoldOptions?.drawerScrimColor,
+                drawerDragStartBehavior:
+                    widget.scaffoldOptions?.drawerDragStartBehavior ??
+                        DragStartBehavior.start,
+                primary: widget.scaffoldOptions?.primary ?? true,
+                drawerEnableOpenDragGesture:
+                    widget.scaffoldOptions?.drawerEnableOpenDragGesture ?? true,
+                endDrawerEnableOpenDragGesture:
+                    widget.scaffoldOptions?.endDrawerEnableOpenDragGesture ??
+                        true,
+                extendBody: widget.scaffoldOptions?.extendBody ?? false,
+                resizeToAvoidBottomInset:
+                    widget.scaffoldOptions?.resizeToAvoidBottomInset,
+                restorationId: widget.scaffoldOptions?.restorationId,
+                key: widget.scaffoldOptions?.key,
+                body: NestedNavigator(
+                  navigationKey: navigationKey,
+                  routes: routesBuilder,
+                ),
+              );
+            }),
       ),
     );
+  }
+}
+
+/// Use this intent to change the current index
+class BottomBarIndexIntent extends Intent {
+  final int index;
+
+  const BottomBarIndexIntent(this.index);
+}
+
+/// you can change the current index by calling
+/// Actions.invoke(context, AppBarBuildIntent(AppBar(title: Text("title text"))));
+class BartBottomBarIndexAction extends Action<BottomBarIndexIntent> {
+  ValueNotifier<int> indexNotifier;
+
+  BartBottomBarIndexAction(this.indexNotifier);
+
+  @override
+  void invoke(covariant BottomBarIndexIntent intent) {
+    ambiguate(WidgetsBinding.instance)!.addPostFrameCallback((timeStamp) {
+      indexNotifier.value = intent.index;
+    });
   }
 }
