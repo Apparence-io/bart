@@ -28,26 +28,28 @@ class BartAppBarAction extends Action<AppBarBuildIntent> {
 mixin AppBarNotifier {
   void updateAppBar(BuildContext context, PreferredSizeWidget? appBar) {
     _runWhenReady(
-        context, () => Actions.invoke(context, AppBarBuildIntent(appBar)));
+      context,
+      () => Actions.invoke(context, AppBarBuildIntent(appBar)),
+    );
   }
 
   void showAppBar(BuildContext context) {
     _runWhenReady(
-        context, () => Actions.invoke(context, AppBarAnimationIntent.show()));
+      context,
+      () => Actions.invoke(context, AppBarAnimationIntent.show()),
+    );
   }
 
   void hideAppBar(BuildContext context) {
     _runWhenReady(
-        context, () => Actions.invoke(context, AppBarAnimationIntent.hide()));
+      context,
+      () => Actions.invoke(context, AppBarAnimationIntent.hide()),
+    );
   }
 
   _runWhenReady(BuildContext context, Function onReady) {
-    if (context.debugDoingBuild) {
-      ambiguate(WidgetsBinding.instance)!.addPostFrameCallback((_) {
-        onReady();
-      });
-    } else {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       onReady();
-    }
+    });
   }
 }

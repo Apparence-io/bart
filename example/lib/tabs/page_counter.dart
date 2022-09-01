@@ -17,14 +17,15 @@ class PageFakeCounterState extends State<PageFakeCounter> with AppBarNotifier {
   @override
   void initState() {
     super.initState();
-  }
 
-  @override
-  Widget build(BuildContext context) {
     if (widget.showAppBar) {
       updateAppBar(context, AppBar(title: const Text("appbar")));
       showAppBar(context);
     }
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return ValueListenableBuilder(
       valueListenable: counterNotifier,
       builder: (context, counter, child) => Container(
