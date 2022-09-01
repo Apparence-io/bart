@@ -18,7 +18,7 @@ List<BartMenuRoute> subRoutes() {
       label: "Home",
       icon: Icons.home,
       path: '/home',
-      pageBuilder: (parentContext, settings) => HomePage(
+      pageBuilder: (parentContext, tabContext, settings) => HomePage(
         parentContext: parentContext,
       ),
       transitionDuration: bottomBarTransitionDuration,
@@ -28,7 +28,7 @@ List<BartMenuRoute> subRoutes() {
       label: "Library",
       icon: Icons.video_library_rounded,
       path: '/library',
-      pageBuilder: (parentContext, settings) => const FakeListPage(),
+      pageBuilder: (parentContext, tabContext, settings) => const FakeListPage(),
       transitionDuration: bottomBarTransitionDuration,
       transitionsBuilder: bottomBarTransition,
     ),
@@ -36,7 +36,7 @@ List<BartMenuRoute> subRoutes() {
       label: "Profile",
       icon: Icons.person,
       path: '/profile',
-      pageBuilder: (parentContext, settings) => const PageFake(
+      pageBuilder: (parentContext, tabContext, settings) => const PageFake(
         Colors.yellow,
       ),
       transitionDuration: bottomBarTransitionDuration,
@@ -46,14 +46,14 @@ List<BartMenuRoute> subRoutes() {
       label: "Counter",
       icon: Icons.countertops,
       path: '/counter',
-      pageBuilder: (parentContext, settings) =>
+      pageBuilder: (parentContext, tabContext, settings) =>
           PageFakeCounter(showAppBar: true),
       transitionDuration: bottomBarTransitionDuration,
       transitionsBuilder: bottomBarTransition,
     ),
     BartMenuRoute.innerRoute(
       path: '/home/inner',
-      pageBuilder: (parentContext, settings) => const PageFake(
+      pageBuilder: (parentContext, tabContext, settings) => const PageFake(
         Colors.greenAccent,
         showAppBar: true,
         child: Text("Sub Route page"),

@@ -3,6 +3,7 @@ import 'package:bart/bart/bart_appbar.dart';
 import 'package:bart/bart/bart_model.dart';
 import 'package:bart/bart/bart_scaffold.dart';
 import 'package:bart/bart/widgets/bottom_bar/bottom_bar.dart';
+import 'package:bart/bart/widgets/bottom_bar/styles/bottom_bar_material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter/material.dart';
 
@@ -17,7 +18,7 @@ void main() {
           label: "Home",
           icon: Icons.home,
           path: '/home',
-          pageBuilder: (context, settings) => PageFake(
+          pageBuilder: (context, tabContext, settings) => PageFake(
             Colors.red,
             key: const ValueKey("page1"),
             child: Column(
@@ -28,7 +29,8 @@ void main() {
                     "Route to page 2",
                     style: TextStyle(color: Colors.white),
                   ),
-                  onPressed: () => Navigator.of(context).pushNamed("/subpage"),
+                  onPressed: () =>
+                      Navigator.of(tabContext).pushNamed("/subpage"),
                 ),
                 TextButton(
                   key: const ValueKey("goToLibraryButton"),
@@ -36,7 +38,8 @@ void main() {
                     "Go to library",
                     style: TextStyle(color: Colors.white),
                   ),
-                  onPressed: () => Navigator.of(context).pushNamed("/library"),
+                  onPressed: () =>
+                      Navigator.of(tabContext).pushNamed("/library"),
                 ),
               ],
             ),
@@ -46,7 +49,7 @@ void main() {
           label: "Library",
           icon: Icons.video_library_rounded,
           path: '/library',
-          pageBuilder: (context, settings) => PageFake(
+          pageBuilder: (context, tabContext, settings) => PageFake(
             Colors.blueGrey,
             child: TextButton(
               key: const ValueKey("addAppBarBtn"),
@@ -56,11 +59,11 @@ void main() {
               ),
               onPressed: () {
                 Actions.invoke(
-                    context,
+                    tabContext,
                     AppBarBuildIntent(AppBar(
                       title: const Text("title text"),
                     )));
-                Actions.invoke(context, AppBarAnimationIntent.show());
+                Actions.invoke(tabContext, AppBarAnimationIntent.show());
               },
             ),
           ),
@@ -69,11 +72,12 @@ void main() {
           label: "Profile",
           icon: Icons.person,
           path: '/profile',
-          pageBuilder: (context, settings) => const PageFake(Colors.yellow),
+          pageBuilder: (context, tabContext, settings) =>
+              const PageFake(Colors.yellow),
         ),
         BartMenuRoute.innerRoute(
           path: '/subpage',
-          pageBuilder: (context, settings) =>
+          pageBuilder: (context, tabContext, settings) =>
               const PageFake(Colors.greenAccent, child: Text("Sub Route page")),
         ),
       ];
@@ -191,13 +195,13 @@ void main() {
       var libraryButton = find.byKey(const ValueKey('goToLibraryButton'));
       await tester.tap(libraryButton);
       await tester.pump(const Duration(seconds: 1));
-      var page1 = find.byType(PageFake).evaluate().last.widget as PageFake;
-      expect(find.byType(PageFake), findsNWidgets(2));
-      expect(page1.bgColor, Colors.blueGrey);
+      expect(find.text('add app bar'), findsOneWidget);
+      await tester.pumpAndSettle();
 
-      bottomBar =
-          tester.firstWidget(find.byType(BartBottomBar)) as BartBottomBar;
-      expect(bottomBar.currentIndex, equals(1));
+      expect(find.byType(BartBottomBar), findsOneWidget);
+      final materialBottomBar =
+          tester.firstWidget(find.byType(BartMaterialBottomBar)) as BartMaterialBottomBar;
+      expect(materialBottomBar.currentIndex, equals(1));
     });
 
     testWidgets(
@@ -224,24 +228,26 @@ void main() {
           label: "home",
           icon: Icons.person,
           path: '/home',
-          pageBuilder: (context, settings) => PageFakeCounter(showAppBar: true),
+          pageBuilder: (context, tabContext, settings) =>
+              PageFakeCounter(showAppBar: true),
         ),
         BartMenuRoute.bottomBar(
           label: "lib",
           icon: Icons.person,
           path: '/lib',
-          pageBuilder: (context, settings) => const PageFake(Colors.yellow),
+          pageBuilder: (context, tabContext, settings) =>
+              const PageFake(Colors.yellow),
         ),
         BartMenuRoute.bottomBar(
           label: "Profile",
           icon: Icons.person,
           path: '/profile',
           cache: false,
-          pageBuilder: (context, settings) => PageFakeCounter(),
+          pageBuilder: (context, tabContext, settings) => PageFakeCounter(),
         ),
         BartMenuRoute.innerRoute(
           path: '/subpage',
-          pageBuilder: (context, settings) =>
+          pageBuilder: (context, tabContext, settings) =>
               const PageFake(Colors.greenAccent, child: Text("Sub Route page")),
         ),
       ];
@@ -279,10 +285,16 @@ void main() {
         (WidgetTester tester) async {
       await tester.pumpWidget(_createApp(initialRoute: "/home"));
       await tester.pump();
-      await tester.pumpAndSettle(const Duration(milliseconds: 500));
-      await tester.pump(const Duration(milliseconds: 500));
 
       expect(find.byType(AppBar), findsOneWidget);
+    });
+
+    testWidgets('''bar is on tab 2, appbar is not visible''',
+        (WidgetTester tester) async {
+      await tester.pumpWidget(_createApp(initialRoute: "/lib"));
+      await tester.pump();
+
+      expect(find.byType(AppBar), findsNothing);
     });
 
     testWidgets(

@@ -7,6 +7,7 @@ enum BartMenuRouteType { bottomNavigation, subRoute }
 
 typedef BartPageBuilder = Widget Function(
   BuildContext parentContext,
+  BuildContext tabContext,
   RouteSettings? settings,
 );
 

@@ -51,6 +51,7 @@ class _NestedNavigatorState extends State<NestedNavigator> {
               route: route,
               child: route.pageBuilder(
                 widget.parentContext,
+                context,
                 routeSettings,
               ),
             ),
