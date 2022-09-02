@@ -19,6 +19,7 @@ List<BartMenuRoute> subRoutes() {
       icon: Icons.home,
       path: '/home',
       pageBuilder: (parentContext, tabContext, settings) => HomePage(
+        key: const PageStorageKey<String>("home"),
         parentContext: parentContext,
       ),
       transitionDuration: bottomBarTransitionDuration,
@@ -28,8 +29,9 @@ List<BartMenuRoute> subRoutes() {
       label: "Library",
       icon: Icons.video_library_rounded,
       path: '/library',
-      pageBuilder: (parentContext, tabContext, settings) =>
-          const FakeListPage(),
+      pageBuilder: (parentContext, tabContext, settings) => const FakeListPage(
+        key: PageStorageKey<String>("library"),
+      ),
       transitionDuration: bottomBarTransitionDuration,
       transitionsBuilder: bottomBarTransition,
     ),
@@ -38,6 +40,7 @@ List<BartMenuRoute> subRoutes() {
       icon: Icons.person,
       path: '/profile',
       pageBuilder: (parentContext, tabContext, settings) => const PageFake(
+        key: PageStorageKey<String>("profile"),
         Colors.yellow,
       ),
       transitionDuration: bottomBarTransitionDuration,
@@ -47,8 +50,8 @@ List<BartMenuRoute> subRoutes() {
       label: "Counter",
       icon: Icons.countertops,
       path: '/counter',
-      pageBuilder: (parentContext, tabContext, settings) =>
-          const PageFakeCounter(showAppBar: true),
+      pageBuilder: (parentContext, tabContext, settings) => PageFakeCounter(
+          key: const PageStorageKey<String>("counter"), showAppBar: true),
       transitionDuration: bottomBarTransitionDuration,
       transitionsBuilder: bottomBarTransition,
     ),

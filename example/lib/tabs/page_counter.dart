@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 
 class PageFakeCounter extends StatefulWidget {
   final bool showAppBar;
+  final ValueNotifier counterNotifier = ValueNotifier(0);
 
-  const PageFakeCounter({Key? key, this.showAppBar = false}) : super(key: key);
+  PageFakeCounter({Key? key, this.showAppBar = false}) : super(key: key);
 
   @override
   PageFakeCounterState createState() => PageFakeCounterState();
@@ -12,7 +13,6 @@ class PageFakeCounter extends StatefulWidget {
 
 @visibleForTesting
 class PageFakeCounterState extends State<PageFakeCounter> with AppBarNotifier {
-  final ValueNotifier counterNotifier = ValueNotifier(0);
 
   @override
   void initState() {
@@ -27,7 +27,7 @@ class PageFakeCounterState extends State<PageFakeCounter> with AppBarNotifier {
   @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder(
-      valueListenable: counterNotifier,
+      valueListenable: widget.counterNotifier,
       builder: (context, counter, child) => Container(
         color: Colors.white,
         child: Column(
@@ -41,7 +41,7 @@ class PageFakeCounterState extends State<PageFakeCounter> with AppBarNotifier {
               key: const ValueKey("addCountBtn"),
               onPressed: () {
                 setState(() {
-                  counterNotifier.value++;
+                  widget.counterNotifier.value++;
                 });
               },
               child: const Text("Add"),
