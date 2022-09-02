@@ -28,7 +28,8 @@ List<BartMenuRoute> subRoutes() {
       label: "Library",
       icon: Icons.video_library_rounded,
       path: '/library',
-      pageBuilder: (parentContext, tabContext, settings) => const FakeListPage(),
+      pageBuilder: (parentContext, tabContext, settings) =>
+          const FakeListPage(),
       transitionDuration: bottomBarTransitionDuration,
       transitionsBuilder: bottomBarTransition,
     ),

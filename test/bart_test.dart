@@ -200,7 +200,8 @@ void main() {
 
       expect(find.byType(BartBottomBar), findsOneWidget);
       final materialBottomBar =
-          tester.firstWidget(find.byType(BartMaterialBottomBar)) as BartMaterialBottomBar;
+          tester.firstWidget(find.byType(BartMaterialBottomBar))
+              as BartMaterialBottomBar;
       expect(materialBottomBar.currentIndex, equals(1));
     });
 

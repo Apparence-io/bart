@@ -55,5 +55,5 @@ class AnimatedAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Size get preferredSize =>
-      appBar == null  ? const Size(0, 0) : appBar!.preferredSize;
+      appBar == null ? const Size(0, 0) : appBar!.preferredSize;
 }
