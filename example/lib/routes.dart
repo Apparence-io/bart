@@ -79,4 +79,4 @@ Widget bottomBarTransition(
       child: child,
     );
 
-const bottomBarTransitionDuration = Duration(milliseconds: 500);
+const bottomBarTransitionDuration = Duration(milliseconds: 700);

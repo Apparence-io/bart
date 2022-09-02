@@ -92,9 +92,6 @@ class _RouteAwareWidgetState extends State<RouteAwareWidget> with RouteAware {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       MenuRouter.of(context).indexNotifier.value = index;
       MenuRouter.of(context).routingTypeNotifier.value = route.routingType;
-
-      widget.showAppBarNotifier.value = false;
-      widget.appBarNotifier.value = null;
     });
   }
 

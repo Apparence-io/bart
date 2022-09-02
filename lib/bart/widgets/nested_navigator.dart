@@ -1,3 +1,4 @@
+import 'package:bart/bart/bart_appbar.dart';
 import 'package:bart/bart/bart_model.dart';
 import 'package:bart/bart/router_delegate.dart';
 import 'package:flutter/material.dart';
@@ -30,7 +31,7 @@ class NestedNavigator extends StatefulWidget {
   State<NestedNavigator> createState() => _NestedNavigatorState();
 }
 
-class _NestedNavigatorState extends State<NestedNavigator> {
+class _NestedNavigatorState extends State<NestedNavigator> with AppBarNotifier {
   final Map<String, Widget> pageCache = {};
   final PageStorageBucket bucket = PageStorageBucket();
 
@@ -42,6 +43,9 @@ class _NestedNavigatorState extends State<NestedNavigator> {
         initialRoute: widget.initialRoute,
         observers: [routeObserver],
         onGenerateRoute: (RouteSettings routeSettings) {
+          Actions.invoke(context, AppBarBuildIntent.empty());
+          hideAppBar(context);
+          
           final route = widget.routes.firstWhere(
             (element) => element.path == routeSettings.name,
             orElse: () => widget.routes.first,
@@ -49,6 +53,10 @@ class _NestedNavigatorState extends State<NestedNavigator> {
 
           return PageRouteBuilder(
             maintainState: route.maintainState ?? true,
+            transitionDuration:
+                route.transitionDuration ?? const Duration(milliseconds: 300),
+            transitionsBuilder:
+                route.transitionsBuilder ?? (_, a, b, child) => child,
             pageBuilder: (context, __, ___) {
               if (route.cache) {
                 if (!pageCache.containsKey(route.path)) {
