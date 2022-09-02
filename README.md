@@ -27,14 +27,6 @@
 - 🚀 Create your **own bottom bar design** if you need it.
 - 🗃 **Cache** route page if you need to **restore state**.
 
-<!-- # **Bart** - A scaffold powered by Navigator2 
-<a href="https://en.apparence.io"><img src="https://github.com/Apparence-io/bart/raw/master/.github/img/logo.png" alt="Apparence.io logo"></a>
-<p><small>Developed with 💙 &nbsp;by Apparence.io</small></p>
-
-<p align="center">
-<img src="https://github.com/Apparence-io/bart/raw/master/.github/img/bart.gif" width="230" alt="Apparence.io logo">
-</p> -->
-
 ## 🧐&nbsp; Live example
 <p align="center">
   <img src="https://github.com/Apparence-io/bart/raw/master/.github/img/bart.gif" width="230" alt="Apparence.io logo">
@@ -209,3 +201,15 @@ BartMenuRoute.bottomBar(
   ),
 ),
 ```
+
+## 📣&nbsp; Sponsor
+<img src="https://github.com/Apparence-io/bart/raw/master/.github/img/logo.png" width="400" />
+<br />
+<br />
+
+[Initiated and sponsored by Apparence.io.](https://apparence.io)
+
+## 👥&nbsp; Contribution
+
+Contributions are welcome.
+Contribute by creating a PR or create an issue 🎉.
