@@ -31,6 +31,9 @@ class NestedNavigator extends StatefulWidget {
 }
 
 class _NestedNavigatorState extends State<NestedNavigator> {
+  final Map<String, Widget> pageCache = {};
+  final PageStorageBucket bucket = PageStorageBucket();
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -44,18 +47,40 @@ class _NestedNavigatorState extends State<NestedNavigator> {
             orElse: () => widget.routes.first,
           );
 
-          return MaterialPageRoute(
-            builder: (context) => RouteAwareWidget(
-              appBarNotifier: widget.appBarNotifier,
-              showAppBarNotifier: widget.showAppBarNotifier,
-              route: route,
-              child: route.pageBuilder(
-                widget.parentContext,
-                context,
-                routeSettings,
-              ),
-            ),
-            settings: routeSettings,
+          return PageRouteBuilder(
+            maintainState: route.maintainState ?? true,
+            pageBuilder: (context, __, ___) {
+              if (route.cache) {
+                if (!pageCache.containsKey(route.path)) {
+                  pageCache[route.path] = RouteAwareWidget(
+                    appBarNotifier: widget.appBarNotifier,
+                    showAppBarNotifier: widget.showAppBarNotifier,
+                    route: route,
+                    child: route.pageBuilder(
+                      widget.parentContext,
+                      context,
+                      routeSettings,
+                    ),
+                  );
+                }
+
+                return PageStorage(
+                  bucket: bucket,
+                  child: pageCache[route.path]!,
+                );
+              }
+
+              return RouteAwareWidget(
+                appBarNotifier: widget.appBarNotifier,
+                showAppBarNotifier: widget.showAppBarNotifier,
+                route: route,
+                child: route.pageBuilder(
+                  widget.parentContext,
+                  context,
+                  routeSettings,
+                ),
+              );
+            },
           );
         },
       ),
