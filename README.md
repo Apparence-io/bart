@@ -1,36 +1,60 @@
-<p align="center">
-<a href="https://github.com/Apparence-io/bart/actions"><img src="https://img.shields.io/github/workflow/status/Apparence-io/bart/main" alt="build"></a>
-<a href="https://codecov.io/gh/Apparence-io/bart"><img src="https://codecov.io/gh/Apparence-io/bart/branch/master/graph/badge.svg?token=W574M0EGAW"/></a>
-<a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/license-MIT-purple.svg" alt="License: MIT"></a>
-<a href="https://pub.dev/packages/bart"><img src="https://img.shields.io/pub/v/bart" alt="pub dev bart"></a>
-</p>
+<center>
+  <span style="font-size: 130px">Bart</span><br >
+  <span style="font-size: 20px">Scaffold tabulation system powered by Navigator</span>
+</center>
+<br><br>
 
-# **Bart** - A scaffold powered by Navigator2 
+<p align="center">
+  <a href="https://github.com/Apparence-io/bart/actions"><img src="https://img.shields.io/github/workflow/status/Apparence-io/bart/main" alt="build"></a>
+  <a href="https://codecov.io/gh/Apparence-io/bart"><img src="https://codecov.io/gh/Apparence-io/bart/branch/master/graph/badge.svg?token=W574M0EGAW"/></a>
+  <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/license-MIT-purple.svg" alt="License: MIT"></a>
+  <a href="https://pub.dev/packages/bart"><img src="https://img.shields.io/pub/v/bart" alt="pub dev bart"></a>
+</p>
+<br>
+<hr>
+<br>
+
+## 🚀&nbsp; Overview
+
+**Bart** is very simple solution to implement tabulation system layout with Navigator into your application.
+
+- 📱 **Material** & **Cupertino** themes available.
+- 🤝 Automatic theme **switching** between material & cupertino.
+- 🛣 **Inner** routing inside tab.
+- 🥷 **Parent** routing (over tabbar content).
+- 😌 **Very easy** to implement.
+- 🪄 Show **AppBar** on demand (automatically **animated**).
+- 🚀 Create your **own bottom bar design** if you need it.
+- 🗃 **Cache** route page if you need to **restore state**.
+
+<!-- # **Bart** - A scaffold powered by Navigator2 
 <a href="https://en.apparence.io"><img src="https://github.com/Apparence-io/bart/raw/master/.github/img/logo.png" alt="Apparence.io logo"></a>
 <p><small>Developed with 💙 &nbsp;by Apparence.io</small></p>
 
-## Tldr - features?
-* bottom navigation bar using sub router for switching tabs within the body
-* easy integration
-* show AppBar on demand within your nested routes (automatically animated)
-* basic material bottom bar factory
-* create your own bottom bar design if you need it
-* cache route page if you need to restore state
-
 <p align="center">
 <img src="https://github.com/Apparence-io/bart/raw/master/.github/img/bart.gif" width="230" alt="Apparence.io logo">
+</p> -->
+
+## 🧐&nbsp; Live example
+<p align="center">
+  <img src="https://github.com/Apparence-io/bart/raw/master/.github/img/bart.gif" width="230" alt="Apparence.io logo">
 </p>
 
-## Install 
-Add Bart in your pubspec and import it. 
+## 📖&nbsp; Installation
+
+### Install the package
+```sh
+flutter pub add bart
+```
+
+### Import the package
 ```dart
 import 'package:bart/bart.dart';
 ```
 
-## Get started 
+## 🚀&nbsp; Get started
 
-### Create your routes 
-
+- Define in your page the routing tab
 ```dart
 List<BartMenuRoute> subRoutes() {
   return [
@@ -38,7 +62,10 @@ List<BartMenuRoute> subRoutes() {
       label: "Home",
       icon: Icons.home,
       path: '/home',
-      pageBuilder: (context) => PageFake(Colors.red),
+      pageBuilder: (context) => PageFake(
+        key: PageStorageKey<String>("home"), // this is required to enable state caching
+        Colors.red,
+      ),
     ),
     BartMenuRoute.bottomBar(
       label: "Library",
@@ -52,7 +79,7 @@ List<BartMenuRoute> subRoutes() {
       path: '/profile',
       pageBuilder: (context) => PageFake(Colors.yellow),
     ),
-    BartMenuRoute.innerRoute(
+    BartMenuRoute.innerRoute( // add an inner route, no item will be added in bottom bar
       path: '/subpage',
       pageBuilder: (context) =>
           PageFake(Colors.greenAccent, child: Text("Sub Route page")),
@@ -61,91 +88,82 @@ List<BartMenuRoute> subRoutes() {
 }
 ```
 
-This creates a route with a bottom menu item
-```dart
-BartMenuRoute.bottomBar(...)
-```
+<details>
+  <summary>What are the differences between innerRoute & bottomBar ?</summary>
+  <p>
+  This creates a route with a bottom menu item:
 
-This creates a route that you can push within your scaffold body 
-```dart
-BartMenuRoute.innerRoute(...)
-```
+  ```dart
+  BartMenuRoute.bottomBar(...)
+  ```
 
-### Enable disable route caching
+  This creates a route that you can push within your scaffold body (no extra item will be added in bottom bar) 
+  ```dart
+  BartMenuRoute.innerRoute(...)
+  ```
+  </p>
+</details>
 
-#### Why?
-Imagine you got a page with a counter. You increment this counter and change tab. You want this tab to come back with the incremented counter? That's the reason why you need cache. 
-
-#### How
-**By default BartMenuRoute bottomBar factory is cached**. But you can override it.
-```dart
-BartMenuRoute.bottomBar(cache: true)
-```
-
-#### How to use it?
-1 - let cache as active
-2 - your tab pages must use a ```PageStorageKey```
-
-Example 
-```dart 
-BartMenuRoute.bottomBar(
-    label: "Library",
-    icon: Icons.video_library_rounded,
-    path: '/library',
-    cache: true,
-    pageBuilder: (context, settings) => PageFake(
-        Colors.blueGrey.shade100,
-        rebuildAfterDisposed: false,
-        key: PageStorageKey<String>("library"),
-    ),
-```
-
-
-**By default BartMenuRoute innerRoute factory is NOT cached**. But you can override it.
-```dart
-BartMenuRoute.bottomBar(cache: false)
-```
-
-## Create your page 
+- Create your main page which include the Bart tabbar Scaffold
 ```dart
 class MainPageMenu extends StatelessWidget {
-  final BartRouteBuilder routesBuilder;
-
-  const MainPageMenu({Key? key, required this.routesBuilder}) : super(key: key);
+  const MainPageMenu({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return BartScaffold(
-      routesBuilder: routesBuilder,
-      navigatorObservers: [routeObserver],
-      bottomBar: BartBottomBar.fromFactory(
-        bottomBarFactory: BartMaterialBottomBar.bottomBarFactory,
-      ),
+      routesBuilder: subRoutes, // add a reference to the subRoutes list you created before
+      bottomBar: BartBottomBar.adaptive(), // add the bottom bar (see below for other options)
     );
   }
 }
 ```
 
-## Customize your bottom bar
-Default behavior is using material standart theme but you can create yours.<br/>
-Simply extends BartBottomBarFactory and create your own bottom bar like BartMaterialBottomBar. <br/>
-See code in library.
+## 🏞&nbsp; Bottom bar themes
+Bart include 4 ways to display a bottom bar:
 
-You can use cupertino factory to display iOS style:
-```
-BartBottomBar.cupertino()
-```
-
-If you want to display iOS & material style according device, juste use adaptive factory:
-```
-BartBottomBar.adaptive()
+```dart
+BartBottomBar.cupertino() // iOS look.
+BartBottomBar.material() // Android look.
+BartBottomBar.adaptive() // automatically select between cupertino & material depending on the device.
+BartBottomBar.custom() // your how design
 ```
 
-## Show an AppBar 
-You can show an AppBar or hide it whenever you want inside BartScaffold subPages. 
-> Appbar will automatically shows or hide with a smooth animation
+To custom the bottom bar, simply extends ```BartBottomBarFactory``` and create your own bottom bar like ```BartMaterialBottomBar```. <br/>
 
-Using mixin method 
+## 🗃&nbsp; State caching
+
+### How it works 🤔 ?
+
+Imagine you got a page with a **counter**. You **increment** this counter and **change tab**. You want this tab to come back with the **incremented counter**?.
+
+Bart include a **caching system** to implement this feature.
+
+By **default** state caching is enabled. But you can override it:
+```dart
+BartMenuRoute.bottomBar(cache: false)
+```
+
+### How to use it 🤓 ?
+
+Your tab pages you want to be cached must use a ```PageStorageKey``` property:
+
+```dart 
+BartMenuRoute.bottomBar(
+  label: "Library",
+  icon: Icons.video_library_rounded,
+  path: '/library',
+  pageBuilder: (context, settings) => PageFake(
+    key: PageStorageKey<String>("library"), // add this property
+    child: Text('Cached page !'),
+  ),
+```
+
+## 🗃&nbsp; Show/Hide animated AppBar
+You can show an animated AppBar or hide it whenever you want inside all your **Bart** sub pages. 
+> AppBar will automatically shows or hide with a smooth animation
+
+Simply add the **AppBarNotifier** mixin like this:
 ```dart
 class MyPage extends StatelessWidget with AppBarNotifier {
   const MyPage({ Key? key }) : super(key: key);
@@ -160,22 +178,23 @@ class MyPage extends StatelessWidget with AppBarNotifier {
   }
 }
 ``` 
-Also you can hide AppBar with a smooth animation using this method from mixin (for example when user scroll down a list)
-```dart 
+
+To hide app bar, just execute this code inside your widget with **AppBarNotifier**
+```dart
 hideAppBar(context);
 ``` 
 
-or directly using Actions methods
+> You can also use **Actions** to performs AppBar related actions
 ```dart
 Actions.invoke(context, AppBarBuildIntent(AppBar(title: Text("title text"))));
 Actions.invoke(context,AppBarAnimationIntent.show());
 Actions.invoke(context,AppBarAnimationIntent.hide());
 ```
 
-## Handle transition
-You can use the official animation plugin to create better transition or create your owns. 
+## 💫&nbsp; Transitions between items
+You can use the official [**animation plugin**](https://pub.dev/packages/animations) to create better transition or create your owns. 
 
-Ex using animation package: 
+Example: 
 ```dart
 BartMenuRoute.bottomBar(
   label: "Library",
