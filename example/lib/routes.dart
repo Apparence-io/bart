@@ -5,8 +5,6 @@ import 'package:flutter/material.dart';
 import 'tabs/home_page.dart';
 import 'package:animations/animations.dart';
 
-import 'tabs/fake_page.dart';
-
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 Future appPushNamed(String route, {Object? arguments}) =>
@@ -39,10 +37,9 @@ List<BartMenuRoute> subRoutes() {
       label: "Profile",
       icon: Icons.person,
       path: '/profile',
-      pageBuilder: (parentContext, tabContext, settings) => const PageFake(
-        key: PageStorageKey<String>("profile"),
-        Colors.yellow,
-      ),
+      pageBuilder: (parentContext, tabContext, settings) => Container(
+          key: const PageStorageKey<String>("profile"),
+          child: const Center(child: Text('Profile page'))),
       transitionDuration: bottomBarTransitionDuration,
       transitionsBuilder: bottomBarTransition,
     ),
@@ -51,17 +48,16 @@ List<BartMenuRoute> subRoutes() {
       icon: Icons.countertops,
       path: '/counter',
       pageBuilder: (parentContext, tabContext, settings) => PageFakeCounter(
-          key: const PageStorageKey<String>("counter"), showAppBar: true),
+        key: const PageStorageKey<String>("counter"),
+        showAppBar: true,
+      ),
       transitionDuration: bottomBarTransitionDuration,
       transitionsBuilder: bottomBarTransition,
     ),
     BartMenuRoute.innerRoute(
       path: '/home/inner',
-      pageBuilder: (parentContext, tabContext, settings) => const PageFake(
-        Colors.greenAccent,
-        showAppBar: true,
-        child: Text("Sub Route page"),
-      ),
+      pageBuilder: (parentContext, tabContext, settings) =>
+          const Center(child: Text("Sub Route page")),
     ),
   ];
 }

@@ -1,9 +1,8 @@
-import 'package:example/tabs/fake_page.dart';
 import 'package:flutter/material.dart';
 
 import 'package:bart/bart.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatelessWidget with AppBarNotifier {
   final BuildContext parentContext;
   const HomePage({
     Key? key,
@@ -12,86 +11,67 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return PageFake(
-      Colors.red,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          TextButton(
-            child: const Text(
-              "add app bar",
-              style: TextStyle(color: Colors.white),
+    return Center(
+      child: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            TextButton(
+              child: const Text(
+                "Add AppBar",
+              ),
+              onPressed: () {
+                updateAppBar(
+                  context,
+                  AppBar(
+                    title: const Text("title text"),
+                  ),
+                );
+                showAppBar(context);
+              },
             ),
-            onPressed: () {
-              Actions.invoke(
-                context,
-                AppBarBuildIntent(AppBar(
-                  title: const Text("title text"),
-                )),
-              );
-              Actions.invoke(
-                context,
-                AppBarAnimationIntent.show(),
-              );
-            },
-          ),
-          TextButton(
-            child: const Text(
-              "hide app bar",
-              style: TextStyle(color: Colors.white),
+            TextButton(
+              child: const Text(
+                "Hide AppBar",
+              ),
+              onPressed: () => hideAppBar(context),
             ),
-            onPressed: () {
-              Actions.invoke(
-                context,
-                AppBarAnimationIntent.hide(),
-              );
-            },
-          ),
-          TextButton(
-            child: const Text(
-              "Go to parent page",
-              style: TextStyle(color: Colors.white),
+            const Divider(),
+            TextButton(
+              child: const Text(
+                "Open page over tabbar",
+              ),
+              onPressed: () => Navigator.of(parentContext).pushNamed("/parent"),
             ),
-            onPressed: () {
-              Navigator.of(parentContext).pushNamed("/parent");
-            },
-          ),
-          TextButton(
-            key: const ValueKey("subpageBtn"),
-            child: const Text(
-              "Go to inner page",
-              style: TextStyle(color: Colors.white),
+            const Divider(),
+            TextButton(
+              key: const ValueKey("subpageBtn"),
+              child: const Text(
+                "Go to inner page",
+              ),
+              onPressed: () => Navigator.of(context).pushNamed("/home/inner"),
             ),
-            onPressed: () => Navigator.of(context).pushNamed("/home/inner"),
-          ),
-          TextButton(
-            child: const Text(
-              "Go to library",
-              style: TextStyle(color: Colors.white),
+            const Divider(),
+            TextButton(
+              child: const Text(
+                "Go to library tab",
+              ),
+              onPressed: () => Navigator.of(context).pushNamed("/library"),
             ),
-            onPressed: () {
-              Navigator.of(context).pushNamed("/library");
-            },
-          ),
-          TextButton(
-            child: const Text(
-              "Go to profile",
-              style: TextStyle(color: Colors.white),
+            TextButton(
+              child: const Text(
+                "Go to profile tab",
+              ),
+              onPressed: () => Navigator.of(context).pushNamed("/profile"),
             ),
-            onPressed: () {
-              Navigator.of(context).pushNamed("/profile");
-            },
-          ),
-          TextButton(
-            child: const Text(
-              "Go to counter",
-              style: TextStyle(color: Colors.white),
+            TextButton(
+              child: const Text(
+                "Go to counter tab",
+              ),
+              onPressed: () => Navigator.of(context).pushNamed("/counter"),
             ),
-            onPressed: () {
-              Navigator.of(context).pushNamed("/counter");
-            },
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

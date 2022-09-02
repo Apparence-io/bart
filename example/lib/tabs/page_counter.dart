@@ -13,13 +13,12 @@ class PageFakeCounter extends StatefulWidget {
 
 @visibleForTesting
 class PageFakeCounterState extends State<PageFakeCounter> with AppBarNotifier {
-
   @override
   void initState() {
     super.initState();
 
     if (widget.showAppBar) {
-      updateAppBar(context, AppBar(title: const Text("appbar")));
+      updateAppBar(context, AppBar(title: const Text("Counter Tab Page")));
       showAppBar(context);
     }
   }
@@ -35,16 +34,18 @@ class PageFakeCounterState extends State<PageFakeCounter> with AppBarNotifier {
           children: [
             Text(
               "$counter",
+              style: const TextStyle(fontSize: 30.0),
               key: const ValueKey("counter"),
+            ),
+            const SizedBox(
+              height: 10,
             ),
             TextButton(
               key: const ValueKey("addCountBtn"),
               onPressed: () {
-                setState(() {
-                  widget.counterNotifier.value++;
-                });
+                widget.counterNotifier.value++;
               },
-              child: const Text("Add"),
+              child: const Text("Increment"),
             )
           ],
         ),
