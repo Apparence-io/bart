@@ -1,4 +1,3 @@
-import 'package:bart/bart/utils.dart';
 import 'package:flutter/material.dart';
 
 import 'widgets/animated_appbar.dart';

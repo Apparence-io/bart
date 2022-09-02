@@ -83,7 +83,7 @@ void main() {
       ];
     }
 
-    _createApp({String? initialRoute}) {
+    createApp({String? initialRoute}) {
       Route<dynamic> routes(RouteSettings settings) {
         switch (settings.name) {
           case '/':
@@ -113,7 +113,7 @@ void main() {
 
     testWidgets('create app with bart bottom bar containing 3 tabs',
         (WidgetTester tester) async {
-      await tester.pumpWidget(_createApp(initialRoute: "/home"));
+      await tester.pumpWidget(createApp(initialRoute: "/home"));
       await tester.pump();
       expect(find.byType(BartScaffold), findsOneWidget);
       expect(find.byType(BottomNavigationBar), findsOneWidget);
@@ -122,7 +122,7 @@ void main() {
 
     testWidgets('page has no app bar, click on add appbar => an appbar exists',
         (WidgetTester tester) async {
-      await tester.pumpWidget(_createApp(initialRoute: "/library"));
+      await tester.pumpWidget(createApp(initialRoute: "/library"));
       await tester.pump();
       expect(find.byType(AppBar), findsNothing);
       var btnFinder = find.byKey(const ValueKey("addAppBarBtn"));
@@ -135,7 +135,7 @@ void main() {
 
     testWidgets('click on add appbar, route to next page => appBar is reset',
         (WidgetTester tester) async {
-      await tester.pumpWidget(_createApp(initialRoute: "/library"));
+      await tester.pumpWidget(createApp(initialRoute: "/library"));
       await tester.pump();
       var appBar =
           find.byType(AnimatedAppBar).evaluate().first.widget as AnimatedAppBar;
@@ -155,14 +155,14 @@ void main() {
     });
 
     testWidgets('default tab is the first one', (WidgetTester tester) async {
-      await tester.pumpWidget(_createApp());
+      await tester.pumpWidget(createApp());
       var currentPage =
           find.byType(PageFake).evaluate().first.widget as PageFake;
       expect(currentPage.bgColor, Colors.red);
     });
 
     testWidgets('default tab is the second one', (WidgetTester tester) async {
-      await tester.pumpWidget(_createApp(initialRoute: "/library"));
+      await tester.pumpWidget(createApp(initialRoute: "/library"));
       var currentPage =
           find.byType(PageFake).evaluate().first.widget as PageFake;
       expect(currentPage.bgColor, Colors.blueGrey);
@@ -170,7 +170,7 @@ void main() {
 
     testWidgets('bar is on tab 1, click on tab 2 => tab 2 page is visible',
         (WidgetTester tester) async {
-      await tester.pumpWidget(_createApp(initialRoute: "/home"));
+      await tester.pumpWidget(createApp(initialRoute: "/home"));
       await tester.pump();
       expect(find.byType(PageFake), findsNWidgets(1));
       var item2 =
@@ -185,7 +185,7 @@ void main() {
     testWidgets(
         'bar is on tab 1 (home), click on library page button 2 => tab 2 page is visible and tab 2 icon is selected',
         (WidgetTester tester) async {
-      await tester.pumpWidget(_createApp(initialRoute: "/home"));
+      await tester.pumpWidget(createApp(initialRoute: "/home"));
       await tester.pump();
 
       BartBottomBar bottomBar =
@@ -208,7 +208,7 @@ void main() {
     testWidgets(
         'push a page => page is visible on top of tab, bottom navigation is still visible',
         (WidgetTester tester) async {
-      await tester.pumpWidget(_createApp(initialRoute: "/home"));
+      await tester.pumpWidget(createApp(initialRoute: "/home"));
       await tester.pump();
       var btnFinder = find.byKey(const ValueKey("subpageBtn"));
       expect(btnFinder, findsOneWidget);
@@ -254,7 +254,7 @@ void main() {
       ];
     }
 
-    _createApp({String? initialRoute}) {
+    createApp({String? initialRoute}) {
       Route<dynamic> routes(RouteSettings settings) {
         switch (settings.name) {
           case '/':
@@ -284,7 +284,7 @@ void main() {
 
     testWidgets('''bar is on tab 1, shows appBar using mixin''',
         (WidgetTester tester) async {
-      await tester.pumpWidget(_createApp(initialRoute: "/home"));
+      await tester.pumpWidget(createApp(initialRoute: "/home"));
       await tester.pump();
 
       expect(find.byType(AppBar), findsOneWidget);
@@ -292,7 +292,7 @@ void main() {
 
     testWidgets('''bar is on tab 2, appbar is not visible''',
         (WidgetTester tester) async {
-      await tester.pumpWidget(_createApp(initialRoute: "/lib"));
+      await tester.pumpWidget(createApp(initialRoute: "/lib"));
       await tester.pump();
 
       expect(find.byType(AppBar), findsNothing);
@@ -302,7 +302,7 @@ void main() {
         '''bar is on tab 1 with cache=true, click on button increment counter (counter 1 => 2), go tab 2 then tab 1
         => tab 1 is back with restored state (counter = 2)''',
         (WidgetTester tester) async {
-      await tester.pumpWidget(_createApp(initialRoute: "/home"));
+      await tester.pumpWidget(createApp(initialRoute: "/home"));
       await tester.pump();
       // tap button to change counter
       expect(find.text("1"), findsOneWidget);
@@ -333,7 +333,7 @@ void main() {
         '''bar is on tab 3 with cache=false, click on button increment counter (counter 1 => 2), go tab 2 then tab 3
         => tab 3 is back with initial state (counter = 1)''',
         (WidgetTester tester) async {
-      await tester.pumpWidget(_createApp(initialRoute: "/profile"));
+      await tester.pumpWidget(createApp(initialRoute: "/profile"));
       await tester.pump();
       // tap button to change counter
       expect(find.text("1"), findsOneWidget);

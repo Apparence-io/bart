@@ -48,7 +48,7 @@ List<BartMenuRoute> subRoutes() {
       icon: Icons.countertops,
       path: '/counter',
       pageBuilder: (parentContext, tabContext, settings) =>
-          PageFakeCounter(showAppBar: true),
+          const PageFakeCounter(showAppBar: true),
       transitionDuration: bottomBarTransitionDuration,
       transitionsBuilder: bottomBarTransition,
     ),
