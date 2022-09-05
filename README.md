@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://github.com/Apparence-io/bart/raw/master/.github/img/logo.jpg" alt="bart logo" height="220" />
+  <img src="https://github.com/Apparence-io/bart/raw/master/.github/img/logo.jpg" style="object-fit: contain;" alt="bart logo" height="220" />
 </p>
 <br><br>
 
@@ -28,7 +28,7 @@
 
 ## 🧐&nbsp; Live example
 <p align="center">
-  <img src="https://github.com/Apparence-io/bart/raw/master/.github/img/bart_new.gif" height="500" alt="Apparence.io logo">
+  <img src="https://github.com/Apparence-io/bart/raw/master/.github/img/bart_new.gif" style="object-fit: contain;"  height="500" alt="Apparence.io logo">
 </p>
 
 ## 📖&nbsp; Installation
