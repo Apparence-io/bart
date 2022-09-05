@@ -1,7 +1,6 @@
 import 'package:bart/bart/widgets/animated_appbar.dart';
 import 'package:bart/bart/bart_appbar.dart';
 import 'package:bart/bart/bart_model.dart';
-import 'package:bart/bart/utils.dart';
 import 'package:bart/bart/widgets/bottom_bar/bottom_bar.dart';
 import 'package:bart/bart/widgets/nested_navigator.dart';
 import 'package:bart/bart/router_delegate.dart';
@@ -121,19 +120,4 @@ class BottomBarIndexIntent extends Intent {
   final int index;
 
   const BottomBarIndexIntent(this.index);
-}
-
-/// you can change the current index by calling
-/// Actions.invoke(context, AppBarBuildIntent(AppBar(title: Text("title text"))));
-class BartBottomBarIndexAction extends Action<BottomBarIndexIntent> {
-  ValueNotifier<int> indexNotifier;
-
-  BartBottomBarIndexAction(this.indexNotifier);
-
-  @override
-  void invoke(covariant BottomBarIndexIntent intent) {
-    ambiguate(WidgetsBinding.instance)!.addPostFrameCallback((timeStamp) {
-      indexNotifier.value = intent.index;
-    });
-  }
 }
