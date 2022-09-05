@@ -1,3 +1,10 @@
+## [0.4.0]
+* enable hot reload
+* parent context is now available
+* will pop scope is now supported
+* nested route can be canceled by tapping on parent tab item
+* rework how Bart work to improve stability & performance
+
 ## [0.3.1]
 * upgrade android example project
 
