@@ -1,6 +1,5 @@
 <center>
-  <span style="font-size: 130px">Bart</span><br >
-  <span style="font-size: 20px">Scaffold tabulation system powered by Navigator</span>
+  <img src="https://github.com/Apparence-io/bart/raw/master/.github/img/logo.jpg" height="220" />
 </center>
 <br><br>
 
@@ -29,7 +28,7 @@
 
 ## 🧐&nbsp; Live example
 <p align="center">
-  <img src="https://github.com/Apparence-io/bart/raw/master/.github/img/bart.gif" width="230" alt="Apparence.io logo">
+  <img src="https://github.com/Apparence-io/bart/raw/master/.github/img/bart_new.gif" height="500" alt="Apparence.io logo">
 </p>
 
 ## 📖&nbsp; Installation
