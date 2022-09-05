@@ -29,7 +29,7 @@ class MenuRouter extends InheritedWidget {
     // this can be instable :/
     WidgetsBinding.instance.addPostFrameCallback((_) {
       indexNotifier.value = index;
-      routingTypeNotifier.value = route.routingType;
+      routingTypeNotifier.value = route.type;
     });
   }
 

@@ -42,7 +42,7 @@ class BartCupertinoBottomBar extends StatelessWidget {
 
   List<BottomNavigationBarItem> get routeWidgetList => routes
       .where((element) =>
-          element.routingType == BartMenuRouteType.bottomNavigation)
+          element.type == BartMenuRouteType.bottomNavigation)
       .map((route) => BottomNavigationBarItem(
             icon: Icon(route.icon),
             label: route.label,

@@ -19,7 +19,7 @@ class BartMenuRoute {
   RouteSettings settings;
   bool? maintainState;
   bool cache;
-  BartMenuRouteType routingType;
+  BartMenuRouteType type;
   final RouteTransitionsBuilder? transitionsBuilder;
   final Duration? transitionDuration;
 
@@ -29,7 +29,7 @@ class BartMenuRoute {
     required this.path,
     required this.pageBuilder,
     required this.settings,
-    required this.routingType,
+    required this.type,
     required this.cache,
     // ignore: unused_element
     this.maintainState,
@@ -51,7 +51,7 @@ class BartMenuRoute {
         icon: icon,
         path: path,
         cache: cache,
-        routingType: BartMenuRouteType.bottomNavigation,
+        type: BartMenuRouteType.bottomNavigation,
         pageBuilder: pageBuilder,
         settings: RouteSettings(name: path),
         transitionsBuilder: transitionsBuilder,
@@ -67,7 +67,7 @@ class BartMenuRoute {
   }) =>
       BartMenuRoute._(
         path: path,
-        routingType: BartMenuRouteType.subRoute,
+        type: BartMenuRouteType.subRoute,
         pageBuilder: pageBuilder,
         cache: cache,
         settings: RouteSettings(name: path),
