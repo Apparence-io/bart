@@ -111,6 +111,43 @@ void main() {
       );
     }
 
+    createAppCupertino({String? initialRoute}) {
+      Route<dynamic> routes(RouteSettings settings) {
+        switch (settings.name) {
+          case '/':
+            return MaterialPageRoute(
+              settings: settings,
+              builder: (context) => BartScaffold(
+                routesBuilder: homeSubRoutes,
+                initialRoute: initialRoute,
+                bottomBar: BartBottomBar.cupertino(),
+              ),
+              maintainState: true,
+            );
+          default:
+            throw 'unexpected Route';
+        }
+      }
+
+      return MaterialApp(
+        title: 'Flutter Demo',
+        onGenerateRoute: routes,
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+          visualDensity: VisualDensity.adaptivePlatformDensity,
+        ),
+      );
+    }
+
+    testWidgets('create app with bart bottom bar containing 3 tabs',
+        (WidgetTester tester) async {
+      await tester.pumpWidget(createApp(initialRoute: "/home"));
+      await tester.pump();
+      expect(find.byType(BartScaffold), findsOneWidget);
+      expect(find.byType(BottomNavigationBar), findsOneWidget);
+      expect(find.byType(InkResponse), findsNWidgets(3));
+    });
+
     testWidgets('create app with bart bottom bar containing 3 tabs',
         (WidgetTester tester) async {
       await tester.pumpWidget(createApp(initialRoute: "/home"));
@@ -161,8 +198,8 @@ void main() {
       expect(currentPage.bgColor, Colors.red);
     });
 
-    testWidgets('default tab is the second one', (WidgetTester tester) async {
-      await tester.pumpWidget(createApp(initialRoute: "/library"));
+    testWidgets('should create cupertino bottom bar', (WidgetTester tester) async {
+      await tester.pumpWidget(createAppCupertino(initialRoute: "/library"));
       var currentPage =
           find.byType(PageFake).evaluate().first.widget as PageFake;
       expect(currentPage.bgColor, Colors.blueGrey);
