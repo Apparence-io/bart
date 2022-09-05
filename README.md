@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://github.com/Apparence-io/bart/raw/master/.github/img/logo.jpg" height="220" />
+  <img src="https://github.com/Apparence-io/bart/raw/master/.github/img/logo.jpg" alt="bart logo" height="220" />
 </p>
 <br><br>
 
@@ -202,7 +202,7 @@ BartMenuRoute.bottomBar(
 ```
 
 ## 📣&nbsp; Sponsor
-<img src="https://github.com/Apparence-io/bart/raw/master/.github/img/logo.png" width="400" />
+<img src="https://github.com/Apparence-io/bart/raw/master/.github/img/apparence_logo.png" alt="apparence io" width="400" />
 <br />
 <br />
 
