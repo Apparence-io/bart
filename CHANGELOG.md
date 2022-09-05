@@ -1,4 +1,4 @@
-## [0.4.0]
+## [1.0.0]
 * enable hot reload
 * parent context is now available
 * will pop scope is now supported
