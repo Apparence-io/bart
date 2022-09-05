@@ -25,7 +25,9 @@ class MenuRouter extends InheritedWidget {
     final route = _currentRoute(path);
     final index = _currentIndex(path);
 
-    Future.delayed(Duration.zero, () async {
+    // FIXME: find a better way to not use addPostFrameCallback
+    // this can be instable :/
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       indexNotifier.value = index;
       routingTypeNotifier.value = route.routingType;
     });

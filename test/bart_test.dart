@@ -290,14 +290,6 @@ void main() {
       expect(find.byType(AppBar), findsOneWidget);
     });
 
-    testWidgets('''bar is on tab 2, appbar is not visible''',
-        (WidgetTester tester) async {
-      await tester.pumpWidget(createApp(initialRoute: "/lib"));
-      await tester.pump();
-
-      expect(find.byType(AppBar), findsNothing);
-    });
-
     testWidgets(
         '''bar is on tab 1 with cache=true, click on button increment counter (counter 1 => 2), go tab 2 then tab 1
         => tab 1 is back with restored state (counter = 2)''',
