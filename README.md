@@ -1,6 +1,6 @@
-<center>
+<p align="center">
   <img src="https://github.com/Apparence-io/bart/raw/master/.github/img/logo.jpg" height="220" />
-</center>
+</p>
 <br><br>
 
 <p align="center">
