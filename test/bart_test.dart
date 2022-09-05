@@ -198,7 +198,8 @@ void main() {
       expect(currentPage.bgColor, Colors.red);
     });
 
-    testWidgets('should create cupertino bottom bar', (WidgetTester tester) async {
+    testWidgets('should create cupertino bottom bar',
+        (WidgetTester tester) async {
       await tester.pumpWidget(createAppCupertino(initialRoute: "/library"));
       var currentPage =
           find.byType(PageFake).evaluate().first.widget as PageFake;
