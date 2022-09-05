@@ -21,7 +21,17 @@ class MenuRouter extends InheritedWidget {
     required Widget child,
   }) : super(key: key, child: child);
 
-  currentIndex(String path) {
+  void updateRoute(String path) {
+    final route = _currentRoute(path);
+    final index = _currentIndex(path);
+
+    Future.delayed(Duration.zero, () async {
+      indexNotifier.value = index;
+      routingTypeNotifier.value = route.routingType;
+    });
+  }
+
+  int _currentIndex(String path) {
     final extractedPath = path.split('/')
       ..removeWhere((element) => element.isEmpty);
 
@@ -37,7 +47,7 @@ class MenuRouter extends InheritedWidget {
     );
   }
 
-  removePath(String path) => path.replaceAll('/', '');
+  String removePath(String path) => path.replaceAll('/', '');
 
   static MenuRouter of(BuildContext context) =>
       context.dependOnInheritedWidgetOfExactType<MenuRouter>()!;
@@ -47,7 +57,7 @@ class MenuRouter extends InheritedWidget {
     return true;
   }
 
-  BartMenuRoute currentRoute(String path) {
+  BartMenuRoute _currentRoute(String path) {
     return routesBuilder().firstWhere(
       (element) => element.path == path,
       orElse: () => routesBuilder().first,
@@ -85,24 +95,14 @@ class _RouteAwareWidgetState extends State<RouteAwareWidget> with RouteAware {
     super.dispose();
   }
 
-  void refreshIndex() {
-    final index = MenuRouter.of(context).currentIndex(widget.route.path);
-    final route = MenuRouter.of(context).currentRoute(widget.route.path);
-
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      MenuRouter.of(context).indexNotifier.value = index;
-      MenuRouter.of(context).routingTypeNotifier.value = route.routingType;
-    });
-  }
-
   @override
   void didPush() {
-    refreshIndex();
+    MenuRouter.of(context).updateRoute(widget.route.path);
   }
 
   @override
   void didPopNext() {
-    refreshIndex();
+    MenuRouter.of(context).updateRoute(widget.route.path);
   }
 
   @override
