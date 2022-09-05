@@ -45,7 +45,7 @@ class _NestedNavigatorState extends State<NestedNavigator> with AppBarNotifier {
         onGenerateRoute: (RouteSettings routeSettings) {
           Actions.invoke(context, AppBarBuildIntent.empty());
           hideAppBar(context);
-          
+
           final route = widget.routes.firstWhere(
             (element) => element.path == routeSettings.name,
             orElse: () => widget.routes.first,
