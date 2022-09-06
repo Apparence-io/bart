@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://github.com/Apparence-io/bart/raw/master/.github/img/logo.jpg" alt="bart logo" width="473" height="220" />
+  <img src="https://github.com/Apparence-io/bart/raw/master/.github/img/logo.jpg" alt="bart logo" />
 </p>
 <br><br>
 
@@ -28,7 +28,7 @@
 
 ## 🧐&nbsp; Live example
 <p align="center">
-  <img src="https://github.com/Apparence-io/bart/raw/master/.github/img/bart_new.gif" width="889"  height="500" alt="Bart example">
+  <img src="https://github.com/Apparence-io/bart/raw/master/.github/img/bart_new.gif" alt="Bart example">
 </p>
 
 ## 📖&nbsp; Installation
@@ -202,7 +202,7 @@ BartMenuRoute.bottomBar(
 ```
 
 ## 📣&nbsp; Sponsor
-<img src="https://github.com/Apparence-io/bart/raw/master/.github/img/apparence_logo.png" alt="logo apparence io" height="58" width="400" />
+<img src="https://github.com/Apparence-io/bart/raw/master/.github/img/apparence_logo.png" alt="logo apparence io" />
 <br />
 <br />
 
