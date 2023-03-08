@@ -123,3 +123,100 @@ class ScaffoldOptions {
     this.extendBodyBehindAppBar,
   });
 }
+
+@immutable
+class BartBottomBarTheme {
+  final Color? bgColor, selectedItemColor, unselectedItemColor;
+  final BottomNavigationBarType? type;
+  final IconThemeData? iconThemeData;
+  final double? height, elevation;
+  final double selectedFontSize, unselectedFontSize, iconSize;
+  final Border? border;
+
+  const BartBottomBarTheme._({
+    this.bgColor,
+    this.selectedItemColor,
+    this.unselectedItemColor,
+    this.type,
+    this.iconThemeData,
+    this.elevation,
+    this.height,
+    this.border,
+    this.iconSize = 24,
+    this.selectedFontSize = 14.0,
+    this.unselectedFontSize = 12.0,
+  });
+
+  factory BartBottomBarTheme.material2({
+    Color? bgColor,
+    Color? selectedItemColor,
+    Color? unselectedItemColor,
+    double? height,
+    BottomNavigationBarType? type,
+    IconThemeData? iconThemeData,
+    double selectedFontSize = 14.0,
+    double unselectedFontSize = 12.0,
+    double iconSize = 24,
+    double? elevation,
+  }) {
+    return BartBottomBarTheme._(
+      bgColor: bgColor,
+      selectedItemColor: selectedItemColor,
+      unselectedItemColor: unselectedItemColor,
+      type: type,
+      elevation: elevation,
+      iconThemeData: iconThemeData,
+      height: height,
+      iconSize: iconSize,
+      selectedFontSize: selectedFontSize,
+      unselectedFontSize: unselectedFontSize,
+    );
+  }
+
+  factory BartBottomBarTheme.cupertino({
+    Color? bgColor,
+    Color? selectedItemColor,
+    Color? unselectedItemColor,
+    BottomNavigationBarType? type,
+    double iconSize = 24,
+    double? height,
+    Border? border,
+    int index = 0,
+  }) {
+    return BartBottomBarTheme._(
+      bgColor: bgColor,
+      selectedItemColor: selectedItemColor,
+      unselectedItemColor: unselectedItemColor,
+      type: type,
+      height: height,
+      iconSize: iconSize,
+      border: border,
+    );
+  }
+
+  BartBottomBarTheme copyWith({
+    Color? bgColor,
+    Color? selectedItemColor,
+    Color? unselectedItemColor,
+    BottomNavigationBarType? type,
+    IconThemeData? iconThemeData,
+    double? height,
+    double? iconSize,
+    double? elevation,
+    double? selectedFontSize,
+    double? unselectedFontSize,
+  }) {
+    return BartBottomBarTheme._(
+      bgColor: bgColor ?? this.bgColor,
+      selectedItemColor: selectedItemColor ?? this.selectedItemColor,
+      unselectedItemColor: unselectedItemColor ?? this.unselectedItemColor,
+      type: type ?? this.type,
+      iconThemeData: iconThemeData ?? this.iconThemeData,
+      height: height ?? this.height,
+      iconSize: iconSize ?? this.iconSize,
+      elevation: elevation ?? this.elevation,
+      selectedFontSize: selectedFontSize ?? this.selectedFontSize,
+      unselectedFontSize: unselectedFontSize ?? this.unselectedFontSize,
+    );
+  }
+}

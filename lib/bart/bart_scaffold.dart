@@ -1,9 +1,9 @@
-import 'package:bart/bart/widgets/animated_appbar.dart';
 import 'package:bart/bart/bart_appbar.dart';
 import 'package:bart/bart/bart_model.dart';
+import 'package:bart/bart/router_delegate.dart';
+import 'package:bart/bart/widgets/animated_appbar.dart';
 import 'package:bart/bart/widgets/bottom_bar/bottom_bar.dart';
 import 'package:bart/bart/widgets/nested_navigator.dart';
-import 'package:bart/bart/router_delegate.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
@@ -81,7 +81,8 @@ class _BartScaffoldState extends State<BartScaffold>
                 onEndDrawerChanged: widget.scaffoldOptions?.onEndDrawerChanged,
                 bottomNavigationBar: widget.bottomBar,
                 bottomSheet: widget.scaffoldOptions?.bottomSheet,
-                extendBodyBehindAppBar: true, // TODO: use user preference
+                extendBodyBehindAppBar:
+                    widget.scaffoldOptions?.extendBodyBehindAppBar ?? true,
                 drawerEdgeDragWidth:
                     widget.scaffoldOptions?.drawerEdgeDragWidth,
                 drawerScrimColor: widget.scaffoldOptions?.drawerScrimColor,
