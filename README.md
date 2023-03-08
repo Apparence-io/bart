@@ -27,6 +27,7 @@
 - 🗃 **Cache** route page if you need to **restore state**.
 
 ## 🧐&nbsp; Live example
+
 <p align="center">
   <img src="https://github.com/Apparence-io/bart/raw/master/.github/img/bart_new.gif" alt="Bart example">
 </p>
@@ -34,11 +35,13 @@
 ## 📖&nbsp; Installation
 
 ### Install the package
+
 ```sh
 flutter pub add bart
 ```
 
 ### Import the package
+
 ```dart
 import 'package:bart/bart.dart';
 ```
@@ -46,6 +49,7 @@ import 'package:bart/bart.dart';
 ## 🚀&nbsp; Get started
 
 - Define in your page the routing tab
+
 ```dart
 List<BartMenuRoute> subRoutes() {
   return [
@@ -84,18 +88,21 @@ List<BartMenuRoute> subRoutes() {
   <p>
   This creates a route with a bottom menu item:
 
-  ```dart
-  BartMenuRoute.bottomBar(...)
-  ```
+```dart
+BartMenuRoute.bottomBar(...)
+```
 
-  This creates a route that you can push within your scaffold body (no extra item will be added in bottom bar) 
-  ```dart
-  BartMenuRoute.innerRoute(...)
-  ```
+This creates a route that you can push within your scaffold body (no extra item will be added in bottom bar)
+
+```dart
+BartMenuRoute.innerRoute(...)
+```
+
   </p>
 </details>
 
 - Create your main page which include the Bart tabbar Scaffold
+
 ```dart
 class MainPageMenu extends StatelessWidget {
   const MainPageMenu({Key? key}) : super(key: key);
@@ -111,6 +118,7 @@ class MainPageMenu extends StatelessWidget {
 ```
 
 ## 🏞&nbsp; Bottom bar themes
+
 Bart include 4 ways to display a bottom bar:
 
 ```dart
@@ -120,7 +128,7 @@ BartBottomBar.adaptive() // automatically select between cupertino & material de
 BartBottomBar.custom() // your how design
 ```
 
-To custom the bottom bar, simply extends ```BartBottomBarFactory``` and create your own bottom bar like ```BartMaterialBottomBar```. <br/>
+To custom the bottom bar, simply extends `BartBottomBarCustom` and create your own bottom bar like `SimpleBottomBar`(in example project). <br/>
 
 ## 🗃&nbsp; State caching
 
@@ -131,15 +139,16 @@ Imagine you got a page with a **counter**. You **increment** this counter and **
 Bart include a **caching system** to implement this feature.
 
 By **default** state caching is enabled. But you can override it:
+
 ```dart
 BartMenuRoute.bottomBar(cache: false)
 ```
 
 ### How to use it 🤓 ?
 
-Your tab pages you want to be cached must use a ```PageStorageKey``` property:
+Your tab pages you want to be cached must use a `PageStorageKey` property:
 
-```dart 
+```dart
 BartMenuRoute.bottomBar(
   label: "Library",
   icon: Icons.video_library_rounded,
@@ -151,31 +160,36 @@ BartMenuRoute.bottomBar(
 ```
 
 ## 🗃&nbsp; Show/Hide animated AppBar
-You can show an animated AppBar or hide it whenever you want inside all your **Bart** sub pages. 
+
+You can show an animated AppBar or hide it whenever you want inside all your **Bart** sub pages.
+
 > AppBar will automatically shows or hide with a smooth animation
 
 Simply add the **AppBarNotifier** mixin like this:
+
 ```dart
 class MyPage extends StatelessWidget with AppBarNotifier {
   const MyPage({ Key? key }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    // use the update app bar method to dynamically change app bar  
+    // use the update app bar method to dynamically change app bar
     updateAppBar(context, AppBar(title: Text("test")));
     // now call you can call show method that will start animation
     showAppBar(context);
     return Container();
   }
 }
-``` 
+```
 
 To hide app bar, just execute this code inside your widget with **AppBarNotifier**
+
 ```dart
 hideAppBar(context);
-``` 
+```
 
 > You can also use **Actions** to performs AppBar related actions
+
 ```dart
 Actions.invoke(context, AppBarBuildIntent(AppBar(title: Text("title text"))));
 Actions.invoke(context,AppBarAnimationIntent.show());
@@ -183,9 +197,11 @@ Actions.invoke(context,AppBarAnimationIntent.hide());
 ```
 
 ## 💫&nbsp; Transitions between items
-You can use the official [**animation plugin**](https://pub.dev/packages/animations) to create better transition or create your owns. 
 
-Example: 
+You can use the official [**animation plugin**](https://pub.dev/packages/animations) to create better transition or create your owns.
+
+Example:
+
 ```dart
 BartMenuRoute.bottomBar(
   label: "Library",
@@ -202,6 +218,7 @@ BartMenuRoute.bottomBar(
 ```
 
 ## 📣&nbsp; Sponsor
+
 <img src="https://github.com/Apparence-io/bart/raw/master/.github/img/apparence_logo.png" alt="logo apparence io" />
 <br />
 <br />

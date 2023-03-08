@@ -1,5 +1,5 @@
 import 'package:bart/bart.dart';
-import 'package:example/widgets/custom_bottom_bar.dart';
+import 'package:example/widgets/simple_bottom_bar.dart';
 import 'package:flutter/material.dart';
 
 class MainPageMenu extends StatefulWidget {
@@ -17,7 +17,7 @@ class _MainPageMenuState extends State<MainPageMenu> {
     return BartScaffold(
       routesBuilder: widget.routesBuilder,
       bottomBar: BartBottomBar.custom(
-        bottomBarCustom: CustomBottomBar(),
+        bottomBarCustom: SimpleBottomBar(),
       ),
     );
   }
