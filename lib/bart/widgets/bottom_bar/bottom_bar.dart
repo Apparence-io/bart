@@ -1,6 +1,7 @@
 import 'package:bart/bart/bart_model.dart';
 import 'package:bart/bart/router_delegate.dart';
 import 'package:bart/bart/widgets/bottom_bar/styles/bottom_bar_cupertino.dart';
+import 'package:bart/bart/widgets/bottom_bar/styles/bottom_bar_custom.dart';
 import 'package:bart/bart/widgets/bottom_bar/styles/bottom_bar_material.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -23,6 +24,7 @@ class BartBottomBar extends StatefulWidget {
   final bool enableHapticFeedback;
   final double selectedFontSize, unselectedFontSize;
   final Theme theme;
+  final BartBottomBarCustom? bottomBarCustom;
 
   const BartBottomBar._({
     this.elevation,
@@ -36,6 +38,7 @@ class BartBottomBar extends StatefulWidget {
     this.selectedFontSize = 14.0,
     this.unselectedFontSize = 12.0,
     this.iconSize = 24,
+    this.bottomBarCustom,
     required this.theme,
     required this.currentIndex,
   });
@@ -67,6 +70,16 @@ class BartBottomBar extends StatefulWidget {
         iconSize: iconSize,
         height: height,
         theme: Theme.material,
+        currentIndex: index,
+      );
+
+  factory BartBottomBar.custom({
+    required BartBottomBarCustom bottomBarCustom,
+    int index = 0,
+  }) =>
+      BartBottomBar._(
+        theme: Theme.custom,
+        bottomBarCustom: bottomBarCustom,
         currentIndex: index,
       );
 
@@ -122,36 +135,6 @@ class BartBottomBar extends StatefulWidget {
         currentIndex: index,
       );
 
-  factory BartBottomBar.fromFactory({
-    double? elevation,
-    Color? bgColor,
-    Color? selectedItemColor,
-    Color? unselectedItemColor,
-    double? height,
-    bool enableHapticFeedback = true,
-    BottomNavigationBarType? type,
-    IconThemeData? iconThemeData,
-    double selectedFontSize = 14.0,
-    double unselectedFontSize = 12.0,
-    double iconSize = 24,
-    int index = 0,
-  }) =>
-      BartBottomBar._(
-        elevation: elevation,
-        bgColor: bgColor,
-        height: height,
-        enableHapticFeedback: enableHapticFeedback,
-        selectedItemColor: selectedItemColor,
-        unselectedItemColor: unselectedItemColor,
-        type: type,
-        iconThemeData: iconThemeData,
-        selectedFontSize: selectedFontSize,
-        unselectedFontSize: unselectedFontSize,
-        iconSize: iconSize,
-        theme: Theme.custom,
-        currentIndex: index,
-      );
-
   @override
   BartBottomBarState createState() => BartBottomBarState();
 }
@@ -180,6 +163,10 @@ class BartBottomBarState extends State<BartBottomBar> {
     }
   }
 
+  List<BartMenuRoute> get mainRoutes => routes
+      .where((route) => route.type == BartMenuRouteType.bottomNavigation)
+      .toList();
+
   @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder(
@@ -189,7 +176,7 @@ class BartBottomBarState extends State<BartBottomBar> {
         switch (widget.theme) {
           case Theme.cupertino:
             bottomBar = BartCupertinoBottomBar(
-              routes: routes,
+              routes: mainRoutes,
               height: widget.height,
               bgColor: widget.bgColor,
               selectedItemColor: widget.selectedItemColor,
@@ -201,7 +188,7 @@ class BartBottomBarState extends State<BartBottomBar> {
             break;
           case Theme.material:
             bottomBar = BartMaterialBottomBar(
-              routes: routes,
+              routes: mainRoutes,
               elevation: widget.elevation,
               height: widget.height,
               bgColor: widget.bgColor,
@@ -217,19 +204,8 @@ class BartBottomBarState extends State<BartBottomBar> {
             );
             break;
           default:
-            // TODO: create a custom bottom bar
-            bottomBar = BartMaterialBottomBar(
-              routes: routes,
-              elevation: widget.elevation,
-              height: widget.height,
-              bgColor: widget.bgColor,
-              selectedItemColor: widget.selectedItemColor,
-              unselectedItemColor: widget.unselectedItemColor,
-              type: widget.type,
-              iconThemeData: widget.iconThemeData,
-              selectedFontSize: widget.selectedFontSize,
-              unselectedFontSize: widget.unselectedFontSize,
-              iconSize: widget.iconSize,
+            bottomBar = widget.bottomBarCustom!.create(
+              routes: mainRoutes,
               currentIndex: index,
               onTap: onTap,
             );

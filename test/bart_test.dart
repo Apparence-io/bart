@@ -1,12 +1,13 @@
-import 'package:bart/bart/widgets/animated_appbar.dart';
 import 'package:bart/bart/bart_appbar.dart';
 import 'package:bart/bart/bart_model.dart';
 import 'package:bart/bart/bart_scaffold.dart';
+import 'package:bart/bart/widgets/animated_appbar.dart';
 import 'package:bart/bart/widgets/bottom_bar/bottom_bar.dart';
 import 'package:bart/bart/widgets/bottom_bar/styles/bottom_bar_material.dart';
-import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_test/flutter_test.dart';
 
+import 'components/custom_bottom_bar.dart';
 import 'components/page_counter.dart';
 import 'components/page_fake.dart';
 
@@ -139,6 +140,36 @@ void main() {
       );
     }
 
+    createAppCustom({String? initialRoute}) {
+      Route<dynamic> routes(RouteSettings settings) {
+        switch (settings.name) {
+          case '/':
+            return MaterialPageRoute(
+              settings: settings,
+              builder: (context) => BartScaffold(
+                routesBuilder: homeSubRoutes,
+                initialRoute: initialRoute,
+                bottomBar: BartBottomBar.custom(
+                  bottomBarCustom: CustomBottomBar(),
+                ),
+              ),
+              maintainState: true,
+            );
+          default:
+            throw 'unexpected Route';
+        }
+      }
+
+      return MaterialApp(
+        title: 'Flutter Demo',
+        onGenerateRoute: routes,
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+          visualDensity: VisualDensity.adaptivePlatformDensity,
+        ),
+      );
+    }
+
     testWidgets('create app with bart bottom bar containing 3 tabs',
         (WidgetTester tester) async {
       await tester.pumpWidget(createApp(initialRoute: "/home"));
@@ -204,6 +235,21 @@ void main() {
       var currentPage =
           find.byType(PageFake).evaluate().first.widget as PageFake;
       expect(currentPage.bgColor, Colors.blueGrey);
+    });
+
+    testWidgets('Create custom bottom bar with 3 tabs',
+        (WidgetTester tester) async {
+      await tester.pumpWidget(createAppCustom(initialRoute: "/home"));
+      expect(find.byType(BartScaffold), findsOneWidget);
+      expect(find.byKey(const ValueKey('CustomBottomBar')), findsOneWidget);
+      expect(find.byKey(const ValueKey('BottomBarItem1')), findsOneWidget);
+      expect(find.byKey(const ValueKey('BottomBarItem2')), findsOneWidget);
+      expect(find.byKey(const ValueKey('BottomBarItem3')), findsOneWidget);
+      expect(find.byKey(const ValueKey('BottomBarItem4')), findsNothing);
+      // default tab should be the first one
+      var currentPage =
+          find.byType(PageFake).evaluate().first.widget as PageFake;
+      expect(currentPage.bgColor, Colors.red);
     });
 
     testWidgets('bar is on tab 1, click on tab 2 => tab 2 page is visible',
