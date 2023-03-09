@@ -45,3 +45,42 @@ class BartMaterialBottomBar extends StatelessWidget {
           ))
       .toList();
 }
+
+class BartMaterial3BottomBar extends StatelessWidget {
+  final List<BartMenuRoute> routes;
+  final BottomBarTapAction onTap;
+  final int currentIndex;
+  final BartBottomBarTheme theme;
+
+  const BartMaterial3BottomBar({
+    Key? key,
+    required this.routes,
+    required this.onTap,
+    required this.currentIndex,
+    required this.theme,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return NavigationBar(
+      selectedIndex: currentIndex,
+      destinations: routeWidgetList,
+      elevation: theme.elevation,
+      backgroundColor: theme.bgColor,
+      height: theme.height,
+      onDestinationSelected: onTap,
+      animationDuration: theme.animationDuration,
+      labelBehavior: theme.labelBehavior,
+    );
+  }
+
+  List<NavigationDestination> get routeWidgetList => routes
+      .where((element) => element.type == BartMenuRouteType.bottomNavigation)
+      .map((route) => NavigationDestination(
+            icon: Icon(route.icon),
+            label: route.label ?? '',
+            selectedIcon:
+                route.selectedIcon != null ? Icon(route.selectedIcon) : null,
+          ))
+      .toList();
+}

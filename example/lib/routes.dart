@@ -1,9 +1,10 @@
-import 'package:bart/bart.dart';
-import 'package:example/tabs/page_counter.dart';
-import 'package:example/tabs/fake_list.dart';
-import 'package:flutter/material.dart';
-import 'tabs/home_page.dart';
 import 'package:animations/animations.dart';
+import 'package:bart/bart.dart';
+import 'package:example/tabs/fake_list.dart';
+import 'package:example/tabs/page_counter.dart';
+import 'package:flutter/material.dart';
+
+import 'tabs/home_page.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
@@ -14,7 +15,8 @@ List<BartMenuRoute> subRoutes() {
   return [
     BartMenuRoute.bottomBar(
       label: "Home",
-      icon: Icons.home,
+      icon: Icons.home_outlined,
+      selectedIcon: Icons.home,
       path: '/home',
       pageBuilder: (parentContext, tabContext, settings) => HomePage(
         key: const PageStorageKey<String>("home"),
@@ -35,7 +37,8 @@ List<BartMenuRoute> subRoutes() {
     ),
     BartMenuRoute.bottomBar(
       label: "Profile",
-      icon: Icons.person,
+      icon: Icons.person_outline,
+      selectedIcon: Icons.person,
       path: '/profile',
       pageBuilder: (parentContext, tabContext, settings) => Container(
           key: const PageStorageKey<String>("profile"),

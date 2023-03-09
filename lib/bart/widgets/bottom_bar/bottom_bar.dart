@@ -10,7 +10,7 @@ typedef BottomBarTapAction = void Function(int index);
 
 typedef BartRouteBuilder = List<BartMenuRoute> Function();
 
-enum Theme { material, cupertino, custom }
+enum Theme { material, material3, cupertino, custom }
 
 class BartBottomBar extends StatefulWidget {
   final int currentIndex;
@@ -30,21 +30,78 @@ class BartBottomBar extends StatefulWidget {
     BartBottomBarTheme? bottomBarTheme,
     bool enableHapticFeedback = true,
     int index = 0,
+    Color? bgColor,
+    Color? selectedItemColor,
+    Color? unselectedItemColor,
+    double? height,
+    BottomNavigationBarType? type,
+    IconThemeData? iconThemeData,
+    double selectedFontSize = 14.0,
+    double unselectedFontSize = 12.0,
+    double iconSize = 24,
+    double? elevation,
   }) =>
       BartBottomBar._(
         enableHapticFeedback: enableHapticFeedback,
-        bottomBarTheme: bottomBarTheme ?? BartBottomBarTheme.material2(),
+        bottomBarTheme: BartBottomBarTheme.material2().copyWith(
+          bgColor: bgColor,
+          selectedItemColor: selectedItemColor,
+          unselectedItemColor: unselectedItemColor,
+          type: type,
+          iconThemeData: iconThemeData,
+          elevation: elevation,
+          height: height,
+          iconSize: iconSize,
+          selectedFontSize: selectedFontSize,
+          unselectedFontSize: unselectedFontSize,
+        ),
         theme: Theme.material,
         currentIndex: index,
       );
 
-  factory BartBottomBar.cupertino({
-    BartBottomBarTheme? bottomBarTheme,
+  factory BartBottomBar.material3({
+    Duration? animationDuration,
+    NavigationDestinationLabelBehavior? labelBehavior,
+    double? elevation,
+    Color? bgColor,
+    double? height,
     bool enableHapticFeedback = true,
     int index = 0,
   }) =>
       BartBottomBar._(
-        bottomBarTheme: bottomBarTheme ?? BartBottomBarTheme.cupertino(),
+        enableHapticFeedback: enableHapticFeedback,
+        bottomBarTheme: BartBottomBarTheme.material3().copyWith(
+          animationDuration: animationDuration,
+          labelBehavior: labelBehavior,
+          elevation: elevation,
+          bgColor: bgColor,
+          height: height,
+        ),
+        theme: Theme.material3,
+        currentIndex: index,
+      );
+
+  factory BartBottomBar.cupertino({
+    Color? bgColor,
+    Color? selectedItemColor,
+    Color? unselectedItemColor,
+    BottomNavigationBarType? type,
+    double iconSize = 24,
+    double? height,
+    Border? border,
+    bool enableHapticFeedback = true,
+    int index = 0,
+  }) =>
+      BartBottomBar._(
+        bottomBarTheme: BartBottomBarTheme.cupertino().copyWith(
+          bgColor: bgColor,
+          selectedItemColor: selectedItemColor,
+          unselectedItemColor: unselectedItemColor,
+          type: type,
+          iconSize: iconSize,
+          height: height,
+          border: border,
+        ),
         enableHapticFeedback: enableHapticFeedback,
         theme: Theme.cupertino,
         currentIndex: index,
@@ -98,34 +155,37 @@ class BartBottomBarState extends State<BartBottomBar> {
     return ValueListenableBuilder(
       valueListenable: currentIndexNotifier,
       builder: ((context, int index, child) {
-        Widget bottomBar;
         switch (widget.theme) {
           case Theme.cupertino:
-            bottomBar = BartCupertinoBottomBar(
+            return BartCupertinoBottomBar(
               routes: routes,
               theme: widget.bottomBarTheme!,
               currentIndex: index,
               onTap: onTap,
             );
-            break;
           case Theme.material:
-            bottomBar = BartMaterialBottomBar(
+            return BartMaterialBottomBar(
               routes: routes,
               theme: widget.bottomBarTheme!,
               currentIndex: index,
               onTap: onTap,
             );
-            break;
+          case Theme.material3:
+            return BartMaterial3BottomBar(
+              routes: routes,
+              theme: widget.bottomBarTheme!,
+              currentIndex: index,
+              onTap: onTap,
+            );
           default:
             // TODO: create a custom bottom bar
-            bottomBar = BartMaterialBottomBar(
+            return BartMaterialBottomBar(
               routes: routes,
               theme: widget.bottomBarTheme!,
               currentIndex: index,
               onTap: onTap,
             );
         }
-        return bottomBar;
       }),
     );
   }

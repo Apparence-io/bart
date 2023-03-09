@@ -14,6 +14,11 @@ typedef BartPageBuilder = Widget Function(
 class BartMenuRoute {
   String? label;
   IconData? icon;
+
+  /// The optional [IconData] that's displayed when this
+  /// [NavigationDestination] is selected.
+  /// Only used for material 3 style bottom bar.
+  IconData? selectedIcon;
   String path;
   BartPageBuilder pageBuilder;
   RouteSettings settings;
@@ -26,6 +31,7 @@ class BartMenuRoute {
   BartMenuRoute._({
     this.label,
     this.icon,
+    this.selectedIcon,
     required this.path,
     required this.pageBuilder,
     required this.settings,
@@ -45,6 +51,7 @@ class BartMenuRoute {
     RouteTransitionsBuilder? transitionsBuilder,
     Duration? transitionDuration,
     bool cache = true,
+    IconData? selectedIcon,
   }) =>
       BartMenuRoute._(
         label: label,
@@ -56,6 +63,7 @@ class BartMenuRoute {
         settings: RouteSettings(name: path),
         transitionsBuilder: transitionsBuilder,
         transitionDuration: transitionDuration,
+        selectedIcon: selectedIcon,
       );
 
   factory BartMenuRoute.innerRoute({
@@ -131,7 +139,13 @@ class BartBottomBarTheme {
   final IconThemeData? iconThemeData;
   final double? height, elevation;
   final double selectedFontSize, unselectedFontSize, iconSize;
+
+  /// Only for cupertino style bottom bar
   final Border? border;
+
+  /// Only for material3 style bottom bar
+  final Duration? animationDuration;
+  final NavigationDestinationLabelBehavior? labelBehavior;
 
   const BartBottomBarTheme._({
     this.bgColor,
@@ -145,6 +159,8 @@ class BartBottomBarTheme {
     this.iconSize = 24,
     this.selectedFontSize = 14.0,
     this.unselectedFontSize = 12.0,
+    this.animationDuration,
+    this.labelBehavior,
   });
 
   factory BartBottomBarTheme.material2({
@@ -181,7 +197,6 @@ class BartBottomBarTheme {
     double iconSize = 24,
     double? height,
     Border? border,
-    int index = 0,
   }) {
     return BartBottomBarTheme._(
       bgColor: bgColor,
@@ -191,6 +206,22 @@ class BartBottomBarTheme {
       height: height,
       iconSize: iconSize,
       border: border,
+    );
+  }
+
+  factory BartBottomBarTheme.material3({
+    Duration? animationDuration,
+    NavigationDestinationLabelBehavior? labelBehavior,
+    double? height,
+    double? elevation,
+    Color? bgColor,
+  }) {
+    return BartBottomBarTheme._(
+      animationDuration: animationDuration,
+      labelBehavior: labelBehavior,
+      height: height,
+      elevation: elevation,
+      bgColor: bgColor,
     );
   }
 
@@ -205,6 +236,9 @@ class BartBottomBarTheme {
     double? elevation,
     double? selectedFontSize,
     double? unselectedFontSize,
+    Border? border,
+    Duration? animationDuration,
+    NavigationDestinationLabelBehavior? labelBehavior,
   }) {
     return BartBottomBarTheme._(
       bgColor: bgColor ?? this.bgColor,
@@ -217,6 +251,9 @@ class BartBottomBarTheme {
       elevation: elevation ?? this.elevation,
       selectedFontSize: selectedFontSize ?? this.selectedFontSize,
       unselectedFontSize: unselectedFontSize ?? this.unselectedFontSize,
+      border: border ?? this.border,
+      animationDuration: animationDuration ?? this.animationDuration,
+      labelBehavior: labelBehavior ?? this.labelBehavior,
     );
   }
 }
