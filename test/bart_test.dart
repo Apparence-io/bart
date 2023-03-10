@@ -1,11 +1,11 @@
-import 'package:bart/bart/widgets/animated_appbar.dart';
 import 'package:bart/bart/bart_appbar.dart';
 import 'package:bart/bart/bart_model.dart';
 import 'package:bart/bart/bart_scaffold.dart';
+import 'package:bart/bart/widgets/animated_appbar.dart';
 import 'package:bart/bart/widgets/bottom_bar/bottom_bar.dart';
 import 'package:bart/bart/widgets/bottom_bar/styles/bottom_bar_material.dart';
-import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_test/flutter_test.dart';
 
 import 'components/page_counter.dart';
 import 'components/page_fake.dart';
@@ -83,7 +83,7 @@ void main() {
       ];
     }
 
-    createApp({String? initialRoute}) {
+    createM3App({String? initialRoute}) {
       Route<dynamic> routes(RouteSettings settings) {
         switch (settings.name) {
           case '/':
@@ -92,7 +92,7 @@ void main() {
               builder: (context) => BartScaffold(
                 routesBuilder: homeSubRoutes,
                 initialRoute: initialRoute,
-                bottomBar: BartBottomBar.material(),
+                bottomBar: BartBottomBar.material3(),
               ),
               maintainState: true,
             );
@@ -141,25 +141,16 @@ void main() {
 
     testWidgets('create app with bart bottom bar containing 3 tabs',
         (WidgetTester tester) async {
-      await tester.pumpWidget(createApp(initialRoute: "/home"));
+      await tester.pumpWidget(createM3App(initialRoute: "/home"));
       await tester.pump();
       expect(find.byType(BartScaffold), findsOneWidget);
-      expect(find.byType(BottomNavigationBar), findsOneWidget);
-      expect(find.byType(InkResponse), findsNWidgets(3));
-    });
-
-    testWidgets('create app with bart bottom bar containing 3 tabs',
-        (WidgetTester tester) async {
-      await tester.pumpWidget(createApp(initialRoute: "/home"));
-      await tester.pump();
-      expect(find.byType(BartScaffold), findsOneWidget);
-      expect(find.byType(BottomNavigationBar), findsOneWidget);
-      expect(find.byType(InkResponse), findsNWidgets(3));
+      expect(find.byType(NavigationBar), findsOneWidget);
+      expect(find.byType(Icon), findsNWidgets(3));
     });
 
     testWidgets('page has no app bar, click on add appbar => an appbar exists',
         (WidgetTester tester) async {
-      await tester.pumpWidget(createApp(initialRoute: "/library"));
+      await tester.pumpWidget(createM3App(initialRoute: "/library"));
       await tester.pump();
       expect(find.byType(AppBar), findsNothing);
       var btnFinder = find.byKey(const ValueKey("addAppBarBtn"));
@@ -172,7 +163,7 @@ void main() {
 
     testWidgets('click on add appbar, route to next page => appBar is reset',
         (WidgetTester tester) async {
-      await tester.pumpWidget(createApp(initialRoute: "/library"));
+      await tester.pumpWidget(createM3App(initialRoute: "/library"));
       await tester.pump();
       var appBar =
           find.byType(AnimatedAppBar).evaluate().first.widget as AnimatedAppBar;
@@ -184,15 +175,13 @@ void main() {
       expect(find.byType(AppBar), findsOneWidget);
       expect(appBar.showStateNotifier.value, isTrue);
       // route to second page, appbar is reset by default
-      var item2 =
-          find.byType(InkResponse).at(2).evaluate().first.widget as InkResponse;
-      item2.onTap!();
+      await tester.tap(find.byType(Icon).at(2));
       await tester.pump(const Duration(seconds: 1));
       expect(appBar.showStateNotifier.value, isFalse);
     });
 
     testWidgets('default tab is the first one', (WidgetTester tester) async {
-      await tester.pumpWidget(createApp());
+      await tester.pumpWidget(createM3App());
       var currentPage =
           find.byType(PageFake).evaluate().first.widget as PageFake;
       expect(currentPage.bgColor, Colors.red);
@@ -208,12 +197,10 @@ void main() {
 
     testWidgets('bar is on tab 1, click on tab 2 => tab 2 page is visible',
         (WidgetTester tester) async {
-      await tester.pumpWidget(createApp(initialRoute: "/home"));
+      await tester.pumpWidget(createM3App(initialRoute: "/home"));
       await tester.pump();
       expect(find.byType(PageFake), findsNWidgets(1));
-      var item2 =
-          find.byType(InkResponse).at(1).evaluate().first.widget as InkResponse;
-      item2.onTap!();
+      await tester.tap(find.byType(Icon).at(1));
       await tester.pump(const Duration(seconds: 1));
       var page1 = find.byType(PageFake).evaluate().last.widget as PageFake;
       expect(find.byType(PageFake), findsNWidgets(2));
@@ -223,7 +210,7 @@ void main() {
     testWidgets(
         'bar is on tab 1 (home), click on library page button 2 => tab 2 page is visible and tab 2 icon is selected',
         (WidgetTester tester) async {
-      await tester.pumpWidget(createApp(initialRoute: "/home"));
+      await tester.pumpWidget(createM3App(initialRoute: "/home"));
       await tester.pump();
 
       BartBottomBar bottomBar =
@@ -238,15 +225,15 @@ void main() {
 
       expect(find.byType(BartBottomBar), findsOneWidget);
       final materialBottomBar =
-          tester.firstWidget(find.byType(BartMaterialBottomBar))
-              as BartMaterialBottomBar;
+          tester.firstWidget(find.byType(BartMaterial3BottomBar))
+              as BartMaterial3BottomBar;
       expect(materialBottomBar.currentIndex, equals(1));
     });
 
     testWidgets(
         'push a page => page is visible on top of tab, bottom navigation is still visible',
         (WidgetTester tester) async {
-      await tester.pumpWidget(createApp(initialRoute: "/home"));
+      await tester.pumpWidget(createM3App(initialRoute: "/home"));
       await tester.pump();
       var btnFinder = find.byKey(const ValueKey("subpageBtn"));
       expect(btnFinder, findsOneWidget);
@@ -255,8 +242,8 @@ void main() {
       await tester.pump(const Duration(seconds: 1));
       expect(find.text("Sub Route page"), findsOneWidget);
       expect(find.byType(BartScaffold), findsOneWidget);
-      expect(find.byType(BottomNavigationBar), findsOneWidget);
-      expect(find.byType(InkResponse), findsNWidgets(3));
+      expect(find.byType(NavigationBar), findsOneWidget);
+      expect(find.byType(Icon), findsNWidgets(3));
     });
   });
 
@@ -301,7 +288,7 @@ void main() {
               builder: (context) => BartScaffold(
                 routesBuilder: homeSubRoutes,
                 initialRoute: initialRoute,
-                bottomBar: BartBottomBar.material(),
+                bottomBar: BartBottomBar.material3(),
               ),
               maintainState: true,
             );
@@ -340,17 +327,13 @@ void main() {
       await tester.pump();
       expect(find.text("2"), findsOneWidget);
       // go page 2
-      var item2 =
-          find.byType(InkResponse).at(1).evaluate().first.widget as InkResponse;
-      item2.onTap!();
+      await tester.tap(find.byType(Icon).at(1));
       await tester.pump(const Duration(seconds: 1));
       var page = find.byType(PageFake).evaluate().last.widget as PageFake;
       expect(page.bgColor, Colors.yellow);
       expect(find.byKey(const ValueKey("counter")), findsOneWidget);
       // go page 1
-      var item1 =
-          find.byType(InkResponse).at(0).evaluate().first.widget as InkResponse;
-      item1.onTap!();
+      await tester.tap(find.byType(Icon).at(0));
       await tester.pump(const Duration(seconds: 1));
       expect(find.byType(PageFakeCounter), findsOneWidget);
       expect(find.byKey(const ValueKey("counter")), findsOneWidget);
@@ -371,17 +354,13 @@ void main() {
       await tester.pump();
       expect(find.text("2"), findsOneWidget);
       // go page 2
-      var item2 =
-          find.byType(InkResponse).at(1).evaluate().first.widget as InkResponse;
-      item2.onTap!();
+      await tester.tap(find.byType(Icon).at(1));
       await tester.pump(const Duration(seconds: 1));
       var page = find.byType(PageFake).evaluate().last.widget as PageFake;
       expect(page.bgColor, Colors.yellow);
       expect(find.byKey(const ValueKey("counter")), findsOneWidget);
       // go page 1
-      var item1 =
-          find.byType(InkResponse).at(0).evaluate().first.widget as InkResponse;
-      item1.onTap!();
+      await tester.tap(find.byType(Icon).at(0));
       await tester.pump(const Duration(seconds: 1));
       expect(find.byType(PageFakeCounter), findsOneWidget);
       expect(find.byKey(const ValueKey("counter")), findsOneWidget);
