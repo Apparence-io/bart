@@ -7,7 +7,7 @@ class BartCupertinoBottomBar extends StatelessWidget {
   final BottomBarTapAction onTap;
   final int currentIndex;
 
-  final BartBottomBarTheme theme;
+  final CupertinoBottomBarTheme theme;
 
   const BartCupertinoBottomBar({
     Key? key,

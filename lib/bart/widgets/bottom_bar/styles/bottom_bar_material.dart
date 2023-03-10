@@ -6,7 +6,7 @@ class BartMaterialBottomBar extends StatelessWidget {
   final List<BartMenuRoute> routes;
   final BottomBarTapAction onTap;
   final int currentIndex;
-  final BartBottomBarTheme theme;
+  final Material2BottomBarTheme theme;
 
   const BartMaterialBottomBar({
     Key? key,
@@ -50,7 +50,7 @@ class BartMaterial3BottomBar extends StatelessWidget {
   final List<BartMenuRoute> routes;
   final BottomBarTapAction onTap;
   final int currentIndex;
-  final BartBottomBarTheme theme;
+  final Material3BottomBarTheme theme;
 
   const BartMaterial3BottomBar({
     Key? key,

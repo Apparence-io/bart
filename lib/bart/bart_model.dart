@@ -132,128 +132,132 @@ class ScaffoldOptions {
   });
 }
 
+class CommonBottomBarTheme {
+  final Color? bgColor;
+  final double? height;
+  CommonBottomBarTheme({
+    this.bgColor,
+    this.height,
+  });
+}
+
 @immutable
-class BartBottomBarTheme {
-  final Color? bgColor, selectedItemColor, unselectedItemColor;
-  final BottomNavigationBarType? type;
-  final IconThemeData? iconThemeData;
-  final double? height, elevation;
-  final double selectedFontSize, unselectedFontSize, iconSize;
-
-  /// Only for cupertino style bottom bar
-  final Border? border;
-
-  /// Only for material3 style bottom bar
+class Material3BottomBarTheme extends CommonBottomBarTheme {
   final Duration? animationDuration;
   final NavigationDestinationLabelBehavior? labelBehavior;
+  final double? elevation;
 
-  const BartBottomBarTheme._({
-    this.bgColor,
+  Material3BottomBarTheme({
+    Color? bgColor,
+    double? height,
+    this.animationDuration,
+    this.labelBehavior,
+    this.elevation,
+  }) : super(
+          bgColor: bgColor,
+          height: height,
+        );
+
+  Material3BottomBarTheme copyWith({
+    Duration? animationDuration,
+    NavigationDestinationLabelBehavior? labelBehavior,
+    double? elevation,
+    Color? bgColor,
+    double? height,
+  }) {
+    return Material3BottomBarTheme(
+      animationDuration: animationDuration ?? this.animationDuration,
+      labelBehavior: labelBehavior ?? this.labelBehavior,
+      elevation: elevation ?? this.elevation,
+      bgColor: bgColor ?? this.bgColor,
+      height: height ?? this.height,
+    );
+  }
+}
+
+@immutable
+class CupertinoBottomBarTheme extends CommonBottomBarTheme {
+  final Color? selectedItemColor;
+  final Color? unselectedItemColor;
+  final BottomNavigationBarType? type;
+  final double iconSize;
+  final Border? border;
+
+  CupertinoBottomBarTheme({
+    Color? bgColor,
+    double? height,
+    this.selectedItemColor,
+    this.unselectedItemColor,
+    this.type,
+    this.border,
+    this.iconSize = 24,
+  }) : super(bgColor: bgColor, height: height);
+
+  CupertinoBottomBarTheme copyWith({
+    Color? selectedItemColor,
+    Color? unselectedItemColor,
+    Color? bgColor,
+    BottomNavigationBarType? type,
+    double? iconSize,
+    double? height,
+    Border? border,
+  }) {
+    return CupertinoBottomBarTheme(
+      bgColor: bgColor ?? this.bgColor,
+      height: height ?? this.height,
+      selectedItemColor: selectedItemColor ?? this.selectedItemColor,
+      unselectedItemColor: unselectedItemColor ?? this.unselectedItemColor,
+      type: type ?? this.type,
+      iconSize: iconSize ?? this.iconSize,
+      border: border ?? this.border,
+    );
+  }
+}
+
+@immutable
+class Material2BottomBarTheme extends CommonBottomBarTheme {
+  final Color? selectedItemColor, unselectedItemColor;
+  final BottomNavigationBarType? type;
+  final IconThemeData? iconThemeData;
+  final double? elevation;
+  final double selectedFontSize, unselectedFontSize, iconSize;
+
+  Material2BottomBarTheme({
+    Color? bgColor,
+    double? height,
     this.selectedItemColor,
     this.unselectedItemColor,
     this.type,
     this.iconThemeData,
     this.elevation,
-    this.height,
-    this.border,
-    this.iconSize = 24,
     this.selectedFontSize = 14.0,
     this.unselectedFontSize = 12.0,
-    this.animationDuration,
-    this.labelBehavior,
-  });
+    this.iconSize = 24,
+  }) : super(bgColor: bgColor, height: height);
 
-  factory BartBottomBarTheme.material2({
-    Color? bgColor,
+  Material2BottomBarTheme copyWith({
     Color? selectedItemColor,
     Color? unselectedItemColor,
-    double? height,
+    Color? bgColor,
     BottomNavigationBarType? type,
     IconThemeData? iconThemeData,
-    double selectedFontSize = 14.0,
-    double unselectedFontSize = 12.0,
-    double iconSize = 24,
-    double? elevation,
-  }) {
-    return BartBottomBarTheme._(
-      bgColor: bgColor,
-      selectedItemColor: selectedItemColor,
-      unselectedItemColor: unselectedItemColor,
-      type: type,
-      elevation: elevation,
-      iconThemeData: iconThemeData,
-      height: height,
-      iconSize: iconSize,
-      selectedFontSize: selectedFontSize,
-      unselectedFontSize: unselectedFontSize,
-    );
-  }
-
-  factory BartBottomBarTheme.cupertino({
-    Color? bgColor,
-    Color? selectedItemColor,
-    Color? unselectedItemColor,
-    BottomNavigationBarType? type,
-    double iconSize = 24,
-    double? height,
-    Border? border,
-  }) {
-    return BartBottomBarTheme._(
-      bgColor: bgColor,
-      selectedItemColor: selectedItemColor,
-      unselectedItemColor: unselectedItemColor,
-      type: type,
-      height: height,
-      iconSize: iconSize,
-      border: border,
-    );
-  }
-
-  factory BartBottomBarTheme.material3({
-    Duration? animationDuration,
-    NavigationDestinationLabelBehavior? labelBehavior,
-    double? height,
-    double? elevation,
-    Color? bgColor,
-  }) {
-    return BartBottomBarTheme._(
-      animationDuration: animationDuration,
-      labelBehavior: labelBehavior,
-      height: height,
-      elevation: elevation,
-      bgColor: bgColor,
-    );
-  }
-
-  BartBottomBarTheme copyWith({
-    Color? bgColor,
-    Color? selectedItemColor,
-    Color? unselectedItemColor,
-    BottomNavigationBarType? type,
-    IconThemeData? iconThemeData,
-    double? height,
-    double? iconSize,
     double? elevation,
     double? selectedFontSize,
     double? unselectedFontSize,
-    Border? border,
-    Duration? animationDuration,
-    NavigationDestinationLabelBehavior? labelBehavior,
+    double? iconSize,
+    double? height,
   }) {
-    return BartBottomBarTheme._(
-      bgColor: bgColor ?? this.bgColor,
-      selectedItemColor: selectedItemColor ?? this.selectedItemColor,
+    return Material2BottomBarTheme(
       unselectedItemColor: unselectedItemColor ?? this.unselectedItemColor,
       type: type ?? this.type,
       iconThemeData: iconThemeData ?? this.iconThemeData,
-      height: height ?? this.height,
-      iconSize: iconSize ?? this.iconSize,
       elevation: elevation ?? this.elevation,
+      iconSize: iconSize ?? this.iconSize,
+      bgColor: bgColor ?? this.bgColor,
+      selectedItemColor: selectedItemColor ?? this.selectedItemColor,
       selectedFontSize: selectedFontSize ?? this.selectedFontSize,
+      height: height ?? this.height,
       unselectedFontSize: unselectedFontSize ?? this.unselectedFontSize,
-      border: border ?? this.border,
-      animationDuration: animationDuration ?? this.animationDuration,
-      labelBehavior: labelBehavior ?? this.labelBehavior,
     );
   }
 }
