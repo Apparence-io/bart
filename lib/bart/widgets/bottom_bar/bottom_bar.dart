@@ -117,7 +117,7 @@ class BartBottomBar extends StatefulWidget {
             ? cupertinoBottomBarTheme ?? CupertinoBottomBarTheme()
             : materialBottomBarTheme ?? Material3BottomBarTheme(),
         enableHapticFeedback: enableHapticFeedback,
-        theme: Platform.isIOS ? Theme.cupertino : Theme.material,
+        theme: Platform.isIOS ? Theme.cupertino : Theme.material3,
         currentIndex: index,
       );
 
