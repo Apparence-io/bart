@@ -25,7 +25,6 @@ class BartBottomBar extends StatefulWidget {
     required this.currentIndex,
   });
 
-  @Deprecated('Use BartBottomBar.material3() instead')
   factory BartBottomBar.material({
     bool enableHapticFeedback = true,
     int index = 0,
