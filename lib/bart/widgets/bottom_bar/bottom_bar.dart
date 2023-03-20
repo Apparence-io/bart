@@ -11,65 +11,74 @@ typedef BottomBarTapAction = void Function(int index);
 
 typedef BartRouteBuilder = List<BartMenuRoute> Function();
 
-enum Theme { material, cupertino, custom }
+enum Theme { material, material3, cupertino, custom }
 
 class BartBottomBar extends StatefulWidget {
   final int currentIndex;
-  final double? elevation;
-  final double? height;
-  final Color? bgColor, selectedItemColor, unselectedItemColor;
-  final BottomNavigationBarType? type;
-  final IconThemeData? iconThemeData;
-  final double iconSize;
-  final bool enableHapticFeedback;
-  final double selectedFontSize, unselectedFontSize;
   final Theme theme;
   final BartBottomBarCustom? bottomBarCustom;
+  final CommonBottomBarTheme? bottomBarTheme;
+  final bool enableHapticFeedback;
 
   const BartBottomBar._({
-    this.elevation,
-    this.bgColor,
-    this.selectedItemColor,
-    this.unselectedItemColor,
-    this.type,
-    this.height,
     this.enableHapticFeedback = true,
-    this.iconThemeData,
-    this.selectedFontSize = 14.0,
-    this.unselectedFontSize = 12.0,
-    this.iconSize = 24,
     this.bottomBarCustom,
+    this.bottomBarTheme,
     required this.theme,
     required this.currentIndex,
   });
 
   factory BartBottomBar.material({
-    double? elevation,
+    bool enableHapticFeedback = true,
+    int index = 0,
     Color? bgColor,
     Color? selectedItemColor,
     Color? unselectedItemColor,
     double? height,
     BottomNavigationBarType? type,
-    bool enableHapticFeedback = true,
     IconThemeData? iconThemeData,
     double selectedFontSize = 14.0,
     double unselectedFontSize = 12.0,
     double iconSize = 24,
+    double? elevation,
+  }) =>
+      BartBottomBar._(
+        enableHapticFeedback: enableHapticFeedback,
+        bottomBarTheme: Material2BottomBarTheme().copyWith(
+          bgColor: bgColor,
+          selectedItemColor: selectedItemColor,
+          unselectedItemColor: unselectedItemColor,
+          type: type,
+          iconThemeData: iconThemeData,
+          elevation: elevation,
+          height: height,
+          iconSize: iconSize,
+          selectedFontSize: selectedFontSize,
+          unselectedFontSize: unselectedFontSize,
+        ),
+        theme: Theme.material,
+        currentIndex: index,
+      );
+
+  factory BartBottomBar.material3({
+    Duration? animationDuration,
+    NavigationDestinationLabelBehavior? labelBehavior,
+    double? elevation,
+    Color? bgColor,
+    double? height,
+    bool enableHapticFeedback = true,
     int index = 0,
   }) =>
       BartBottomBar._(
-        elevation: elevation,
-        bgColor: bgColor,
         enableHapticFeedback: enableHapticFeedback,
-        selectedItemColor: selectedItemColor,
-        unselectedItemColor: unselectedItemColor,
-        type: type,
-        iconThemeData: iconThemeData,
-        selectedFontSize: selectedFontSize,
-        unselectedFontSize: unselectedFontSize,
-        iconSize: iconSize,
-        height: height,
-        theme: Theme.material,
+        bottomBarTheme: Material3BottomBarTheme().copyWith(
+          animationDuration: animationDuration,
+          labelBehavior: labelBehavior,
+          elevation: elevation,
+          bgColor: bgColor,
+          height: height,
+        ),
+        theme: Theme.material3,
         currentIndex: index,
       );
 
@@ -88,50 +97,39 @@ class BartBottomBar extends StatefulWidget {
     Color? selectedItemColor,
     Color? unselectedItemColor,
     BottomNavigationBarType? type,
-    bool enableHapticFeedback = true,
     double iconSize = 24,
     double? height,
+    Border? border,
+    bool enableHapticFeedback = true,
     int index = 0,
   }) =>
       BartBottomBar._(
-        bgColor: bgColor,
+        bottomBarTheme: CupertinoBottomBarTheme().copyWith(
+          bgColor: bgColor,
+          selectedItemColor: selectedItemColor,
+          unselectedItemColor: unselectedItemColor,
+          type: type,
+          iconSize: iconSize,
+          height: height,
+          border: border,
+        ),
         enableHapticFeedback: enableHapticFeedback,
-        selectedItemColor: selectedItemColor,
-        unselectedItemColor: unselectedItemColor,
-        type: type,
-        height: height,
-        iconSize: iconSize,
         theme: Theme.cupertino,
         currentIndex: index,
       );
 
   factory BartBottomBar.adaptive({
-    double? elevation,
-    Color? bgColor,
-    Color? selectedItemColor,
-    Color? unselectedItemColor,
-    BottomNavigationBarType? type,
+    Material3BottomBarTheme? materialBottomBarTheme,
+    CupertinoBottomBarTheme? cupertinoBottomBarTheme,
     bool enableHapticFeedback = true,
-    IconThemeData? iconThemeData,
-    double selectedFontSize = 14.0,
-    double unselectedFontSize = 12.0,
-    double iconSize = 24,
-    double? height,
     int index = 0,
   }) =>
       BartBottomBar._(
-        elevation: elevation,
-        bgColor: bgColor,
-        height: height,
+        bottomBarTheme: Platform.isIOS
+            ? cupertinoBottomBarTheme ?? CupertinoBottomBarTheme()
+            : materialBottomBarTheme ?? Material3BottomBarTheme(),
         enableHapticFeedback: enableHapticFeedback,
-        selectedItemColor: selectedItemColor,
-        unselectedItemColor: unselectedItemColor,
-        type: type,
-        iconThemeData: iconThemeData,
-        selectedFontSize: selectedFontSize,
-        unselectedFontSize: unselectedFontSize,
-        iconSize: iconSize,
-        theme: Platform.isIOS ? Theme.cupertino : Theme.material,
+        theme: Platform.isIOS ? Theme.cupertino : Theme.material3,
         currentIndex: index,
       );
 
@@ -172,45 +170,36 @@ class BartBottomBarState extends State<BartBottomBar> {
     return ValueListenableBuilder(
       valueListenable: currentIndexNotifier,
       builder: ((context, int index, child) {
-        Widget bottomBar;
         switch (widget.theme) {
           case Theme.cupertino:
-            bottomBar = BartCupertinoBottomBar(
+            return BartCupertinoBottomBar(
               routes: mainRoutes,
-              height: widget.height,
-              bgColor: widget.bgColor,
-              selectedItemColor: widget.selectedItemColor,
-              unselectedItemColor: widget.unselectedItemColor,
-              iconSize: widget.iconSize,
+              theme: widget.bottomBarTheme! as CupertinoBottomBarTheme,
               currentIndex: index,
               onTap: onTap,
             );
-            break;
+
           case Theme.material:
-            bottomBar = BartMaterialBottomBar(
+            return BartMaterialBottomBar(
               routes: mainRoutes,
-              elevation: widget.elevation,
-              height: widget.height,
-              bgColor: widget.bgColor,
-              selectedItemColor: widget.selectedItemColor,
-              unselectedItemColor: widget.unselectedItemColor,
-              type: widget.type,
-              iconThemeData: widget.iconThemeData,
-              selectedFontSize: widget.selectedFontSize,
-              unselectedFontSize: widget.unselectedFontSize,
-              iconSize: widget.iconSize,
+              theme: widget.bottomBarTheme! as Material2BottomBarTheme,
               currentIndex: index,
               onTap: onTap,
             );
-            break;
+          case Theme.material3:
+            return BartMaterial3BottomBar(
+              routes: routes,
+              theme: widget.bottomBarTheme! as Material3BottomBarTheme,
+              currentIndex: index,
+              onTap: onTap,
+            );
           default:
-            bottomBar = widget.bottomBarCustom!.create(
+            return widget.bottomBarCustom!.create(
               routes: mainRoutes,
               currentIndex: index,
               onTap: onTap,
             );
         }
-        return bottomBar;
       }),
     );
   }

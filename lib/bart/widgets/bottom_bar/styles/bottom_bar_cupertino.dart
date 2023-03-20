@@ -7,22 +7,14 @@ class BartCupertinoBottomBar extends StatelessWidget {
   final BottomBarTapAction onTap;
   final int currentIndex;
 
-  final Color? bgColor, selectedItemColor, unselectedItemColor;
-  final double iconSize;
-  final Border? border;
-  final double? height;
+  final CupertinoBottomBarTheme theme;
 
   const BartCupertinoBottomBar({
     Key? key,
     required this.routes,
     required this.onTap,
     required this.currentIndex,
-    this.bgColor,
-    this.selectedItemColor,
-    this.unselectedItemColor,
-    this.border,
-    this.iconSize = 24,
-    this.height,
+    required this.theme,
   }) : super(key: key);
 
   @override
@@ -30,12 +22,12 @@ class BartCupertinoBottomBar extends StatelessWidget {
     return CupertinoTabBar(
       items: routeWidgetList,
       currentIndex: currentIndex,
-      iconSize: iconSize,
-      border: border,
-      backgroundColor: bgColor,
-      activeColor: selectedItemColor,
-      height: height ?? 50.0,
-      inactiveColor: unselectedItemColor ?? CupertinoColors.inactiveGray,
+      iconSize: theme.iconSize,
+      border: theme.border,
+      backgroundColor: theme.bgColor,
+      activeColor: theme.selectedItemColor,
+      height: theme.height ?? 50.0,
+      inactiveColor: theme.unselectedItemColor ?? CupertinoColors.inactiveGray,
       onTap: (index) => onTap(index),
     );
   }

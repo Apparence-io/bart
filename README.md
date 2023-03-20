@@ -123,12 +123,26 @@ Bart include 4 ways to display a bottom bar:
 
 ```dart
 BartBottomBar.cupertino() // iOS look.
-BartBottomBar.material() // Android look.
+BartBottomBar.material3() // Android look.
 BartBottomBar.adaptive() // automatically select between cupertino & material depending on the device.
 BartBottomBar.custom() // your how design
 ```
 
 To custom the bottom bar, simply extends `BartBottomBarCustom` and create your own bottom bar like `SimpleBottomBar`(in example project). <br/>
+
+## 🤖&nbsp; Material 3 bottom bar
+
+If you want to custom your material 3 bottom bar, you can use the `BottomNavigationBarThemeData` class in your theme.
+
+```dart
+ThemeData(
+  navigationBarTheme: NavigationBarThemeData(
+    backgroundColor: Colors.orange.shade100,
+    indicatorColor: Colors.orange.shade700,
+  ),
+)
+
+```
 
 ## 🗃&nbsp; State caching
 

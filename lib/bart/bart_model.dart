@@ -14,6 +14,11 @@ typedef BartPageBuilder = Widget Function(
 class BartMenuRoute {
   String? label;
   IconData? icon;
+
+  /// The optional [IconData] that's displayed when this
+  /// [NavigationDestination] is selected.
+  /// Only used for material 3 style bottom bar.
+  IconData? selectedIcon;
   String path;
   BartPageBuilder pageBuilder;
   RouteSettings settings;
@@ -26,6 +31,7 @@ class BartMenuRoute {
   BartMenuRoute._({
     this.label,
     this.icon,
+    this.selectedIcon,
     required this.path,
     required this.pageBuilder,
     required this.settings,
@@ -45,6 +51,7 @@ class BartMenuRoute {
     RouteTransitionsBuilder? transitionsBuilder,
     Duration? transitionDuration,
     bool cache = true,
+    IconData? selectedIcon,
   }) =>
       BartMenuRoute._(
         label: label,
@@ -56,6 +63,7 @@ class BartMenuRoute {
         settings: RouteSettings(name: path),
         transitionsBuilder: transitionsBuilder,
         transitionDuration: transitionDuration,
+        selectedIcon: selectedIcon,
       );
 
   factory BartMenuRoute.innerRoute({
@@ -122,4 +130,134 @@ class ScaffoldOptions {
     this.restorationId,
     this.extendBodyBehindAppBar,
   });
+}
+
+class CommonBottomBarTheme {
+  final Color? bgColor;
+  final double? height;
+  CommonBottomBarTheme({
+    this.bgColor,
+    this.height,
+  });
+}
+
+@immutable
+class Material3BottomBarTheme extends CommonBottomBarTheme {
+  final Duration? animationDuration;
+  final NavigationDestinationLabelBehavior? labelBehavior;
+  final double? elevation;
+
+  Material3BottomBarTheme({
+    Color? bgColor,
+    double? height,
+    this.animationDuration,
+    this.labelBehavior,
+    this.elevation,
+  }) : super(
+          bgColor: bgColor,
+          height: height,
+        );
+
+  Material3BottomBarTheme copyWith({
+    Duration? animationDuration,
+    NavigationDestinationLabelBehavior? labelBehavior,
+    double? elevation,
+    Color? bgColor,
+    double? height,
+  }) {
+    return Material3BottomBarTheme(
+      animationDuration: animationDuration ?? this.animationDuration,
+      labelBehavior: labelBehavior ?? this.labelBehavior,
+      elevation: elevation ?? this.elevation,
+      bgColor: bgColor ?? this.bgColor,
+      height: height ?? this.height,
+    );
+  }
+}
+
+@immutable
+class CupertinoBottomBarTheme extends CommonBottomBarTheme {
+  final Color? selectedItemColor;
+  final Color? unselectedItemColor;
+  final BottomNavigationBarType? type;
+  final double iconSize;
+  final Border? border;
+
+  CupertinoBottomBarTheme({
+    Color? bgColor,
+    double? height,
+    this.selectedItemColor,
+    this.unselectedItemColor,
+    this.type,
+    this.border,
+    this.iconSize = 24,
+  }) : super(bgColor: bgColor, height: height);
+
+  CupertinoBottomBarTheme copyWith({
+    Color? selectedItemColor,
+    Color? unselectedItemColor,
+    Color? bgColor,
+    BottomNavigationBarType? type,
+    double? iconSize,
+    double? height,
+    Border? border,
+  }) {
+    return CupertinoBottomBarTheme(
+      bgColor: bgColor ?? this.bgColor,
+      height: height ?? this.height,
+      selectedItemColor: selectedItemColor ?? this.selectedItemColor,
+      unselectedItemColor: unselectedItemColor ?? this.unselectedItemColor,
+      type: type ?? this.type,
+      iconSize: iconSize ?? this.iconSize,
+      border: border ?? this.border,
+    );
+  }
+}
+
+@immutable
+class Material2BottomBarTheme extends CommonBottomBarTheme {
+  final Color? selectedItemColor, unselectedItemColor;
+  final BottomNavigationBarType? type;
+  final IconThemeData? iconThemeData;
+  final double? elevation;
+  final double selectedFontSize, unselectedFontSize, iconSize;
+
+  Material2BottomBarTheme({
+    Color? bgColor,
+    double? height,
+    this.selectedItemColor,
+    this.unselectedItemColor,
+    this.type,
+    this.iconThemeData,
+    this.elevation,
+    this.selectedFontSize = 14.0,
+    this.unselectedFontSize = 12.0,
+    this.iconSize = 24,
+  }) : super(bgColor: bgColor, height: height);
+
+  Material2BottomBarTheme copyWith({
+    Color? selectedItemColor,
+    Color? unselectedItemColor,
+    Color? bgColor,
+    BottomNavigationBarType? type,
+    IconThemeData? iconThemeData,
+    double? elevation,
+    double? selectedFontSize,
+    double? unselectedFontSize,
+    double? iconSize,
+    double? height,
+  }) {
+    return Material2BottomBarTheme(
+      unselectedItemColor: unselectedItemColor ?? this.unselectedItemColor,
+      type: type ?? this.type,
+      iconThemeData: iconThemeData ?? this.iconThemeData,
+      elevation: elevation ?? this.elevation,
+      iconSize: iconSize ?? this.iconSize,
+      bgColor: bgColor ?? this.bgColor,
+      selectedItemColor: selectedItemColor ?? this.selectedItemColor,
+      selectedFontSize: selectedFontSize ?? this.selectedFontSize,
+      height: height ?? this.height,
+      unselectedFontSize: unselectedFontSize ?? this.unselectedFontSize,
+    );
+  }
 }
