@@ -16,7 +16,7 @@ enum Theme { material, material3, cupertino, custom }
 class BartBottomBar extends StatefulWidget {
   final int currentIndex;
   final Theme theme;
-  final BartBottomBarCustom? bottomBarCustom;
+  final BartBottomBarFactory? bottomBarCustom;
   final CommonBottomBarTheme? bottomBarTheme;
   final bool enableHapticFeedback;
 
@@ -83,12 +83,12 @@ class BartBottomBar extends StatefulWidget {
       );
 
   factory BartBottomBar.custom({
-    required BartBottomBarCustom bottomBarCustom,
+    required BartBottomBarFactory bottomBarFactory,
     int index = 0,
   }) =>
       BartBottomBar._(
         theme: Theme.custom,
-        bottomBarCustom: bottomBarCustom,
+        bottomBarCustom: bottomBarFactory,
         currentIndex: index,
       );
 
@@ -195,6 +195,7 @@ class BartBottomBarState extends State<BartBottomBar> {
             );
           default:
             return widget.bottomBarCustom!.create(
+              context: context,
               routes: mainRoutes,
               currentIndex: index,
               onTap: onTap,

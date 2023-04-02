@@ -178,7 +178,7 @@ void main() {
                 routesBuilder: homeSubRoutes,
                 initialRoute: initialRoute,
                 bottomBar: BartBottomBar.custom(
-                  bottomBarCustom: CustomBottomBar(),
+                  bottomBarFactory: CustomBottomBar(),
                 ),
               ),
               maintainState: true,

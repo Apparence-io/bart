@@ -2,7 +2,7 @@ import 'package:bart/bart.dart';
 import 'package:bart/bart/widgets/bottom_bar/styles/bottom_bar_custom.dart';
 import 'package:flutter/material.dart';
 
-class CustomBottomBar extends BartBottomBarCustom {
+class CustomBottomBar extends BartBottomBarFactory {
   @override
   Widget create({
     required List<BartMenuRoute> routes,
