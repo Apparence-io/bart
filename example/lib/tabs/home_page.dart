@@ -20,6 +20,7 @@ class HomePage extends StatelessWidget with AppBarNotifier, BartNotifier {
             TextButton(
               child: const Text(
                 "Add AppBar",
+                style: TextStyle(color: Colors.black),
               ),
               onPressed: () {
                 updateAppBar(

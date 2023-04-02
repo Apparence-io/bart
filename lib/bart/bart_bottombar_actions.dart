@@ -36,18 +36,13 @@ class AnimatedBottomBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return ValueListenableBuilder<bool>(
       valueListenable: showStateNotifier,
-      builder: (context, show, child) => Stack(
-        children: [
-          AnimatedPositioned(
-            curve: Curves.decelerate,
-            duration: const Duration(milliseconds: 300),
-            bottom: show ? 0 : 150,
-            left: 0,
-            right: 0,
-            child: bottomBar,
-          ),
-        ],
-      ),
+      child: bottomBar,
+      builder: (context, show, child) {
+        if (!show) {
+          return const SizedBox(height: 0, width: 0);
+        }
+        return child!;
+      },
     );
   }
 }

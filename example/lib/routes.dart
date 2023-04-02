@@ -24,6 +24,7 @@ List<BartMenuRoute> subRoutes() {
       ),
       transitionDuration: bottomBarTransitionDuration,
       transitionsBuilder: bottomBarTransition,
+      cache: false,
     ),
     BartMenuRoute.bottomBar(
       label: "Library",
@@ -78,4 +79,4 @@ Widget bottomBarTransition(
       child: child,
     );
 
-const bottomBarTransitionDuration = Duration(milliseconds: 700);
+const bottomBarTransitionDuration = Duration(milliseconds: 300);
