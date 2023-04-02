@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 class SimpleBottomBar extends BartBottomBarFactory {
   @override
   Widget create({
+    required BuildContext context,
     required List<BartMenuRoute> routes,
     required void Function(int) onTap,
     required int currentIndex,

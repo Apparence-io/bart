@@ -1,8 +1,9 @@
+import 'package:bart/bart/bart_bottombar_actions.dart';
 import 'package:flutter/material.dart';
 
 import 'package:bart/bart.dart';
 
-class HomePage extends StatelessWidget with AppBarNotifier {
+class HomePage extends StatelessWidget with AppBarNotifier, BartNotifier {
   final BuildContext parentContext;
   const HomePage({
     Key? key,
@@ -34,7 +35,19 @@ class HomePage extends StatelessWidget with AppBarNotifier {
               child: const Text(
                 "Hide AppBar",
               ),
-              onPressed: () => hideAppBar(context),
+              onPressed: () => showBottomBar(context),
+            ),
+            TextButton(
+              child: const Text(
+                "Show BottomBar",
+              ),
+              onPressed: () => showBottomBar(context),
+            ),
+            TextButton(
+              child: const Text(
+                "Hide BottomBar",
+              ),
+              onPressed: () => hideBottomBar(context),
             ),
             const Divider(),
             TextButton(

@@ -1,4 +1,5 @@
 import 'package:bart/bart/bart_appbar.dart';
+import 'package:bart/bart/bart_bottombar_actions.dart';
 import 'package:bart/bart/bart_model.dart';
 import 'package:bart/bart/router_delegate.dart';
 import 'package:bart/bart/widgets/animated_appbar.dart';
@@ -14,6 +15,7 @@ class BartScaffold extends StatefulWidget {
   // appBar
   final ValueNotifier<PreferredSizeWidget?> appBarNotifier;
   final ValueNotifier<bool> showAppBarNotifier;
+  final ValueNotifier<bool> showBottomBarNotifier;
   final ScaffoldOptions? scaffoldOptions;
 
   BartScaffold({
@@ -22,8 +24,10 @@ class BartScaffold extends StatefulWidget {
     required this.routesBuilder,
     this.initialRoute,
     this.scaffoldOptions,
+    bool showBottomBar = true,
   })  : appBarNotifier = ValueNotifier(null),
         showAppBarNotifier = ValueNotifier(false),
+        showBottomBarNotifier = ValueNotifier(showBottomBar),
         super(key: key);
 
   @override
@@ -57,6 +61,7 @@ class _BartScaffoldState extends State<BartScaffold>
           AppBarBuildIntent: BartAppBarAction(widget.appBarNotifier),
           AppBarAnimationIntent:
               BartAnimatedAppBarAction(widget.showAppBarNotifier),
+          BottomBarIntent: BottomBarAction(widget.showBottomBarNotifier),
         },
         child: AnimatedBuilder(
             animation: widget.appBarNotifier,
@@ -79,7 +84,12 @@ class _BartScaffoldState extends State<BartScaffold>
                 onDrawerChanged: widget.scaffoldOptions?.onDrawerChanged,
                 endDrawer: widget.scaffoldOptions?.endDrawer,
                 onEndDrawerChanged: widget.scaffoldOptions?.onEndDrawerChanged,
-                bottomNavigationBar: widget.bottomBar,
+                // 👾 bottom bar
+                bottomNavigationBar: AnimatedBottomBar(
+                  bottomBar: widget.bottomBar,
+                  showStateNotifier: widget.showBottomBarNotifier,
+                ),
+                // ----------------
                 bottomSheet: widget.scaffoldOptions?.bottomSheet,
                 extendBodyBehindAppBar:
                     widget.scaffoldOptions?.extendBodyBehindAppBar ?? true,
