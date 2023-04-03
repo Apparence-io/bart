@@ -1,3 +1,7 @@
+## [1.1.0]
+* Material 3 bottom bar theme
+* Hide / show bottom bar from action
+
 ## [1.0.0]
 * enable hot reload
 * parent context is now available
