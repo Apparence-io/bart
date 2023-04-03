@@ -16,7 +16,7 @@ class _MainPageMenuState extends State<MainPageMenu> {
   Widget build(BuildContext context) {
     return BartScaffold(
       routesBuilder: widget.routesBuilder,
-      showBottomBar: true,
+      showBottomBarOnStart: true,
       bottomBar: BartBottomBar.material(),
       // bottomBar: BartBottomBar.custom(
       //   bottomBarFactory: SimpleBottomBar(),

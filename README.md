@@ -125,7 +125,7 @@ Bart include 4 ways to display a bottom bar:
 BartBottomBar.cupertino() // iOS look.
 BartBottomBar.material3() // Android look.
 BartBottomBar.adaptive() // automatically select between cupertino & material depending on the device.
-BartBottomBar.custom() // your how design
+BartBottomBar.custom() // your own design
 ```
 
 To custom the bottom bar, simply extends `BartBottomBarCustom` and create your own bottom bar like `SimpleBottomBar`(in example project). <br/>
@@ -209,6 +209,33 @@ Actions.invoke(context, AppBarBuildIntent(AppBar(title: Text("title text"))));
 Actions.invoke(context,AppBarAnimationIntent.show());
 Actions.invoke(context,AppBarAnimationIntent.hide());
 ```
+
+## 🫥&nbsp; Show/hide bottom bar
+Sometimes you wants to hide the bottom menu bar. 
+As this is possible for the appbar you can use a mixin for that. 
+It just require to be called from a sub context of the BartScaffold.
+
+```dart
+Actions.invoke(context, BottomBarIntent.show());
+Actions.invoke(context, BottomBarIntent.hide());
+```
+
+Or use the mixin
+```dart
+class MyPage extends StatelessWidget with BartNotifier {
+  const MyPage({ Key? key }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    // directly show the bottom bar
+    showBottomBar(context);
+    // directly hide the bottom bar
+    hideBottomBar(context);
+    return Container();
+  }
+}
+```
+
 
 ## 💫&nbsp; Transitions between items
 

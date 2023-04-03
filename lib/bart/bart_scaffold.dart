@@ -24,10 +24,10 @@ class BartScaffold extends StatefulWidget {
     required this.routesBuilder,
     this.initialRoute,
     this.scaffoldOptions,
-    bool showBottomBar = true,
+    bool showBottomBarOnStart = true,
   })  : appBarNotifier = ValueNotifier(null),
         showAppBarNotifier = ValueNotifier(false),
-        showBottomBarNotifier = ValueNotifier(showBottomBar),
+        showBottomBarNotifier = ValueNotifier(showBottomBarOnStart),
         super(key: key);
 
   @override
