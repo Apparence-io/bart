@@ -1,4 +1,5 @@
 import 'package:bart/bart/bart_appbar.dart';
+import 'package:bart/bart/bart_bottombar_actions.dart';
 import 'package:bart/bart/bart_model.dart';
 import 'package:bart/bart/router_delegate.dart';
 import 'package:flutter/material.dart';
@@ -31,7 +32,8 @@ class NestedNavigator extends StatefulWidget {
   State<NestedNavigator> createState() => _NestedNavigatorState();
 }
 
-class _NestedNavigatorState extends State<NestedNavigator> with AppBarNotifier {
+class _NestedNavigatorState extends State<NestedNavigator>
+    with AppBarNotifier, BartNotifier {
   final Map<String, Widget> pageCache = {};
   final PageStorageBucket bucket = PageStorageBucket();
 
@@ -50,6 +52,12 @@ class _NestedNavigatorState extends State<NestedNavigator> with AppBarNotifier {
             (element) => element.path == routeSettings.name,
             orElse: () => widget.routes.first,
           );
+
+          if (route.showBottomBar) {
+            showBottomBar(context);
+          } else {
+            hideBottomBar(context);
+          }
 
           return PageRouteBuilder(
             maintainState: route.maintainState ?? true,
@@ -93,6 +101,7 @@ class _NestedNavigatorState extends State<NestedNavigator> with AppBarNotifier {
         },
       ),
       onWillPop: () {
+        // showBottomBar(context);
         if (widget.onWillPop != null) {
           widget.onWillPop!();
         }

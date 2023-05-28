@@ -24,6 +24,7 @@ class BartMenuRoute {
   RouteSettings settings;
   bool? maintainState;
   bool cache;
+  bool showBottomBar;
   BartMenuRouteType type;
   final RouteTransitionsBuilder? transitionsBuilder;
   final Duration? transitionDuration;
@@ -37,6 +38,7 @@ class BartMenuRoute {
     required this.settings,
     required this.type,
     required this.cache,
+    required this.showBottomBar,
     // ignore: unused_element
     this.maintainState,
     this.transitionsBuilder,
@@ -64,6 +66,7 @@ class BartMenuRoute {
         transitionsBuilder: transitionsBuilder,
         transitionDuration: transitionDuration,
         selectedIcon: selectedIcon,
+        showBottomBar: true,
       );
 
   factory BartMenuRoute.innerRoute({
@@ -72,6 +75,7 @@ class BartMenuRoute {
     RouteTransitionsBuilder? transitionsBuilder,
     Duration? transitionDuration,
     bool cache = false,
+    bool showBottomBar = true,
   }) =>
       BartMenuRoute._(
         path: path,
@@ -81,6 +85,7 @@ class BartMenuRoute {
         settings: RouteSettings(name: path),
         transitionsBuilder: transitionsBuilder,
         transitionDuration: transitionDuration,
+        showBottomBar: showBottomBar,
       );
 }
 
