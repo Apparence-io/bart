@@ -36,7 +36,7 @@ class HomePage extends StatelessWidget with AppBarNotifier, BartNotifier {
               child: const Text(
                 "Hide AppBar",
               ),
-              onPressed: () => showBottomBar(context),
+              onPressed: () => hideAppBar(context),
             ),
             TextButton(
               child: const Text(
