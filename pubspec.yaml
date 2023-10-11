@@ -5,12 +5,12 @@ homepage: https://en.apparence.io
 repository: https://github.com/Apparence-io/bart
 
 environment:
-  sdk: '>=2.17.0 <4.0.0'
+  sdk: '>=3.1.0 <4.0.0'
 
 dependencies:
   flutter:
     sdk: flutter
-  universal_io: ^2.0.4
+  universal_io: ^2.2.2
 
 dev_dependencies:
   flutter_test:

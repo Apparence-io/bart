@@ -28,23 +28,21 @@ List<BartMenuRoute> subRoutes() {
     ),
     BartMenuRoute.bottomBarBuilder(
       label: "Library",
-      builder: (context) => const Stack(
-        children: <Widget>[
-          Icon(Icons.video_library_outlined),
-          Positioned(
-            top: -1.0,
-            right: -1.0,
-            child: Stack(
-              children: <Widget>[
-                Icon(
-                  Icons.brightness_1,
-                  size: 12.0,
-                  color: Color(0xFF2845E7),
-                ),
-              ],
-            ),
-          )
-        ],
+      builder: (context) => BottomBarIcon.builder(
+        icon: const Icon(Icons.video_library_outlined),
+        top: -4.0,
+        right: 0.0,
+        notificationBuilder: (context) => Container(
+          decoration: const BoxDecoration(
+            color: Colors.red,
+            shape: BoxShape.circle,
+          ),
+          padding: const EdgeInsets.all(4),
+          child: const Text(
+            "1",
+            style: TextStyle(color: Colors.white, fontSize: 10),
+          ),
+        ),
       ),
       path: '/library',
       pageBuilder: (parentContext, tabContext, settings) => const FakeListPage(
