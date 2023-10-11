@@ -5,11 +5,14 @@ import 'package:bart/bart/widgets/nested_navigator.dart';
 
 import 'bart_model.dart';
 
+typedef OnRouteChanged = void Function(BartMenuRoute route);
+
 class MenuRouter extends InheritedWidget {
   final BartRouteBuilder routesBuilder;
   final GlobalKey<NavigatorState> navigationKey;
   final ValueNotifier<int> indexNotifier;
   final ValueNotifier<BartMenuRouteType> routingTypeNotifier;
+  final OnRouteChanged? onRouteChanged;
 
   const MenuRouter({
     Key? key,
@@ -18,6 +21,7 @@ class MenuRouter extends InheritedWidget {
     required this.navigationKey,
     required this.indexNotifier,
     required this.routingTypeNotifier,
+    this.onRouteChanged,
     required Widget child,
   }) : super(key: key, child: child);
 
@@ -28,6 +32,7 @@ class MenuRouter extends InheritedWidget {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       indexNotifier.value = index;
       routingTypeNotifier.value = route.type;
+      onRouteChanged?.call(route);
     });
   }
 

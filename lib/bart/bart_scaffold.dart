@@ -12,6 +12,7 @@ class BartScaffold extends StatefulWidget {
   final BartBottomBar bottomBar;
   final BartRouteBuilder routesBuilder;
   final String? initialRoute;
+  final OnRouteChanged? onRouteChanged;
   // appBar
   final ValueNotifier<PreferredSizeWidget?> appBarNotifier;
   final ValueNotifier<bool> showAppBarNotifier;
@@ -24,6 +25,7 @@ class BartScaffold extends StatefulWidget {
     required this.routesBuilder,
     this.initialRoute,
     this.scaffoldOptions,
+    this.onRouteChanged,
     bool showBottomBarOnStart = true,
   })  : appBarNotifier = ValueNotifier(null),
         showAppBarNotifier = ValueNotifier(false),
