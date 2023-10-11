@@ -43,7 +43,7 @@ class _NestedNavigatorState extends State<NestedNavigator>
       child: Navigator(
         key: widget.navigationKey,
         initialRoute: widget.initialRoute,
-        observers: [routeObserver],
+        // observers: [routeObserver],
         onGenerateRoute: (RouteSettings routeSettings) {
           Actions.invoke(context, AppBarBuildIntent.empty());
           hideAppBar(context);
@@ -101,15 +101,15 @@ class _NestedNavigatorState extends State<NestedNavigator>
         },
       ),
       onWillPop: () {
-        // showBottomBar(context);
+        showBottomBar(context);
         if (widget.onWillPop != null) {
           widget.onWillPop!();
         }
-        if (widget.navigationKey.currentState!.canPop()) {
+        if (widget.navigationKey.currentState != null &&
+            widget.navigationKey.currentState!.canPop()) {
           widget.navigationKey.currentState!.pop();
-          return Future<bool>.value(false);
         }
-        return Future<bool>.value(true);
+        return Future<bool>.value(false);
       },
     );
   }

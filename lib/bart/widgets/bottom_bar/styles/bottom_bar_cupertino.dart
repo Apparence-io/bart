@@ -20,7 +20,7 @@ class BartCupertinoBottomBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CupertinoTabBar(
-      items: routeWidgetList,
+      items: getRouteWidgetList(context),
       currentIndex: currentIndex,
       iconSize: theme.iconSize,
       border: theme.border,
@@ -32,10 +32,23 @@ class BartCupertinoBottomBar extends StatelessWidget {
     );
   }
 
-  List<BottomNavigationBarItem> get routeWidgetList => routes
-      .map((route) => BottomNavigationBarItem(
-            icon: Icon(route.icon),
-            label: route.label,
-          ))
-      .toList();
+  List<BottomNavigationBarItem> getRouteWidgetList(BuildContext context) =>
+      routes.map(
+        (route) {
+          if (route.icon != null) {
+            return BottomNavigationBarItem(
+              icon: Icon(route.icon),
+              label: route.label,
+            );
+          } else if (route.iconBuilder != null) {
+            return BottomNavigationBarItem(
+              icon: route.iconBuilder!(context),
+              label: route.label,
+            );
+          }
+          throw Exception(
+            "You must provide an icon or an iconBuilder for each route",
+          );
+        },
+      ).toList();
 }

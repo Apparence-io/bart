@@ -11,9 +11,14 @@ typedef BartPageBuilder = Widget Function(
   RouteSettings? settings,
 );
 
+typedef IconBuilder = Widget Function(
+  BuildContext context,
+);
+
 class BartMenuRoute {
   String? label;
   IconData? icon;
+  IconBuilder? iconBuilder;
 
   /// The optional [IconData] that's displayed when this
   /// [NavigationDestination] is selected.
@@ -32,6 +37,7 @@ class BartMenuRoute {
   BartMenuRoute._({
     this.label,
     this.icon,
+    this.iconBuilder,
     this.selectedIcon,
     required this.path,
     required this.pageBuilder,
@@ -43,7 +49,16 @@ class BartMenuRoute {
     this.maintainState,
     this.transitionsBuilder,
     this.transitionDuration,
-  });
+  }) {
+    assert(
+      icon != null || iconBuilder != null,
+      "You must provide an icon or an iconWidget",
+    );
+    assert(
+      icon == null || iconBuilder == null,
+      "You can't provide both an icon and an iconWidget",
+    );
+  }
 
   factory BartMenuRoute.bottomBar({
     required String label,
@@ -58,6 +73,30 @@ class BartMenuRoute {
       BartMenuRoute._(
         label: label,
         icon: icon,
+        path: path,
+        cache: cache,
+        type: BartMenuRouteType.bottomNavigation,
+        pageBuilder: pageBuilder,
+        settings: RouteSettings(name: path),
+        transitionsBuilder: transitionsBuilder,
+        transitionDuration: transitionDuration,
+        selectedIcon: selectedIcon,
+        showBottomBar: true,
+      );
+
+  factory BartMenuRoute.bottomBarBuilder({
+    required String? label,
+    required IconBuilder builder,
+    required String path,
+    required BartPageBuilder pageBuilder,
+    RouteTransitionsBuilder? transitionsBuilder,
+    Duration? transitionDuration,
+    bool cache = true,
+    IconData? selectedIcon,
+  }) =>
+      BartMenuRoute._(
+        label: label,
+        iconBuilder: builder,
         path: path,
         cache: cache,
         type: BartMenuRouteType.bottomNavigation,

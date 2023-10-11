@@ -63,7 +63,7 @@ class BartMaterial3BottomBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return NavigationBar(
       selectedIndex: currentIndex,
-      destinations: routeWidgetList,
+      destinations: getRouteWidgetList(context),
       elevation: theme.elevation,
       backgroundColor: theme.bgColor,
       height: theme.height,
@@ -73,13 +73,30 @@ class BartMaterial3BottomBar extends StatelessWidget {
     );
   }
 
-  List<NavigationDestination> get routeWidgetList => routes
-      .where((element) => element.type == BartMenuRouteType.bottomNavigation)
-      .map((route) => NavigationDestination(
-            icon: Icon(route.icon),
-            label: route.label ?? '',
-            selectedIcon:
-                route.selectedIcon != null ? Icon(route.selectedIcon) : null,
-          ))
-      .toList();
+  List<NavigationDestination> getRouteWidgetList(BuildContext context) => routes
+          .where(
+              (element) => element.type == BartMenuRouteType.bottomNavigation)
+          .map(
+        (route) {
+          if (route.icon != null) {
+            return NavigationDestination(
+              icon: Icon(route.icon),
+              label: route.label ?? '',
+              selectedIcon:
+                  route.selectedIcon != null ? Icon(route.selectedIcon) : null,
+            );
+          } else if (route.iconBuilder != null) {
+            return NavigationDestination(
+              icon: route.iconBuilder!(context),
+              label: route.label ?? '',
+              // selectedIcon: route.selectedIconBuilder != null
+              //     ? route.selectedIconBuilder!(context)
+              //     : null,
+            );
+          }
+          throw Exception(
+            "You must provide an icon or an iconBuilder for each route",
+          );
+        },
+      ).toList();
 }
