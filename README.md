@@ -145,6 +145,39 @@ ThemeData(
 
 ```
 
+## 🗃&nbsp; Bottom icon notfication badge
+
+You can add a notification badge on your bottom bar icon. <br/>
+
+To do that, you need to use the `BartMenuRoute.bottomBarBuilder` method instead of `BartMenuRoute.bottomBar` in your route definitions:
+
+```dart
+BartMenuRoute.bottomBarBuilder(
+    label: "Library",
+    builder: (context) => BottomBarIcon.builder(
+        icon: const Icon(Icons.video_library_outlined),
+        notificationBuilder: (context) => Container(
+            decoration: const BoxDecoration(
+                color: Colors.red,
+                shape: BoxShape.circle,
+            ),
+            padding: const EdgeInsets.all(4),
+                child: const Text(
+                "1",
+                style: TextStyle(color: Colors.white, fontSize: 10),
+                ),
+            ),
+        ),
+    path: '/library',
+    pageBuilder: (parentContext, tabContext, settings) => const FakeListPage(
+    key: PageStorageKey<String>("library"),
+    ),
+    transitionDuration: bottomBarTransitionDuration,
+    transitionsBuilder: bottomBarTransition,
+),
+```
+
+
 ## 🗃&nbsp; State caching
 
 ### How it works 🤔 ?
