@@ -26,9 +26,26 @@ List<BartMenuRoute> subRoutes() {
       transitionsBuilder: bottomBarTransition,
       cache: false,
     ),
-    BartMenuRoute.bottomBar(
+    BartMenuRoute.bottomBarBuilder(
       label: "Library",
-      icon: Icons.video_library_rounded,
+      builder: (context) => const Stack(
+        children: <Widget>[
+          Icon(Icons.video_library_outlined),
+          Positioned(
+            top: -1.0,
+            right: -1.0,
+            child: Stack(
+              children: <Widget>[
+                Icon(
+                  Icons.brightness_1,
+                  size: 12.0,
+                  color: Color(0xFF2845E7),
+                ),
+              ],
+            ),
+          )
+        ],
+      ),
       path: '/library',
       pageBuilder: (parentContext, tabContext, settings) => const FakeListPage(
         key: PageStorageKey<String>("library"),

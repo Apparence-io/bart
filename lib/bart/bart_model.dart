@@ -50,10 +50,10 @@ class BartMenuRoute {
     this.transitionsBuilder,
     this.transitionDuration,
   }) {
-    assert(
-      icon != null || iconBuilder != null,
-      "You must provide an icon or an iconWidget",
-    );
+    // assert(
+    //   icon != null || iconBuilder != null,
+    //   "You must provide an icon or an iconWidget",
+    // );
     assert(
       icon == null || iconBuilder == null,
       "You can't provide both an icon and an iconWidget",

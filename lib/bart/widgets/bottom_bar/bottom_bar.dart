@@ -178,7 +178,6 @@ class BartBottomBarState extends State<BartBottomBar> {
               currentIndex: index,
               onTap: onTap,
             );
-
           case Theme.material:
             return BartMaterialBottomBar(
               routes: mainRoutes,
