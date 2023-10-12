@@ -310,7 +310,7 @@ void main() {
       final materialBottomBar =
           tester.firstWidget(find.byType(BartMaterialBottomBar))
               as BartMaterialBottomBar;
-      expect(materialBottomBar.currentIndex, equals(1));
+      expect(materialBottomBar.currentIndexNotifier.value, equals(1));
     });
 
     testWidgets(

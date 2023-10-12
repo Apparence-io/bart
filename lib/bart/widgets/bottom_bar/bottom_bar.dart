@@ -167,40 +167,39 @@ class BartBottomBarState extends State<BartBottomBar> {
 
   @override
   Widget build(BuildContext context) {
-    return ValueListenableBuilder(
-      valueListenable: currentIndexNotifier,
-      builder: ((context, int index, child) {
-        switch (widget.theme) {
-          case Theme.cupertino:
-            return BartCupertinoBottomBar(
-              routes: mainRoutes,
-              theme: widget.bottomBarTheme! as CupertinoBottomBarTheme,
-              currentIndex: index,
-              onTap: onTap,
-            );
-          case Theme.material:
-            return BartMaterialBottomBar(
-              routes: mainRoutes,
-              theme: widget.bottomBarTheme! as Material2BottomBarTheme,
-              currentIndex: index,
-              onTap: onTap,
-            );
-          case Theme.material3:
-            return BartMaterial3BottomBar(
-              routes: routes,
-              theme: widget.bottomBarTheme! as Material3BottomBarTheme,
-              currentIndex: index,
-              onTap: onTap,
-            );
-          default:
-            return widget.bottomBarCustom!.create(
-              context: context,
-              routes: mainRoutes,
-              currentIndex: index,
-              onTap: onTap,
-            );
-        }
-      }),
-    );
+    switch (widget.theme) {
+      case Theme.cupertino:
+        return BartCupertinoBottomBar(
+          routes: mainRoutes,
+          theme: widget.bottomBarTheme! as CupertinoBottomBarTheme,
+          currentIndexNotifier: currentIndexNotifier,
+          onTap: onTap,
+        );
+      case Theme.material:
+        return BartMaterialBottomBar(
+          routes: mainRoutes,
+          theme: widget.bottomBarTheme! as Material2BottomBarTheme,
+          currentIndexNotifier: currentIndexNotifier,
+          onTap: onTap,
+        );
+      case Theme.material3:
+        return BartMaterial3BottomBar(
+          routes: routes,
+          theme: widget.bottomBarTheme! as Material3BottomBarTheme,
+          currentIndexNotifier: currentIndexNotifier,
+          onTap: onTap,
+        );
+      default:
+        return ValueListenableBuilder(
+            valueListenable: currentIndexNotifier,
+            builder: (context, int index, child) {
+              return widget.bottomBarCustom!.create(
+                context: context,
+                routes: mainRoutes,
+                onTap: onTap,
+                currentIndex: index,
+              );
+            });
+    }
   }
 }

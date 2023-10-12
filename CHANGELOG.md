@@ -1,3 +1,6 @@
+## [1.2.1]
+* Fix prevent rebuilding bottom items when route change
+
 ## [1.2.0]
 * Add BartMenuRoute.bottomBarBuilder to build a single item bottom bar (so you can show notification badge on it)
 * Add onRouteChanged callback to BartScaffold to get notified when route change
