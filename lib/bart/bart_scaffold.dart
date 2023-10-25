@@ -5,6 +5,7 @@ import 'package:bart/bart/router_delegate.dart';
 import 'package:bart/bart/widgets/animated_appbar.dart';
 import 'package:bart/bart/widgets/bottom_bar/bottom_bar.dart';
 import 'package:bart/bart/widgets/nested_navigator.dart';
+import 'package:bart/bart/widgets/side_bar/sidebar.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
@@ -12,17 +13,25 @@ class BartScaffold extends StatefulWidget {
   final BartBottomBar bottomBar;
   final BartRouteBuilder routesBuilder;
   final String? initialRoute;
+
+  /// Called when the current route changes
   final OnRouteChanged? onRouteChanged;
   // appBar
   final ValueNotifier<PreferredSizeWidget?> appBarNotifier;
   final ValueNotifier<bool> showAppBarNotifier;
   final ValueNotifier<bool> showBottomBarNotifier;
+
+  /// See all [Scaffold] options
   final ScaffoldOptions? scaffoldOptions;
+
+  /// one of [CustomSideBarOptions] or [RailSideBarOptions]
+  final SideBarOptions? sideBarOptions;
 
   BartScaffold({
     Key? key,
     required this.bottomBar,
     required this.routesBuilder,
+    this.sideBarOptions,
     this.initialRoute,
     this.scaffoldOptions,
     this.onRouteChanged,
@@ -87,10 +96,12 @@ class _BartScaffoldState extends State<BartScaffold>
                 endDrawer: widget.scaffoldOptions?.endDrawer,
                 onEndDrawerChanged: widget.scaffoldOptions?.onEndDrawerChanged,
                 // 👾 bottom bar
-                bottomNavigationBar: AnimatedBottomBar(
-                  bottomBar: widget.bottomBar,
-                  showStateNotifier: widget.showBottomBarNotifier,
-                ),
+                bottomNavigationBar: widget.sideBarOptions == null
+                    ? AnimatedBottomBar(
+                        bottomBar: widget.bottomBar,
+                        showStateNotifier: widget.showBottomBarNotifier,
+                      )
+                    : null,
                 // ----------------
                 bottomSheet: widget.scaffoldOptions?.bottomSheet,
                 extendBodyBehindAppBar:
@@ -120,6 +131,7 @@ class _BartScaffoldState extends State<BartScaffold>
                   appBarNotifier: widget.appBarNotifier,
                   showAppBarNotifier: widget.showAppBarNotifier,
                   parentContext: context,
+                  sideBarOptions: widget.sideBarOptions,
                 ),
               );
             }),

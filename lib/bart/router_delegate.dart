@@ -75,6 +75,7 @@ class RouteAwareWidget extends StatefulWidget {
   final Widget child;
   final ValueNotifier<PreferredSizeWidget?> appBarNotifier;
   final ValueNotifier<bool> showAppBarNotifier;
+
   const RouteAwareWidget({
     Key? key,
     required this.route,

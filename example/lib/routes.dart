@@ -29,7 +29,7 @@ List<BartMenuRoute> subRoutes() {
     BartMenuRoute.bottomBarBuilder(
       label: "Library",
       builder: (context) => BottomBarIcon.builder(
-        icon: const Icon(Icons.video_library_outlined),
+        icon: const Icon(Icons.notifications),
         top: -4.0,
         right: 0.0,
         notificationBuilder: (context) => Container(

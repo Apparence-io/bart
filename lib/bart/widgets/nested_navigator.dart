@@ -2,6 +2,10 @@ import 'package:bart/bart/bart_appbar.dart';
 import 'package:bart/bart/bart_bottombar_actions.dart';
 import 'package:bart/bart/bart_model.dart';
 import 'package:bart/bart/router_delegate.dart';
+import 'package:bart/bart/widgets/side_bar/custom_sidebar.dart';
+import 'package:bart/bart/widgets/side_bar/rail_sidebar.dart';
+import 'package:bart/bart/widgets/side_bar/sidebar.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 final RouteObserver<dynamic> routeObserver = RouteObserver<PageRoute>();
@@ -15,6 +19,7 @@ class NestedNavigator extends StatefulWidget {
   final String? initialRoute;
   final List<BartMenuRoute> routes;
   final Function()? onWillPop;
+  final SideBarOptions? sideBarOptions;
 
   const NestedNavigator({
     Key? key,
@@ -25,6 +30,7 @@ class NestedNavigator extends StatefulWidget {
     this.initialRoute,
     required this.routes,
     required this.navigatorObserver,
+    this.sideBarOptions,
     this.onWillPop,
   }) : super(key: key);
 
@@ -39,7 +45,7 @@ class _NestedNavigatorState extends State<NestedNavigator>
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
+    final content = WillPopScope(
       child: Navigator(
         key: widget.navigationKey,
         initialRoute: widget.initialRoute,
@@ -112,5 +118,21 @@ class _NestedNavigatorState extends State<NestedNavigator>
         return Future<bool>.value(false);
       },
     );
+    return switch ((kIsWeb, widget.sideBarOptions)) {
+      (false, _) => content,
+      (true, CustomSideBarOptions option) => CustomSideBarContainer(
+          gravity: option.gravity,
+          routes: widget.routes,
+          sideBarBuilder: option.sideBarBuilder,
+          child: content,
+        ),
+      (true, RailSideBarOptions option) => WebRailSideBarContainer(
+          gravity: option.gravity,
+          extended: option.extended,
+          routes: widget.routes,
+          child: content,
+        ),
+      (true, null) => content,
+    };
   }
 }
