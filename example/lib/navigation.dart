@@ -1,5 +1,4 @@
 import 'package:bart/bart.dart';
-import 'package:bart/bart/widgets/side_bar/sidebar.dart';
 import 'package:example/routes.dart';
 import 'package:flutter/material.dart';
 
