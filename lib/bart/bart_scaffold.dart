@@ -66,6 +66,7 @@ class _BartScaffoldState extends State<BartScaffold>
       routesBuilder: widget.routesBuilder,
       navigationKey: navigationKey,
       routingTypeNotifier: routingTypeNotifier,
+      onRouteChanged: widget.onRouteChanged,
       child: Actions(
         actions: <Type, Action<Intent>>{
           AppBarBuildIntent: BartAppBarAction(widget.appBarNotifier),

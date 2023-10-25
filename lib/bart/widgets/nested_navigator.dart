@@ -49,7 +49,7 @@ class _NestedNavigatorState extends State<NestedNavigator>
       child: Navigator(
         key: widget.navigationKey,
         initialRoute: widget.initialRoute,
-        // observers: [routeObserver],
+        // observers: [routeObserver()],
         onGenerateRoute: (RouteSettings routeSettings) {
           Actions.invoke(context, AppBarBuildIntent.empty());
           hideAppBar(context);

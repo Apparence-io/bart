@@ -1,7 +1,9 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import 'package:bart/bart/widgets/bottom_bar/bottom_bar.dart';
 import 'package:bart/bart/widgets/nested_navigator.dart';
+import 'package:universal_html/html.dart';
 
 import 'bart_model.dart';
 
@@ -29,11 +31,20 @@ class MenuRouter extends InheritedWidget {
     final route = _currentRoute(path);
     final index = _currentIndex(path);
 
+    handleWebUrl(route);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       indexNotifier.value = index;
       routingTypeNotifier.value = route.type;
       onRouteChanged?.call(route);
     });
+  }
+
+  void handleWebUrl(BartMenuRoute route) {
+    if (!kIsWeb) {
+      return;
+    }
+    final uri = Uri(path: route.path);
+    window.history.pushState(null, '', uri.toString());
   }
 
   int _currentIndex(String path) {
