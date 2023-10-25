@@ -48,7 +48,6 @@ class _WebRailSideBarContainerState extends State<WebRailSideBarContainer> {
           builder: (context, int index, child) => NavigationRail(
             selectedIndex: index,
             extended: widget.extended,
-            backgroundColor: Colors.grey.shade100,
             onDestinationSelected: (index) {
               final nestedContext = MenuRouter.of(context) //
                   .navigationKey
