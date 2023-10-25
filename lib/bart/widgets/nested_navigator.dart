@@ -22,7 +22,7 @@ class NestedNavigator extends StatefulWidget {
   final SideBarOptions? sideBarOptions;
 
   const NestedNavigator({
-    Key? key,
+    super.key,
     required this.parentContext,
     required this.navigationKey,
     required this.appBarNotifier,
@@ -32,7 +32,7 @@ class NestedNavigator extends StatefulWidget {
     required this.navigatorObserver,
     this.sideBarOptions,
     this.onWillPop,
-  }) : super(key: key);
+  });
 
   @override
   State<NestedNavigator> createState() => _NestedNavigatorState();

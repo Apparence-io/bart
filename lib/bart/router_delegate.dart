@@ -15,15 +15,15 @@ class MenuRouter extends InheritedWidget {
   final OnRouteChanged? onRouteChanged;
 
   const MenuRouter({
-    Key? key,
+    super.key,
     String? initialRoute,
     required this.routesBuilder,
     required this.navigationKey,
     required this.indexNotifier,
     required this.routingTypeNotifier,
     this.onRouteChanged,
-    required Widget child,
-  }) : super(key: key, child: child);
+    required super.child,
+  });
 
   void updateRoute(String path) {
     final route = _currentRoute(path);
@@ -77,12 +77,12 @@ class RouteAwareWidget extends StatefulWidget {
   final ValueNotifier<bool> showAppBarNotifier;
 
   const RouteAwareWidget({
-    Key? key,
+    super.key,
     required this.route,
     required this.child,
     required this.appBarNotifier,
     required this.showAppBarNotifier,
-  }) : super(key: key);
+  });
 
   @override
   State<RouteAwareWidget> createState() => _RouteAwareWidgetState();

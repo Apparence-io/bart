@@ -176,7 +176,37 @@ BartMenuRoute.bottomBarBuilder(
     transitionsBuilder: bottomBarTransition,
 ),
 ```
+## 🌏&nbsp; Web sidebar menu
 
+You can choose to use the material sidebar [NavigationRail](https://api.flutter.dev/flutter/material/NavigationRail-class.html)
+
+Like this
+```dart
+return BartScaffold(
+    routesBuilder: subRoutes,
+    showBottomBarOnStart: true,
+    bottomBar: BartBottomBar.material3(),
+    sideBarOptions: RailSideBarOptions(
+        extended: true,
+        gravity: Gravity.left,
+    ),
+)
+```
+(To change the theme you can do it like all regular material theme in the ThemeData).
+
+Or you can make your own
+
+```dart
+return BartScaffold(
+    routesBuilder: subRoutes,
+    showBottomBarOnStart: true,
+    bottomBar: BartBottomBar.material3(),
+    sideBarOptions: CustomSideBarOptions(
+        gravity: Gravity.left,
+        sideBarBuilder: ((onTapItem, currentItem) => ...)
+    ),
+)
+```
 
 ## 🗃&nbsp; State caching
 

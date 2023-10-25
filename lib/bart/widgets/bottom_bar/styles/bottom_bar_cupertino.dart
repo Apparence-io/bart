@@ -10,12 +10,12 @@ class BartCupertinoBottomBar extends StatefulWidget {
   final CupertinoBottomBarTheme theme;
 
   const BartCupertinoBottomBar({
-    Key? key,
+    super.key,
     required this.routes,
     required this.onTap,
     required this.currentIndexNotifier,
     required this.theme,
-  }) : super(key: key);
+  });
 
   @override
   State<BartCupertinoBottomBar> createState() => _BartCupertinoBottomBarState();

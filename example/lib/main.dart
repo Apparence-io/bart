@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import 'navigation.dart';
-import 'routes.dart';
 
 void main() {
   runApp(const MyApp());
@@ -28,7 +27,7 @@ Route<dynamic> routes(RouteSettings settings) {
   switch (settings.name) {
     case '/':
       return MaterialPageRoute(
-        builder: (_) => const MainPageMenu(routesBuilder: subRoutes),
+        builder: (_) => const MainPageMenu(),
       );
     case '/parent':
       return MaterialPageRoute(

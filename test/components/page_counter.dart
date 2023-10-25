@@ -5,7 +5,7 @@ class PageFakeCounter extends StatefulWidget {
   final ValueNotifier counter = ValueNotifier(1);
   final bool showAppBar;
 
-  PageFakeCounter({Key? key, this.showAppBar = false}) : super(key: key);
+  PageFakeCounter({super.key, this.showAppBar = false});
 
   @override
   PageFakeCounterState createState() => PageFakeCounterState();

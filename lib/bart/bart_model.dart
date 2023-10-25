@@ -192,15 +192,12 @@ class Material3BottomBarTheme extends CommonBottomBarTheme {
   final double? elevation;
 
   Material3BottomBarTheme({
-    Color? bgColor,
-    double? height,
+    super.bgColor,
+    super.height,
     this.animationDuration,
     this.labelBehavior,
     this.elevation,
-  }) : super(
-          bgColor: bgColor,
-          height: height,
-        );
+  });
 
   Material3BottomBarTheme copyWith({
     Duration? animationDuration,
@@ -228,14 +225,14 @@ class CupertinoBottomBarTheme extends CommonBottomBarTheme {
   final Border? border;
 
   CupertinoBottomBarTheme({
-    Color? bgColor,
-    double? height,
+    super.bgColor,
+    super.height,
     this.selectedItemColor,
     this.unselectedItemColor,
     this.type,
     this.border,
     this.iconSize = 24,
-  }) : super(bgColor: bgColor, height: height);
+  });
 
   CupertinoBottomBarTheme copyWith({
     Color? selectedItemColor,
@@ -267,8 +264,8 @@ class Material2BottomBarTheme extends CommonBottomBarTheme {
   final double selectedFontSize, unselectedFontSize, iconSize;
 
   Material2BottomBarTheme({
-    Color? bgColor,
-    double? height,
+    super.bgColor,
+    super.height,
     this.selectedItemColor,
     this.unselectedItemColor,
     this.type,
@@ -277,7 +274,7 @@ class Material2BottomBarTheme extends CommonBottomBarTheme {
     this.selectedFontSize = 14.0,
     this.unselectedFontSize = 12.0,
     this.iconSize = 24,
-  }) : super(bgColor: bgColor, height: height);
+  });
 
   Material2BottomBarTheme copyWith({
     Color? selectedItemColor,

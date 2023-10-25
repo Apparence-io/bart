@@ -29,10 +29,10 @@ class AnimatedAppBar extends StatelessWidget implements PreferredSizeWidget {
   final ValueNotifier<bool> showStateNotifier;
 
   const AnimatedAppBar({
-    Key? key,
+    super.key,
     required this.appBar,
     required this.showStateNotifier,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

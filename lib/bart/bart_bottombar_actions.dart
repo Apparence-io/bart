@@ -27,10 +27,10 @@ class AnimatedBottomBar extends StatelessWidget {
   final BartBottomBar bottomBar;
 
   const AnimatedBottomBar({
-    Key? key,
+    super.key,
     required this.showStateNotifier,
     required this.bottomBar,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

@@ -1,3 +1,6 @@
+## [1.3.0]
+* NavigationRail sidebar or custom sidebar is now available
+
 ## [1.2.1]
 * Fix prevent rebuilding bottom items when route change
 

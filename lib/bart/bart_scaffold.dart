@@ -28,7 +28,7 @@ class BartScaffold extends StatefulWidget {
   final SideBarOptions? sideBarOptions;
 
   BartScaffold({
-    Key? key,
+    super.key,
     required this.bottomBar,
     required this.routesBuilder,
     this.sideBarOptions,
@@ -38,8 +38,7 @@ class BartScaffold extends StatefulWidget {
     bool showBottomBarOnStart = true,
   })  : appBarNotifier = ValueNotifier(null),
         showAppBarNotifier = ValueNotifier(false),
-        showBottomBarNotifier = ValueNotifier(showBottomBarOnStart),
-        super(key: key);
+        showBottomBarNotifier = ValueNotifier(showBottomBarOnStart);
 
   @override
   State<BartScaffold> createState() => _BartScaffoldState();

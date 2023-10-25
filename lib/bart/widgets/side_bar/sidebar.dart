@@ -21,8 +21,8 @@ class CustomSideBarOptions extends SideBarOptions {
 
   CustomSideBarOptions({
     required this.sideBarBuilder,
-    Gravity gravity = Gravity.left,
-  }) : super(gravity: gravity);
+    super.gravity,
+  });
 }
 
 class RailSideBarOptions extends SideBarOptions {
@@ -30,6 +30,6 @@ class RailSideBarOptions extends SideBarOptions {
 
   RailSideBarOptions({
     this.extended = false,
-    Gravity gravity = Gravity.left,
-  }) : super(gravity: gravity);
+    super.gravity,
+  });
 }
