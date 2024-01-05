@@ -99,6 +99,7 @@ class _BartMaterial3BottomBarState extends State<BartMaterial3BottomBar> {
               (element) => element.type == BartMenuRouteType.bottomNavigation)
           .map(
         (route) {
+          final routeIndex = widget.routes.indexOf(route);
           if (route.icon != null) {
             return NavigationDestination(
               icon: Icon(route.icon),
@@ -108,7 +109,10 @@ class _BartMaterial3BottomBarState extends State<BartMaterial3BottomBar> {
             );
           } else if (route.iconBuilder != null) {
             return NavigationDestination(
-              icon: route.iconBuilder!(context),
+              icon: route.iconBuilder!(
+                context,
+                routeIndex == widget.currentIndexNotifier.value,
+              ),
               label: route.label ?? '',
               // selectedIcon: route.selectedIconBuilder != null
               //     ? route.selectedIconBuilder!(context)

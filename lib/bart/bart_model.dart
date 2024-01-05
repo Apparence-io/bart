@@ -13,6 +13,7 @@ typedef BartPageBuilder = Widget Function(
 
 typedef IconBuilder = Widget Function(
   BuildContext context,
+  bool isActive,
 );
 
 class BartMenuRoute {

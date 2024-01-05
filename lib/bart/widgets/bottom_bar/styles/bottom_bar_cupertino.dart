@@ -22,13 +22,17 @@ class BartCupertinoBottomBar extends StatefulWidget {
 }
 
 class _BartCupertinoBottomBarState extends State<BartCupertinoBottomBar> {
+  List<BottomNavigationBarItem>? _items;
+
   @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder(
       valueListenable: widget.currentIndexNotifier,
       builder: ((context, int index, child) {
+        _items = buildRouteWidgetList(context);
         return CupertinoTabBar(
-          items: buildRouteWidgetList(context),
+          key: const ValueKey('bottom_bar'),
+          items: _items!,
           currentIndex: index,
           iconSize: widget.theme.iconSize,
           border: widget.theme.border,
@@ -43,23 +47,31 @@ class _BartCupertinoBottomBarState extends State<BartCupertinoBottomBar> {
     );
   }
 
-  List<BottomNavigationBarItem> buildRouteWidgetList(BuildContext context) =>
-      widget.routes.map(
-        (route) {
-          if (route.icon != null) {
-            return BottomNavigationBarItem(
-              icon: Icon(route.icon),
-              label: route.label,
-            );
-          } else if (route.iconBuilder != null) {
-            return BottomNavigationBarItem(
-              icon: route.iconBuilder!(context),
-              label: route.label,
-            );
-          }
-          throw Exception(
-            "You must provide an icon or an iconBuilder for each route",
+  List<BottomNavigationBarItem> buildRouteWidgetList(BuildContext context) {
+    return widget.routes
+        .where((element) => element.type == BartMenuRouteType.bottomNavigation)
+        .map(
+      (route) {
+        final routeIndex = widget.routes.indexOf(route);
+
+        if (route.icon != null) {
+          return BottomNavigationBarItem(
+            icon: Icon(route.icon),
+            label: route.label,
           );
-        },
-      ).toList();
+        } else if (route.iconBuilder != null) {
+          return BottomNavigationBarItem(
+            icon: route.iconBuilder!(
+              context,
+              routeIndex == widget.currentIndexNotifier.value,
+            ),
+            label: route.label,
+          );
+        }
+        throw Exception(
+          "You must provide an icon or an iconBuilder for each route",
+        );
+      },
+    ).toList();
+  }
 }

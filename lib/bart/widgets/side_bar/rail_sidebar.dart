@@ -72,8 +72,12 @@ class _WebRailSideBarContainerState extends State<WebRailSideBarContainer> {
                     label: Text(route.label ?? ''),
                   );
                 } else if (route.iconBuilder != null) {
+                  final routeIndex = widget.routes.indexOf(route);
                   return NavigationRailDestination(
-                    icon: route.iconBuilder!(context),
+                    icon: route.iconBuilder!(
+                      context,
+                      routeIndex == MenuRouter.of(context).indexNotifier.value,
+                    ),
                     label: Text(route.label ?? ''),
                   );
                 } else {
