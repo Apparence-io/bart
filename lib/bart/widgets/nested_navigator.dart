@@ -45,7 +45,7 @@ class _NestedNavigatorState extends State<NestedNavigator>
 
   @override
   Widget build(BuildContext context) {
-    final content = WillPopScope(
+    final content = PopScope(
       child: Navigator(
         key: widget.navigationKey,
         initialRoute: widget.initialRoute,
@@ -106,7 +106,10 @@ class _NestedNavigatorState extends State<NestedNavigator>
           );
         },
       ),
-      onWillPop: () {
+      onPopInvoked: (willPop) {
+        if (!willPop) {
+          return;
+        }
         showBottomBar(context);
         if (widget.onWillPop != null) {
           widget.onWillPop!();
@@ -115,7 +118,6 @@ class _NestedNavigatorState extends State<NestedNavigator>
             widget.navigationKey.currentState!.canPop()) {
           widget.navigationKey.currentState!.pop();
         }
-        return Future<bool>.value(false);
       },
     );
     return switch ((kIsWeb, widget.sideBarOptions)) {
