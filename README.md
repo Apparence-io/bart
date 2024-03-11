@@ -9,6 +9,17 @@
   <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/license-MIT-purple.svg" alt="License: MIT"></a>
   <a href="https://pub.dev/packages/bart"><img src="https://img.shields.io/pub/v/bart" alt="pub dev bart"></a>
 </p>
+
+<a href="https://apparencekit.dev" style="margin-top:32px">
+  <img
+    src="https://raw.githubusercontent.com/Apparence-io/bart/master/docs/img/flutter_template.png"
+    width="100%"
+    alt="ApparenceKit Flutter template to bootstrap your next app"
+  />
+</a>
+
+[This plugin is also available as a template in ApparenceKit](https://apparencekit.dev).<br>
+
 <br>
 <hr>
 <br>

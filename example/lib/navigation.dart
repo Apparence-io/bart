@@ -1,5 +1,6 @@
 import 'package:bart/bart.dart';
 import 'package:example/routes.dart';
+import 'package:example/widgets/simple_bottom_bar.dart';
 import 'package:flutter/material.dart';
 
 class MainPageMenu extends StatelessWidget {
@@ -16,6 +17,7 @@ class MainPageMenu extends StatelessWidget {
         /// If you want to build your own sidebar, you can use the [CustomSideBarOptions]
         return BartScaffold(
           routesBuilder: subRoutes,
+          initialRoute: '/library',
           showBottomBarOnStart: true,
           bottomBar: BartBottomBar.material3(),
           sideBarOptions: RailSideBarOptions(
@@ -28,11 +30,11 @@ class MainPageMenu extends StatelessWidget {
         return BartScaffold(
           routesBuilder: subRoutes,
           showBottomBarOnStart: true,
-          bottomBar: BartBottomBar.adaptive(),
+          // bottomBar: BartBottomBar.adaptive(),
           // uncomment to use an exemple of custom bottom bar
-          // bottomBar: BartBottomBar.custom(
-          //   bottomBarFactory: SimpleBottomBar(),
-          // ),
+          bottomBar: BartBottomBar.custom(
+            bottomBarFactory: SimpleBottomBar(),
+          ),
         );
       }
     });
