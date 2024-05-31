@@ -13,6 +13,7 @@ class BartScaffold extends StatefulWidget {
   final BartBottomBar bottomBar;
   final BartRouteBuilder routesBuilder;
   final String? initialRoute;
+  final GlobalKey<NavigatorState>? navigationKey;
 
   /// Called when the current route changes
   final OnRouteChanged? onRouteChanged;
@@ -35,6 +36,7 @@ class BartScaffold extends StatefulWidget {
     this.initialRoute,
     this.scaffoldOptions,
     this.onRouteChanged,
+    this.navigationKey,
     bool showBottomBarOnStart = true,
   })  : appBarNotifier = ValueNotifier(null),
         showAppBarNotifier = ValueNotifier(false),
@@ -46,11 +48,12 @@ class BartScaffold extends StatefulWidget {
 
 class _BartScaffoldState extends State<BartScaffold>
     with SingleTickerProviderStateMixin {
-  final GlobalKey<NavigatorState> navigationKey = GlobalKey<NavigatorState>();
+  late final GlobalKey<NavigatorState> navigationKey;
   final indexNotifier = ValueNotifier(0);
   final routingTypeNotifier = ValueNotifier(BartMenuRouteType.bottomNavigation);
 
   List<BartMenuRoute> get routesBuilder => widget.routesBuilder();
+
   int get initialIndex {
     final index = routesBuilder
         .indexWhere((element) => element.path == widget.initialRoute);
@@ -58,6 +61,12 @@ class _BartScaffoldState extends State<BartScaffold>
   }
 
   final RouteObserver<PageRoute> routeObserver = RouteObserver<PageRoute>();
+
+  @override
+  void initState() {
+    super.initState();
+    navigationKey = widget.navigationKey ?? GlobalKey<NavigatorState>();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -123,7 +132,7 @@ class _BartScaffoldState extends State<BartScaffold>
                     widget.scaffoldOptions?.resizeToAvoidBottomInset,
                 restorationId: widget.scaffoldOptions?.restorationId,
                 key: widget.scaffoldOptions?.key,
-                body: NestedNavigator(
+                body:  NestedNavigator(
                   navigationKey: navigationKey,
                   routes: routesBuilder,
                   initialRoute: widget.initialRoute,

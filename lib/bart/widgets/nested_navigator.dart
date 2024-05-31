@@ -121,20 +121,19 @@ class _NestedNavigatorState extends State<NestedNavigator>
       },
     );
     return switch ((kIsWeb, widget.sideBarOptions)) {
-      (false, _) => content,
-      (true, CustomSideBarOptions option) => CustomSideBarContainer(
+      (_, CustomSideBarOptions option) => CustomSideBarContainer(
           gravity: option.gravity,
           routes: widget.routes,
           sideBarBuilder: option.sideBarBuilder,
           child: content,
         ),
-      (true, RailSideBarOptions option) => WebRailSideBarContainer(
+      (_, RailSideBarOptions option) => WebRailSideBarContainer(
           gravity: option.gravity,
           extended: option.extended,
           routes: widget.routes,
           child: content,
         ),
-      (true, null) => content,
+      (_, _) => content,
     };
   }
 }
