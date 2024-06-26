@@ -22,6 +22,7 @@ class CustomSideBarContainer extends StatefulWidget {
 }
 
 typedef SideBarBuilder = Widget Function(
+  List<BartMenuRoute> routes,
   OnTapItem onTapItem,
   ValueNotifier<int> currentItem,
 );
@@ -34,13 +35,11 @@ class _CustomSideBarContainerState extends State<CustomSideBarContainer> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      routes = widget.routes
+    routes = widget.routes
           .where(
             (element) => element.type == BartMenuRouteType.bottomNavigation,
           )
           .toList();
-    });
   }
 
   @override
@@ -54,6 +53,7 @@ class _CustomSideBarContainerState extends State<CustomSideBarContainer> {
       children: [
         if (widget.gravity == Gravity.right) Flexible(child: widget.child),
         widget.sideBarBuilder(
+          routes,
           onTapItem,
           MenuRouter.of(context).indexNotifier,
         ),
