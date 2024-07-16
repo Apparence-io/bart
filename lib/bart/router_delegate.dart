@@ -15,8 +15,8 @@ class MenuRouter extends InheritedWidget {
   final ValueNotifier<int> indexNotifier;
   final ValueNotifier<BartMenuRouteType> routingTypeNotifier;
   final OnRouteChanged? onRouteChanged;
-
-  const MenuRouter({
+  
+  MenuRouter({
     super.key,
     String? initialRoute,
     required this.routesBuilder,
@@ -25,11 +25,19 @@ class MenuRouter extends InheritedWidget {
     required this.routingTypeNotifier,
     this.onRouteChanged,
     required super.child,
-  });
+  }) {
+    if (initialRoute != null) {
+      final index = _currentIndex(initialRoute);
+      indexNotifier.value = index;
+    }
+  }
 
   void updateRoute(String path) {
     final route = _currentRoute(path);
     final index = _currentIndex(path);
+    if(indexNotifier.value == index) {
+      return;
+    }
 
     handleWebUrl(route);
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -48,6 +56,7 @@ class MenuRouter extends InheritedWidget {
   }
 
   int _currentIndex(String path) {
+    
     final extractedPath = path.split('/')
       ..removeWhere((element) => element.isEmpty);
 

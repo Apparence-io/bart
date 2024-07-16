@@ -54,11 +54,11 @@ class _BartScaffoldState extends State<BartScaffold>
 
   List<BartMenuRoute> get routesBuilder => widget.routesBuilder();
 
-  int get initialIndex {
-    final index = routesBuilder
-        .indexWhere((element) => element.path == widget.initialRoute);
-    return index == -1 ? 0 : index;
-  }
+  // int get initialIndex {
+  //   final index = routesBuilder
+  //       .indexWhere((element) => element.path == widget.initialRoute);
+  //   return index == -1 ? 0 : index;
+  // }
 
   final RouteObserver<PageRoute> routeObserver = RouteObserver<PageRoute>();
 
@@ -71,6 +71,7 @@ class _BartScaffoldState extends State<BartScaffold>
   @override
   Widget build(BuildContext context) {
     return MenuRouter(
+      initialRoute: widget.initialRoute,
       indexNotifier: indexNotifier,
       routesBuilder: widget.routesBuilder,
       navigationKey: navigationKey,
