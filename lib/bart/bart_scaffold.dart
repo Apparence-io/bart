@@ -7,7 +7,7 @@ import 'package:bart/bart/widgets/bottom_bar/bottom_bar.dart';
 import 'package:bart/bart/widgets/nested_navigator.dart';
 import 'package:bart/bart/widgets/side_bar/sidebar.dart';
 import 'package:flutter/gestures.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 class BartScaffold extends StatefulWidget {
   final BartBottomBar bottomBar;

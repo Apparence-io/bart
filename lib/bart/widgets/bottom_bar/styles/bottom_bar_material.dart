@@ -1,6 +1,6 @@
 import 'package:bart/bart/bart_model.dart';
 import 'package:bart/bart/widgets/bottom_bar/bottom_bar.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 class BartMaterialBottomBar extends StatefulWidget {
   final List<BartMenuRoute> routes;

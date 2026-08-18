@@ -49,13 +49,26 @@
 ### Install the package
 
 ```sh
-flutter pub add bart
+flutter pub add bart material_ui
 ```
+
+Since **2.0.0**, bart builds on the [`material_ui`](https://pub.dev/packages/material_ui)
+and [`cupertino_ui`](https://pub.dev/packages/cupertino_ui) packages rather than
+`package:flutter/material.dart`, following the Flutter 3.44+ split of Material out
+of the framework. Requires Dart 3.12 / Flutter 3.44 or newer.
+
+> **Upgrading from 1.x?** Your app must import `package:material_ui/material_ui.dart`
+> instead of `package:flutter/material.dart`. The SDK still ships its own Material
+> library, and the two `Material` types are *not* interchangeable — mixing them
+> yields a confusing `No Material widget found.` on widgets that plainly sit under a
+> `Scaffold`. See the [CHANGELOG](CHANGELOG.md) for the full rationale.
+> `enum Theme` is also renamed to `enum BartBottomBarStyle`.
 
 ### Import the package
 
 ```dart
 import 'package:bart/bart.dart';
+import 'package:material_ui/material_ui.dart';
 ```
 
 ## 🚀&nbsp; Get started

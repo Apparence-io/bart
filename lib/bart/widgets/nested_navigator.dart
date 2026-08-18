@@ -6,7 +6,7 @@ import 'package:bart/bart/widgets/side_bar/custom_sidebar.dart';
 import 'package:bart/bart/widgets/side_bar/rail_sidebar.dart';
 import 'package:bart/bart/widgets/side_bar/sidebar.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 final RouteObserver<dynamic> routeObserver = RouteObserver<PageRoute>();
 

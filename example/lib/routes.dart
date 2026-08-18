@@ -2,7 +2,7 @@ import 'package:animations/animations.dart';
 import 'package:bart/bart.dart';
 import 'package:example/tabs/fake_list.dart';
 import 'package:example/tabs/page_counter.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 import 'tabs/home_page.dart';
 

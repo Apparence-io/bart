@@ -1,6 +1,6 @@
 import 'package:bart/bart/bart_model.dart';
 import 'package:bart/bart/widgets/bottom_bar/bottom_bar.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:cupertino_ui/cupertino_ui.dart';
 
 class BartCupertinoBottomBar extends StatefulWidget {
   final List<BartMenuRoute> routes;

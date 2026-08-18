@@ -1,5 +1,5 @@
 import 'package:bart/bart/bart_model.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 abstract class BartBottomBarFactory {
   const BartBottomBarFactory();

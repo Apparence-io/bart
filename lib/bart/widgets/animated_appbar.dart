@@ -1,5 +1,5 @@
 import 'package:bart/bart/bart_appbar.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 /// Use this intent when using animated appBar to show/hide using animation
 class AppBarAnimationIntent extends Intent {

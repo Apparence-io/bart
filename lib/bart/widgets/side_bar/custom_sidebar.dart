@@ -1,7 +1,7 @@
 import 'package:bart/bart/bart_model.dart';
 import 'package:bart/bart/router_delegate.dart';
 import 'package:bart/bart/widgets/side_bar/sidebar.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 class CustomSideBarContainer extends StatefulWidget {
   final Widget child;

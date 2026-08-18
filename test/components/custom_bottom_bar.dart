@@ -1,6 +1,6 @@
 import 'package:bart/bart.dart';
 import 'package:bart/bart/widgets/bottom_bar/styles/bottom_bar_custom.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 class CustomBottomBar extends BartBottomBarFactory {
   @override

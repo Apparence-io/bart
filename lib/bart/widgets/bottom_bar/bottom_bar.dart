@@ -3,7 +3,7 @@ import 'package:bart/bart/router_delegate.dart';
 import 'package:bart/bart/widgets/bottom_bar/styles/bottom_bar_cupertino.dart';
 import 'package:bart/bart/widgets/bottom_bar/styles/bottom_bar_custom.dart';
 import 'package:bart/bart/widgets/bottom_bar/styles/bottom_bar_material.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter/services.dart';
 import 'package:universal_io/io.dart';
 
@@ -11,11 +11,15 @@ typedef BottomBarTapAction = void Function(int index);
 
 typedef BartRouteBuilder = List<BartMenuRoute> Function();
 
-enum Theme { material, material3, cupertino, custom }
+/// Visual style used by [BartBottomBar].
+///
+/// Renamed from `Theme` in 2.0.0: the old name collided with material_ui's
+/// `Theme` widget when both packages were imported without a prefix.
+enum BartBottomBarStyle { material, material3, cupertino, custom }
 
 class BartBottomBar extends StatefulWidget {
   final int currentIndex;
-  final Theme theme;
+  final BartBottomBarStyle theme;
   final BartBottomBarFactory? bottomBarCustom;
   final CommonBottomBarTheme? bottomBarTheme;
   final bool enableHapticFeedback;
@@ -56,7 +60,7 @@ class BartBottomBar extends StatefulWidget {
           selectedFontSize: selectedFontSize,
           unselectedFontSize: unselectedFontSize,
         ),
-        theme: Theme.material,
+        theme: BartBottomBarStyle.material,
         currentIndex: index,
       );
 
@@ -78,7 +82,7 @@ class BartBottomBar extends StatefulWidget {
           bgColor: bgColor,
           height: height,
         ),
-        theme: Theme.material3,
+        theme: BartBottomBarStyle.material3,
         currentIndex: index,
       );
 
@@ -87,7 +91,7 @@ class BartBottomBar extends StatefulWidget {
     int index = 0,
   }) =>
       BartBottomBar._(
-        theme: Theme.custom,
+        theme: BartBottomBarStyle.custom,
         bottomBarCustom: bottomBarFactory,
         currentIndex: index,
       );
@@ -114,7 +118,7 @@ class BartBottomBar extends StatefulWidget {
           border: border,
         ),
         enableHapticFeedback: enableHapticFeedback,
-        theme: Theme.cupertino,
+        theme: BartBottomBarStyle.cupertino,
         currentIndex: index,
       );
 
@@ -129,7 +133,7 @@ class BartBottomBar extends StatefulWidget {
             ? cupertinoBottomBarTheme ?? CupertinoBottomBarTheme()
             : materialBottomBarTheme ?? Material3BottomBarTheme(),
         enableHapticFeedback: enableHapticFeedback,
-        theme: Platform.isIOS ? Theme.cupertino : Theme.material3,
+        theme: Platform.isIOS ? BartBottomBarStyle.cupertino : BartBottomBarStyle.material3,
         currentIndex: index,
       );
 
@@ -168,21 +172,21 @@ class BartBottomBarState extends State<BartBottomBar> {
   @override
   Widget build(BuildContext context) {
     switch (widget.theme) {
-      case Theme.cupertino:
+      case BartBottomBarStyle.cupertino:
         return BartCupertinoBottomBar(
           routes: mainRoutes,
           theme: widget.bottomBarTheme! as CupertinoBottomBarTheme,
           currentIndexNotifier: currentIndexNotifier,
           onTap: onTap,
         );
-      case Theme.material:
+      case BartBottomBarStyle.material:
         return BartMaterialBottomBar(
           routes: mainRoutes,
           theme: widget.bottomBarTheme! as Material2BottomBarTheme,
           currentIndexNotifier: currentIndexNotifier,
           onTap: onTap,
         );
-      case Theme.material3:
+      case BartBottomBarStyle.material3:
         return BartMaterial3BottomBar(
           routes: routes,
           theme: widget.bottomBarTheme! as Material3BottomBarTheme,

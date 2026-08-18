@@ -1,7 +1,7 @@
 import 'package:bart/bart.dart';
 import 'package:example/routes.dart';
 import 'package:example/widgets/simple_bottom_bar.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 class MainPageMenu extends StatelessWidget {
   const MainPageMenu({Key? key}) : super(key: key);

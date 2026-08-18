@@ -1,5 +1,5 @@
 import 'package:bart/bart/widgets/bottom_bar/bottom_bar.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 class BottomBarIntent extends Intent {
   final bool state;
